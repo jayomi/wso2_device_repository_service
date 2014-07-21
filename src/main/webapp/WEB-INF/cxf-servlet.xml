@@ -29,6 +29,6 @@
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="serviceBean" class="demo.jaxrs.server.CustomerService"/>
+    <bean id="serviceBean" class="BLABLA"/>
 </beans>
 

@@ -7,15 +7,19 @@ import java.sql.Statement;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.ws.rs.Path;
 
+@Path("/devicerepository/")
 public class DeviceTypeService
 {
     public DeviceTypeService(){
         
-        try
+       /* try
         {
-        InitialContext context = new InitialContext();
-			DataSource dataSource = (DataSource) context.lookup("jdbc/DeviceMgt");
+        DataSource dataSource = null;
+    InitialContext context = new InitialContext();
+    dataSource = (DataSource) context.lookup("jdbc/DeviceMgt");
+    
 			Connection con= dataSource.getConnection();
 			Statement statement = con.createStatement();
 			String query = "select * from devmgt_isg9251.device";
@@ -24,6 +28,6 @@ public class DeviceTypeService
         catch (Exception e)
         {
             System.out.println(e.toString());
-        }
+        }*/
     }
 }

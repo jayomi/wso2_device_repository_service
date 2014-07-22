@@ -2,9 +2,11 @@ package org.wso2.repository.device.service;
 
 import demo.jaxrs.server.Customer;
 import demo.jaxrs.server.Order;
+import org.wso2.repository.device.data.DeviceType;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.naming.InitialContext;
@@ -23,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 
@@ -32,6 +35,7 @@ public class DeviceTypeService
     long currentId = 123;
     Map<Long, Customer> customers = new HashMap<Long, Customer>();
     Map<Long, Order> orders = new HashMap<Long, Order>();
+    Connection connection;
 
     public DeviceTypeService() {
         init();
@@ -40,36 +44,25 @@ public class DeviceTypeService
         
    @GET
    @Path("/getdevicetype/{id}/")
-   public String getDevice(@PathParam("id") String id) {
+   @Produces(MediaType.APPLICATION_JSON)
+   public DeviceType getDevice(@PathParam("id") String id) throws SQLException {
        
         int intId = Integer.parseInt(id);
         
-       try {
-           InitialContext context = new InitialContext();
-           DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-           Connection con = dataSource.getConnection();
-           Statement statement = con.createStatement();
-           String query = "select * from devmgt_isg9251.device";
-           ResultSet rs = statement.executeQuery(query);
-           
-           
-           while (rs.next()) {
 
+           Statement statement = connection.createStatement();
+           String query = "select * from devmgt_isg9251.device_type where t_id =" +id;
+           ResultSet resultSet = statement.executeQuery(query);
 
-s=rs.getString("d_name");
+       DeviceType deviceType = new DeviceType();
 
-}
-           
-           //System.out.println(s);
-           
-       } catch (Exception e) {
-           // TODO: handle exception
-           ex=e;
-           s="error";
-       }finally{
-            return s+"\n"+ex;
-       }
-     
+           while (resultSet.next()) {
+               deviceType.setDeviceTypeId(resultSet.getString("t_id"));
+               deviceType.setDeviceTypeName(resultSet.getString("type"));
+               deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
+           }
+       return deviceType;
+
    }
     
 
@@ -87,9 +80,12 @@ s=rs.getString("d_name");
         try {
            InitialContext context = new InitialContext();
            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-           Connection con = dataSource.getConnection();
+           connection = dataSource.getConnection();
         }
-        catch
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         
         
     }

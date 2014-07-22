@@ -109,6 +109,40 @@ public class DeviceTypeService
         Order c = orders.get(idNumber);
         return c;
     }
+    
+    @GET
+   @Path("/getDevice")
+   public String getDevice() {
+        String s=null;
+        Exception ex=null;
+       try {
+           InitialContext context = new InitialContext();
+           DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
+           Connection con = dataSource.getConnection();
+           Statement statement = con.createStatement();
+           String query = "select * from devmgt_isg9251.device";
+           ResultSet rs = statement.executeQuery(query);
+           
+           
+           while (rs.next()) {
+
+
+s=rs.getString("d_name");
+
+}
+           
+           //System.out.println(s);
+           
+       } catch (Exception e) {
+           // TODO: handle exception
+           ex=e;
+           s="error";
+       }finally{
+            return s+"\n"+ex;
+       }
+     
+   }
+    
 
     final void init() {
         Customer c = new Customer();
@@ -122,21 +156,6 @@ public class DeviceTypeService
         orders.put(o.getId(), o);
         
         
-        try
-        {
-        DataSource dataSource = null;
-    InitialContext context = new InitialContext();
-    dataSource = (DataSource) context.lookup("jdbc/DeviceNew");
-    
-			Connection con= dataSource.getConnection();
-			Statement statement = con.createStatement();
-			String query = "select * from test2_manil8056.device";
-			ResultSet resultSet = statement.executeQuery(query);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.toString());
-         }
         
     }
 

@@ -55,7 +55,7 @@ public class DeviceTypeService
 
             ResultSet resultSet = statement.executeQuery(strCount);
 
-            DeviceType deviceType = new DeviceType();
+            resultSet.next();
 
             if (resultSet.getString("cnt") == "0") {
                 String query = "delete from devmgt_isg9251.device_type where t_id =" + id;
@@ -80,15 +80,6 @@ public class DeviceTypeService
 
 
 
-
-
-
-
-
-
-
-
-
     @DELETE
     @Path("/deletedevicetype/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {
@@ -101,7 +92,7 @@ public class DeviceTypeService
 
         ResultSet resultSet = statement.executeQuery(strCount);
 
-        DeviceType deviceType = new DeviceType();
+        resultSet.next();
 
         if(resultSet.getString("cnt") == "0")
         {

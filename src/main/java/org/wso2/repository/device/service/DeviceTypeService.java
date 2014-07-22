@@ -91,10 +91,29 @@ public class DeviceTypeService
 
         Statement statement = connection.createStatement();
 
-        String query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
-                deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+        String query =null;
 
-        statement.execute(query);
+        if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
+        {
+            query = "update devmgt_isg9251.device_type set t_description = '" +
+                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+            statement.execute(query);
+        }
+
+        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
+        {
+            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
+            statement.execute(query);
+        }
+        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
+        {
+            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
+                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+            statement.execute(query);
+        }
+
+
+
 
         return Response.ok().status(201).build();
 

@@ -99,7 +99,7 @@ public class DeviceTypeService
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (5,'sdas','sadsa')" ;
+        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (8,'sdas','sadsa')" ;
 
         statement.execute(query);
 
@@ -144,6 +144,15 @@ public class DeviceTypeService
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDevices23s(DeviceType deviceType) throws SQLException {
 
+
+        Statement statement = connection.createStatement();
+
+
+
+        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (" +
+                7 + ",'" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
+
+        statement.execute(query);
 
         return Response.ok().status(201).build();
 

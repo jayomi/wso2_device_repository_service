@@ -9,15 +9,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
+
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import javax.ws.rs.Path;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.sql.DataSource;
+
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,9 +31,7 @@ import javax.ws.rs.core.Response;
 @Path("/devicerepository/")
 public class DeviceTypeService
 {
-    long currentId = 123;
-    Map<Long, Customer> customers = new HashMap<Long, Customer>();
-    Map<Long, Order> orders = new HashMap<Long, Order>();
+
     Connection connection;
 
     public DeviceTypeService() {
@@ -66,6 +61,39 @@ public class DeviceTypeService
        return deviceType;
 
    }
+
+    @POST
+    @Path("/deletedevicetype/{id}/")
+    public Response deleteDevice(@PathParam("id") String id) throws SQLException {
+
+        int intId = Integer.parseInt(id);
+
+
+        Statement statement = connection.createStatement();
+        String strCount = "select  count(*) cnt from devmgt_isg9251.device where t_id in (select  t_id from devmgt_isg9251.device_type where t_id =" + id +")";
+
+        ResultSet resultSet = statement.executeQuery(strCount);
+
+
+
+        DeviceType deviceType = new DeviceType();
+
+
+        if(resultSet.getString("cnt") == "0")
+        {
+            String query = "delete from devmgt_isg9251.device_type where t_id =" +id;
+            statement.execute(query);
+            return Response.ok().status(200).build();
+
+        }
+        else
+        {
+            return Response.ok().status(404).build();
+
+        }
+
+
+    }
    
     @POST
     @Path("/adddevicetype/")
@@ -77,7 +105,6 @@ public class DeviceTypeService
         String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
         statement.execute(query);
-
         return Response.ok().status(201).build();
 
 
@@ -112,26 +139,14 @@ public class DeviceTypeService
             statement.execute(query);
         }
 
-
-
-
-        return Response.ok().status(201).build();
+        return Response.ok().status(200).build();
 
 
     }
     
 
     final void init() {
-        Customer c = new Customer();
-        c.setName("John");
-        c.setId(123);
-        customers.put(c.getId(), c);
 
-        Order o = new Order();
-        o.setDescription("order 223");
-        o.setId(223);
-        orders.put(o.getId(), o);
-        
         try {
            InitialContext context = new InitialContext();
            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");

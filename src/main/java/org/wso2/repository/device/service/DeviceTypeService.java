@@ -57,7 +57,10 @@ public class DeviceTypeService
 
             resultSet.next();
 
-            if (resultSet.getString("cnt") == "0") {
+            int remp = resultSet.getInt("cnt");
+            return String.valueOf("value is " +remp);
+
+      /*      if(resultSet.getInt("cnt") == 0){
                 String query = "delete from devmgt_isg9251.device_type where t_id =" + id;
                 statement.execute(query);
                 return  "insdie the 200";
@@ -65,7 +68,7 @@ public class DeviceTypeService
             } else {
                 return  "insdie the 404";
 
-            }
+            }*/
         }
         catch (Exception e)
         {
@@ -94,7 +97,7 @@ public class DeviceTypeService
 
         resultSet.next();
 
-        if(resultSet.getString("cnt") == "0")
+        if(resultSet.getInt("cnt") == 0)
         {
             String query = "delete from devmgt_isg9251.device_type where t_id =" +id;
             statement.execute(query);

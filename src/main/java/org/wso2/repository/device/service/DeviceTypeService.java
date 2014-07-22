@@ -66,10 +66,10 @@ public class DeviceTypeService
 
    }
    
-   @GET
+    @GET
     @Path("/getdevicetypetest/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevices() {
+    @Produces("text/xml")
+    public DeviceType getDevices() {
 
 
 
@@ -80,22 +80,23 @@ public class DeviceTypeService
         deviceType.setDeviceTypeName("type");
         deviceType.setDeviceTypeDescription("t_description");
 
-        return Response.status(200).entity(deviceType).build();
+        return deviceType;
 
     }
 
     @GET
     @Path("/getdevicetypetestnew/")
-    @Produces("application/json")
+    @Produces("text/xml")
     public Response getDevicess() {
 
-        JSONObject jsonObject = new JSONObject();
+        DeviceType deviceType = new DeviceType();
 
-        jsonObject.put("F Value", "ddf");
-        jsonObject.put("C Value", "celsius");
 
-        String result = "@Produces(\"application/json\") Output: \n\nF to C Converter Output: \n\n" + jsonObject;
-        return Response.status(200).entity(result).build();
+        deviceType.setDeviceTypeId("t_id");
+        deviceType.setDeviceTypeName("type");
+        deviceType.setDeviceTypeDescription("t_description");
+
+        return Response.ok(deviceType).build();
 
     }
 

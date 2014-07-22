@@ -1,5 +1,9 @@
 package org.wso2.repository.device.data;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="DeviceType")
 public class DeviceType
 {
     
@@ -7,6 +11,7 @@ public class DeviceType
     String deviceTypeName;
     String deviceTypeDescription;
 
+    @XmlElement(name="deviceTypeId")
     public String getDeviceTypeId() {
         return deviceTypeId;
     }
@@ -15,6 +20,7 @@ public class DeviceType
         this.deviceTypeId = deviceTypeId;
     }
 
+    @XmlElement(name="deviceTypeName")
     public String getDeviceTypeName() {
         return deviceTypeName;
     }
@@ -23,6 +29,7 @@ public class DeviceType
         this.deviceTypeName = deviceTypeName;
     }
 
+    @XmlElement(name="deviceTypeDescription")
     public String getDeviceTypeDescription() {
         return deviceTypeDescription;
     }

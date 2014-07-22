@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -93,16 +94,47 @@ public class DeviceTypeService
 
         Statement statement = connection.createStatement();
 
-        ResultSet resultSetId = statement.executeQuery("select max(t_id) + 1 as t_id from devmgt_isg9251.device_type");
-        String newId =resultSetId.getString("t_id");
-
-        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (2,'sdas','sadsa')" ;
+        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (5,'sdas','sadsa')" ;
 
         statement.execute(query);
 
         return Response.ok().status(201).build();
 
     }
+
+    @POST
+    @Path("/adddevicetypetest4/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDevices4(DeviceType deviceType) throws SQLException {
+
+        Statement statement = connection.createStatement();
+
+        String query = "insert into devmgt_isg9251.device_type (t_id,type,t_description) values (?, ?, ?)";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = connection.prepareStatement(query);
+        preparedStmt.setInt (1, 4);
+        preparedStmt.setString (2, "Rubble");
+        preparedStmt.setString   (3, "Rubble");
+
+        preparedStmt.execute();
+
+
+        return Response.ok().status(201).build();
+
+    }
+
+    @POST
+    @Path("/adddevicetypetest3/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDevices23s(DeviceType deviceType) throws SQLException {
+
+
+        return Response.ok().status(201).build();
+
+    }
+
+
 
     @POST
     @Path("/adddevicetypetest/")

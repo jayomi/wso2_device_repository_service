@@ -2,6 +2,7 @@ package org.wso2.repository.device.service;
 
 import demo.jaxrs.server.Customer;
 import demo.jaxrs.server.Order;
+import org.json.JSONObject;
 import org.wso2.repository.device.data.DeviceType;
 
 import java.sql.Connection;
@@ -80,6 +81,21 @@ public class DeviceTypeService
         deviceType.setDeviceTypeDescription("t_description");
 
         return Response.status(200).entity(deviceType).build();
+
+    }
+
+    @GET
+    @Path("/getdevicetypetestnew/")
+    @Produces("application/json")
+    public Response getDevicess() {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("F Value", "ddf");
+        jsonObject.put("C Value", "celsius");
+
+        String result = "@Produces(\"application/json\") Output: \n\nF to C Converter Output: \n\n" + jsonObject;
+        return Response.status(200).entity(result).build();
 
     }
 

@@ -78,7 +78,7 @@ public class DeviceTypeService
 
         deviceType.setDeviceTypeId("t_id");
         deviceType.setDeviceTypeName("type");
-        deviceType.setDeviceTypeDescription("t_description");
+        deviceType.setDeviceTypeDescription("t_descriptionns");
 
         return deviceType;
 
@@ -94,7 +94,7 @@ public class DeviceTypeService
 
         deviceType.setDeviceTypeId("t_id");
         deviceType.setDeviceTypeName("type");
-        deviceType.setDeviceTypeDescription("t_description");
+        deviceType.setDeviceTypeDescription("t_descriptionss");
 
         return Response.ok(deviceType).build();
 

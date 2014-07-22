@@ -86,7 +86,7 @@ public class DeviceTypeService
 
     }
 
-    @GET
+    @POST
     @Path("/adddevicetypetest2/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDevices2s(DeviceType deviceType) throws SQLException {
@@ -104,7 +104,7 @@ public class DeviceTypeService
 
     }
 
-    @GET
+    @POST
     @Path("/adddevicetypetest/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDevicess(DeviceType deviceType) {

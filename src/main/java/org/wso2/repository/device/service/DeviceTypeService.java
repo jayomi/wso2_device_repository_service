@@ -74,11 +74,7 @@ public class DeviceTypeService
 
         Statement statement = connection.createStatement();
 
-        ResultSet resultSetId = statement.executeQuery("select max(t_id) + 1 as t_id from devmgt_isg9251.device_type");
-        String newId =resultSetId.getString("t_id");
-
-        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (" +
-                newId + ",'" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
+        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
 
         statement.execute(query);
 

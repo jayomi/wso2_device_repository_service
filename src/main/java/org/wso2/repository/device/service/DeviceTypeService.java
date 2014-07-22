@@ -74,7 +74,7 @@ public class DeviceTypeService
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
+        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
         statement.execute(query);
 
@@ -83,88 +83,23 @@ public class DeviceTypeService
 
     }
 
-    @POST
-    @Path("/adddevicetypetest2/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getDevices2s(DeviceType deviceType) throws SQLException {
 
-        Exception ex=null;
-        String s=null;
-        try
-        {
+    @PUT
+    @Path("/updatedevicetype/{id}/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (8,'sdas','sadsa')" ;
-
-        statement.execute(query);
-
-
-
-    } catch (Exception e) {
-    // TODO: handle exception
-    ex=e;
-    s="error";
-}finally{
-    return s+"\n"+ex;
-}
-
-        /*return Response.ok().status(201).build();*/
-
-    }
-
-    @POST
-    @Path("/adddevicetypetest4/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevices4(DeviceType deviceType) throws SQLException {
-
-        Statement statement = connection.createStatement();
-
-        String query = "insert into devmgt_isg9251.device_type (t_id,type,t_description) values (?, ?, ?)";
-
-        // create the mysql insert preparedstatement
-        PreparedStatement preparedStmt = connection.prepareStatement(query);
-        preparedStmt.setInt (1, 4);
-        preparedStmt.setString (2, "Rubble");
-        preparedStmt.setString   (3, "Rubble");
-
-        preparedStmt.execute();
-
-
-        return Response.ok().status(201).build();
-
-    }
-
-    @POST
-    @Path("/adddevicetypetest3/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevices23s(DeviceType deviceType) throws SQLException {
-
-
-        Statement statement = connection.createStatement();
-
-
-
-        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (" +
-                7 + ",'" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
+        String query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
+                deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
 
         statement.execute(query);
 
         return Response.ok().status(201).build();
 
-    }
-
-
-
-    @POST
-    @Path("/adddevicetypetest/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevicess(DeviceType deviceType) {
-
-        return Response.ok(deviceType).build();
 
     }
-
     
 
     final void init() {

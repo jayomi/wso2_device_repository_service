@@ -68,7 +68,7 @@ public class DeviceTypeService
    
     @GET
     @Path("/getdevicetypetest/")
-    @Produces("text/xml")
+    @Produces(MediaType.TEXT_XML)
     public DeviceType getDevices() {
 
 
@@ -86,7 +86,7 @@ public class DeviceTypeService
 
     @GET
     @Path("/getdevicetypetestnew/")
-    @Produces("text/xml")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getDevicess() {
 
         DeviceType deviceType = new DeviceType();

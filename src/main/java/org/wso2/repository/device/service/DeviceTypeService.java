@@ -68,18 +68,18 @@ public class DeviceTypeService
    @GET
     @Path("/getdevicetypetest/")
     @Produces(MediaType.APPLICATION_JSON)
-    public DeviceType getDevices() {
+    public Response getDevices() {
 
 
 
         DeviceType deviceType = new DeviceType();
 
 
-            deviceType.setDeviceTypeId("t_id");
-            deviceType.setDeviceTypeName("type");
-            deviceType.setDeviceTypeDescription("t_description");
+        deviceType.setDeviceTypeId("t_id");
+        deviceType.setDeviceTypeName("type");
+        deviceType.setDeviceTypeDescription("t_description");
 
-        return deviceType;
+        return Response.status(200).entity(deviceType).build();
 
     }
 

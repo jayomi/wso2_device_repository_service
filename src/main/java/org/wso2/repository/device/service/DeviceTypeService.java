@@ -90,7 +90,12 @@ public class DeviceTypeService
     @POST
     @Path("/adddevicetypetest2/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevices2s(DeviceType deviceType) throws SQLException {
+    public String getDevices2s(DeviceType deviceType) throws SQLException {
+
+        Exception ex=null;
+        String s=null;
+        try
+        {
 
         Statement statement = connection.createStatement();
 
@@ -98,7 +103,17 @@ public class DeviceTypeService
 
         statement.execute(query);
 
-        return Response.ok().status(201).build();
+
+
+    } catch (Exception e) {
+    // TODO: handle exception
+    ex=e;
+    s="error";
+}finally{
+    return s+"\n"+ex;
+}
+
+        /*return Response.ok().status(201).build();*/
 
     }
 

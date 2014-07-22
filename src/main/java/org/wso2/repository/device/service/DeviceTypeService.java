@@ -76,7 +76,7 @@ public class DeviceTypeService
         ResultSet resultSetId = statement.executeQuery("select max(t_id) + 1 as t_id from devmgt_isg9251.device_type");
         String newId =resultSetId.getString("t_id");
 
-        String query = "insert into  devmgt_isg9251.device_type('t_id','type','t_description') values (" +
+        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (" +
                 newId + ",'" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
 
         statement.execute(query);
@@ -87,16 +87,27 @@ public class DeviceTypeService
     }
 
     @GET
-    @Path("/getdevicetypetestnew/")
+    @Path("/adddevicetypetest2/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevicess() {
+    public Response getDevices2s(DeviceType deviceType) throws SQLException {
 
-        DeviceType deviceType = new DeviceType();
+        Statement statement = connection.createStatement();
 
+        ResultSet resultSetId = statement.executeQuery("select max(t_id) + 1 as t_id from devmgt_isg9251.device_type");
+        String newId =resultSetId.getString("t_id");
 
-        deviceType.setDeviceTypeId("t_id");
-        deviceType.setDeviceTypeName("type");
-        deviceType.setDeviceTypeDescription("t_descriptionss");
+        String query = "insert into  devmgt_isg9251.device_type(t_id,type,t_description) values (2,'sdas','sadsa')" ;
+
+        statement.execute(query);
+
+        return Response.ok().status(201).build();
+
+    }
+
+    @GET
+    @Path("/adddevicetypetest/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDevicess(DeviceType deviceType) {
 
         return Response.ok(deviceType).build();
 

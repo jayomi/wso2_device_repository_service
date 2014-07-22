@@ -38,31 +38,58 @@ public class DeviceTypeService
         init();
     }
 
-        
-   @GET
-   @Path("/getdevicetype/{id}/")
-   @Produces(MediaType.APPLICATION_JSON)
-   public DeviceType getDevice(@PathParam("id") String id) throws SQLException {
-       
+
+
+
+
+    @DELETE
+    @Path("/deletedevicetypetest/{id}/")
+    public String deleteDevices(@PathParam("id") String id) throws SQLException {
+
         int intId = Integer.parseInt(id);
-        
 
-           Statement statement = connection.createStatement();
-           String query = "select * from devmgt_isg9251.device_type where t_id =" +id;
-           ResultSet resultSet = statement.executeQuery(query);
+        Exception ex = null;
+        try {
+            Statement statement = connection.createStatement();
+            String strCount = "select  count(*) cnt from devmgt_isg9251.device where t_id in (select  t_id from devmgt_isg9251.device_type where t_id =" + id + ")";
 
-       DeviceType deviceType = new DeviceType();
+            ResultSet resultSet = statement.executeQuery(strCount);
 
-           while (resultSet.next()) {
-               deviceType.setDeviceTypeId(resultSet.getString("t_id"));
-               deviceType.setDeviceTypeName(resultSet.getString("type"));
-               deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
-           }
-       return deviceType;
+            DeviceType deviceType = new DeviceType();
 
-   }
+            if (resultSet.getString("cnt") == "0") {
+                String query = "delete from devmgt_isg9251.device_type where t_id =" + id;
+                statement.execute(query);
+                return  "insdie the 200";
 
-    @POST
+            } else {
+                return  "insdie the 404";
+
+            }
+        }
+        catch (Exception e)
+        {
+            ex=e;
+        }
+        finally {
+            return ex.toString();
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    @DELETE
     @Path("/deletedevicetype/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {
 
@@ -74,10 +101,7 @@ public class DeviceTypeService
 
         ResultSet resultSet = statement.executeQuery(strCount);
 
-
-
         DeviceType deviceType = new DeviceType();
-
 
         if(resultSet.getString("cnt") == "0")
         {
@@ -94,7 +118,30 @@ public class DeviceTypeService
 
 
     }
-   
+
+   @GET
+   @Path("/getdevicetype/{id}/")
+   @Produces(MediaType.APPLICATION_JSON)
+   public DeviceType getDevice(@PathParam("id") String id) throws SQLException {
+
+        int intId = Integer.parseInt(id);
+
+
+           Statement statement = connection.createStatement();
+           String query = "select * from devmgt_isg9251.device_type where t_id =" +id;
+           ResultSet resultSet = statement.executeQuery(query);
+
+       DeviceType deviceType = new DeviceType();
+
+           while (resultSet.next()) {
+               deviceType.setDeviceTypeId(resultSet.getString("t_id"));
+               deviceType.setDeviceTypeName(resultSet.getString("type"));
+               deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
+           }
+       return deviceType;
+
+   }
+
     @POST
     @Path("/adddevicetype/")
     @Consumes(MediaType.APPLICATION_JSON)

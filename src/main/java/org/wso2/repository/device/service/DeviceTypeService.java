@@ -66,21 +66,23 @@ public class DeviceTypeService
 
    }
    
-    @GET
-    @Path("/getdevicetypetest/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public DeviceType getDevices() {
+    @POST
+    @Path("/adddevicetype/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addDevice(DeviceType deviceType) throws SQLException {
 
+        Statement statement = connection.createStatement();
 
+        ResultSet resultSetId = statement.executeQuery("select max(t_id) + 1 as t_id from devmgt_isg9251.device_type");
+        String newId =resultSetId.getString("t_id");
 
-        DeviceType deviceType = new DeviceType();
+        String query = "insert into  devmgt_isg9251.device_type('t_id','type','t_description') values (" +
+                newId + ",'" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')" ;
 
+        statement.execute(query);
 
-        deviceType.setDeviceTypeId("t_id");
-        deviceType.setDeviceTypeName("type");
-        deviceType.setDeviceTypeDescription("t_descriptionns");
+        return Response.ok().status(201).build();
 
-        return deviceType;
 
     }
 

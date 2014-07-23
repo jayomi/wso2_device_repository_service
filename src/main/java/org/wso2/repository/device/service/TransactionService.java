@@ -110,63 +110,8 @@ public class TransactionService
         }
         statement.execute(query);
         return Response.ok().status(201).build();
-
-
     }
 
-    @POST
-    @Path("/test/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String addTransactions(Transaction transaction) throws SQLException {
-
-        //Statement statement = connection.createStatement();
-
-        Exception ex=null;
-        try {
-            if (transaction.getTransactionDate() == null) {
-                transaction.setTransactionDate(new Date());
-            }
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            String query=null;
-
-            if(transaction.getDueDate() !=null &&  transaction.getReturnDate() !=null) {
-                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
-                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
-                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
-                        + "','" + dateFormat.format(transaction.getDueDate()) + "')";
-            }
-            if(transaction.getDueDate() !=null &&  transaction.getReturnDate() ==null) {
-                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_due_date)" +
-                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
-                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getDueDate()) + "')";
-            }
-            if(transaction.getDueDate() ==null &&  transaction.getReturnDate() !=null) {
-                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date)" +
-                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
-                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
-                        + "')";
-            }
-            if(transaction.getDueDate() ==null &&  transaction.getReturnDate() ==null) {
-                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date)" +
-                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
-                        dateFormat.format(transaction.getTransactionDate()) +  "')";
-            }
-
-            return query;
-        }
-        catch (Exception e)
-        {
-           ex =e;
-
-        }
-        finally {
-            return "final one " + ex.toString();
-        }
-
-
-    }
 
     @PUT
     @Path("/updatetransaction/{id}/")

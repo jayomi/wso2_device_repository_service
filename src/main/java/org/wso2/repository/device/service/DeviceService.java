@@ -33,27 +33,26 @@ public class DeviceService
 
         int intId = Integer.parseInt(id);
 
+
         Statement statement = connection.createStatement();
-        //int d_id =Integer.parseInt("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
+        String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
 
-        ResultSet resultSet = statement.executeQuery("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
-
+        ResultSet resultSet = statement.executeQuery(strCount);
 
         resultSet.next();
 
-       // if(resultSet.next()){
+        if(resultSet.getInt("cnt") == 0)
+        {
             String query = "delete from devmgt_isg9251.device where d_id =" +id;
             statement.execute(query);
             return Response.ok().status(200).build();
-       // }
 
-       // else
-        //{
-          //  return Response.ok().status(405).build();
+        }
+        else
+        {
+            return Response.ok().status(405).build();
 
-       // }
-
-
+        }
     }
 
 

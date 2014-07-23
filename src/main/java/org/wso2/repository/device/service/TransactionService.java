@@ -71,6 +71,33 @@ public class TransactionService
 
    }
 
+
+    @GET
+    @Path("/gettransactions/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<Transaction> getTransactions() throws SQLException {
+
+        LinkedList<Transaction> transactionList = new LinkedList<Transaction>();
+
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.transaction ";
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            Transaction transaction = new Transaction();
+            transaction.setTransactionId(resultSet.getString("t_id"));
+            transaction.setDeviceId(resultSet.getString("d_id"));
+            transaction.setUserId(resultSet.getString("u_id"));
+            transaction.setTransactionStatusId(resultSet.getString("ts_id"));
+            transaction.setTransactionDate(resultSet.getDate("t_date"));
+            transaction.setReturnDate(resultSet.getDate("t_return_date"));
+            transaction.setDueDate(resultSet.getDate("t_due_date"));
+            transactionList.add(transaction);
+        }
+        return transactionList;
+
+    }
+
     @POST
     @Path("/addtransaction/")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -1,11 +1,14 @@
 package org.wso2.repository.device.service;
 
+import org.wso2.repository.device.data.Device;
+
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +27,7 @@ public class DeviceService
 
 
 
-
+/*
 
     @DELETE
     @Path("/deletedevice/{id}/")
@@ -47,14 +50,6 @@ public class DeviceService
             return Response.ok().status(200).build();
         }
 
-
-//        if(resultSet.getInt("cnt") == 0)
-//        {
-//            String query = "delete from devmgt_isg9251.device where d_id =" +id;
-//            statement.execute(query);
-//            return Response.ok().status(200).build();
-//
-//        }
         else
         {
             return Response.ok().status(405).build();
@@ -63,31 +58,33 @@ public class DeviceService
 
 
     }
+*/
 
-    /*
    @GET
-   @Path("/getdevicetype/{id}/")
+   @Path("/getdevice/{id}/")
    @Produces(MediaType.APPLICATION_JSON)
-   public DeviceType getDevice(@PathParam("id") String id) throws SQLException {
+   public Device getDevice(@PathParam("id") String id) throws SQLException {
 
         int intId = Integer.parseInt(id);
 
 
            Statement statement = connection.createStatement();
-           String query = "select * from devmgt_isg9251.device_type where t_id =" +id;
+           String query = "select * from devmgt_isg9251.device where d_id =" +id;
            ResultSet resultSet = statement.executeQuery(query);
 
-       DeviceType deviceType = new DeviceType();
+           Device device = new Device();
 
            while (resultSet.next()) {
-               deviceType.setDeviceTypeId(resultSet.getString("t_id"));
-               deviceType.setDeviceTypeName(resultSet.getString("type"));
-               deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
+
+               device.setDeviceId(resultSet.getString("d_id"));
+               device.setDeviceName(resultSet.getString("d_name"));
+               device.setDeviceDescription(resultSet.getString("d_description"));
+               device.setStatusId(resultSet.getString("s_id"));
            }
-       return deviceType;
+       return device;
 
    }
-
+/*
     @POST
     @Path("/adddevicetype/")
     @Consumes(MediaType.APPLICATION_JSON)

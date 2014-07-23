@@ -37,13 +37,16 @@ public class DeviceService
         //int d_id =Integer.parseInt("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
 
         ResultSet resultSet = statement.executeQuery("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
+        System.out.println(resultSet);
 
         //resultSet.next();
-        if(resultSet!=null){
-            String query = "delete from devmgt_isg9251.device where d_id =" +id;
-            statement.execute(query);
-            return Response.ok().status(200).build();
-        }
+
+//        if(resultSet!=null){
+//            String query = "delete from devmgt_isg9251.device where d_id =" +id;
+//            statement.execute(query);
+//            return Response.ok().status(200).build();
+//        }
+        
 
 //        if(resultSet.getInt("cnt") == 0)
 //        {

@@ -84,7 +84,7 @@ public class TransactionService
         }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String query = "insert into  devmgt_isg9251.transaction_status(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+        String query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
                 " values ('" + transaction.getDeviceId() + "' ,'" +transaction.getUserId()+"','"+transaction.getTransactionStatusId()+"','"+
                 dateFormat.format(transaction.getTransactionDate()) + "','" +dateFormat.format(transaction.getReturnDate())
                 + "','" + dateFormat.format(transaction.getDueDate()) + "')";
@@ -102,18 +102,23 @@ public class TransactionService
 
         //Statement statement = connection.createStatement();
 
-        if (transaction.getTransactionDate() ==null)
-        {
-            transaction.setTransactionDate(new Date());
+        try {
+            if (transaction.getTransactionDate() == null) {
+                transaction.setTransactionDate(new Date());
+            }
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                    dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
+                    + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+
+            return query;
         }
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String query = "insert into  devmgt_isg9251.transaction_status(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
-                " values ('" + transaction.getDeviceId() + "' ,'" +transaction.getUserId()+"','"+transaction.getTransactionStatusId()+"','"+
-                dateFormat.format(transaction.getTransactionDate()) + "','" +dateFormat.format(transaction.getReturnDate())
-                + "','" + dateFormat.format(transaction.getDueDate()) + "')";
-
-        return query;
+        catch (Exception e)
+        {
+            return e.toString();
+        }
 
 
     }

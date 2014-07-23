@@ -23,12 +23,15 @@
          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
          http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-    <jaxrs:server id="customerService" address="/customers">
+    <jaxrs:server id="deviceService" address="/devicerepository">
         <jaxrs:serviceBeans>
-            <ref bean="serviceBean"/>
+            <ref bean="deviceTypeServiceBean"/>
+            <ref bean="deviceServiceBean"/>
         </jaxrs:serviceBeans>
+
     </jaxrs:server>
 
-    <bean id="serviceBean" class="org.wso2.repository.device.service.DeviceTypeService"/>
+    <bean id="deviceTypeServiceBean" class="org.wso2.repository.device.service.DeviceTypeService"/>
+    <bean id="deviceServiceBean" class="org.wso2.repository.device.service.DeviceService"/>
 </beans>
 

@@ -1,40 +1,25 @@
 package org.wso2.repository.device.service;
 
-import demo.jaxrs.server.Customer;
-import demo.jaxrs.server.Order;
-import org.json.JSONObject;
 import org.wso2.repository.device.data.DeviceType;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 
-import javax.naming.InitialContext;
-
-import javax.sql.DataSource;
-
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-
-@Path("/devicetype/")
-public class DeviceTypeService
+@Path("/device/")
+public class DeviceService
 {
 
     Connection connection;
 
-    public DeviceTypeService() {
+    public DeviceService() {
         init();
     }
 

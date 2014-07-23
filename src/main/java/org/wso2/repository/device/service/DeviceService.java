@@ -7,13 +7,10 @@ import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 
 @Path("/device/")
@@ -87,29 +84,58 @@ public class DeviceService
     @GET
     @Path("/getall/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map getAllDevice() throws SQLException {
+    public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {
 
 
-        Statement statement = connection.createStatement();
+            try {
 
-       Map<String,String> devices=new HashMap<String,String>();
+                //create statement
+                Statement statement = connection.createStatement();
+
+               query= "select * from devmgt_isg9251.device";
+
+                //query
+                ResultSet Result = null;
+                boolean Returning_Rows = statement.execute(query);
+                if (Returning_Rows)
+                    Result = statement.getResultSet();
+                else
+                    return new ArrayList<HashMap<String,Object>>();
+
+                //get metadata
+                ResultSetMetaData Meta =Result.getMetaData();
 
 
+                //get column names
+                int Col_Count = Meta.getColumnCount();
+                ArrayList<String> Cols = new ArrayList<String>();
+                for (int Index=1; Index<=Col_Count; Index++)
+                    Cols.add(Meta.getColumnName(Index));
 
-        String query = "select * from devmgt_isg9251.device";
-        ResultSet resultSet = statement.executeQuery(query);
+                //fetch out rows
+                ArrayList<HashMap<String,Object>> Rows =
+                        new ArrayList<HashMap<String,Object>>();
 
-        Device device = new Device();
+                while (Result.next()) {
+                    HashMap<String,Object> Row = new HashMap<String,Object>();
+                    for (String Col_Name:Cols) {
+                        Object Val = Result.getObject(Col_Name);
+                        Row.put(Col_Name,Val);
+                    }
+                    Rows.add(Row);
+                }
 
-        while (resultSet.next()) {
+                //close statement
+                statement.close();
 
-
-            System.out.println(devices.put("d_id", resultSet.getString("d_id")));
-            System.out.println(devices.put("d_name",resultSet.getString("d_name")));
-            System.out.println(devices.put("d_description",resultSet.getString("d_description")));
-            System.out.println(devices.put("s_id",resultSet.getString("s_id")));
-        }
-        return devices;
+                //pass back rows
+                return Rows;
+            }
+            catch (Exception Ex) {
+                System.out.print(Ex.getMessage());
+                return new ArrayList<HashMap<String,Object>>();
+            }
+        
      }
 
 

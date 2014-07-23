@@ -34,19 +34,24 @@ public class DeviceService
 
 
         Statement statement = connection.createStatement();
-        String strCount = "select  count(*) cnt from devmgt_isg9251.device where d_id in (select  d_id from devmgt_isg9251.device where d_id =" + id +")";
+        //int d_id =Integer.parseInt("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
 
-        ResultSet resultSet = statement.executeQuery(strCount);
+        ResultSet resultSet = statement.executeQuery("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
 
-        resultSet.next();
-
-        if(resultSet.getInt("cnt") == 0)
-        {
-            String query = "delete from devmgt_isg9251.device_type where d_id =" +id;
+        //resultSet.next();
+        if(resultSet!=null){
+            String query = "delete from devmgt_isg9251.device where d_id =" +id;
             statement.execute(query);
             return Response.ok().status(200).build();
-
         }
+
+//        if(resultSet.getInt("cnt") == 0)
+//        {
+//            String query = "delete from devmgt_isg9251.device where d_id =" +id;
+//            statement.execute(query);
+//            return Response.ok().status(200).build();
+//
+//        }
         else
         {
             return Response.ok().status(405).build();

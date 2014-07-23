@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 
 @Path("/device/")
@@ -97,40 +98,70 @@ public class DeviceService
     }
 
 
-/*
+
     @PUT
-    @Path("/updatedevicetype/{id}/")
+    @Path("/updatedevice/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
+    public Response updateDevice(Device device ,@PathParam("id") String id ) throws SQLException {
 
         Statement statement = connection.createStatement();
 
         String query =null;
 
-        if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
-        {
-            query = "update devmgt_isg9251.device_type set t_description = '" +
-                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
-            statement.execute(query);
+
+        LinkedList<String> listColumns= new LinkedList<String>();
+        LinkedList<String> listValues= new LinkedList<String>();
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        if( device.getDeviceId()!=null) {
+            listColumns.add("d_id");
+            listValues.add(device.getDeviceId());
+        }
+        if( device.getDeviceName()!=null) {
+            listColumns.add("d_name");
+            listValues.add(device.getDeviceName());
         }
 
-        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
-        {
-            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
-            statement.execute(query);
-        }
-        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
-        {
-            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
-                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
-            statement.execute(query);
+        if( device.getDeviceDescription()!=null) {
+            listColumns.add("d_description");
+            listValues.add(device.getDeviceDescription());
         }
 
+        if( device.getStatusId()!=null) {
+            listColumns.add("s_id");
+            listValues.add(device.getStatusId());
+        }
+        if( device.getTypeId()!=null) {
+            listColumns.add("t_id");
+            listValues.add(device.getTypeId());
+        }
+
+
+
+
+        for (int x= 0;x<listColumns.size();x++) {
+
+            if(x==0)
+            {
+                query = "update devmgt_isg9251.device set ";
+            }
+
+            if(x!=(listColumns.size()-1))
+            {
+                query = query + listColumns.get(x) + " = '";
+                query = query + listValues.get(x) + "' , ";
+            }
+            else{
+                query = query + listColumns.get(x) + " = '";
+                query = query + listValues.get(x)+ "' WHERE d_id = " + id;
+            }
+
+        }
         return Response.ok().status(200).build();
 
 
     }
-     */
+
 
     final void init() {
 

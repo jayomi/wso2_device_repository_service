@@ -35,6 +35,6 @@ public class DeviceType
     }
 
     public void setDeviceTypeDescription(String deviceTypeDescription) {
-        this.deviceTypeDescription = deviceTypeDescription;
+     this.deviceTypeDescription=deviceTypeDescription;
     }
 }

@@ -104,10 +104,10 @@ public class DeviceService
         while (resultSet.next()) {
 
 
-            devices.put("d_id",resultSet.getString("d_id"));
-            devices.put("d_name",resultSet.getString("d_name"));
-            devices.put("d_description",resultSet.getString("d_description"));
-            devices.put("s_id",resultSet.getString("s_id"));
+            System.out.println(devices.put("d_id", resultSet.getString("d_id")));
+            System.out.println(devices.put("d_name",resultSet.getString("d_name")));
+            System.out.println(devices.put("d_description",resultSet.getString("d_description")));
+            System.out.println(devices.put("s_id",resultSet.getString("s_id")));
         }
         return devices;
      }

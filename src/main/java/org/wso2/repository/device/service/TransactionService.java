@@ -95,6 +95,28 @@ public class TransactionService
 
     }
 
+    @POST
+    @Path("/test/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String addTransactions(Transaction transaction) throws SQLException {
+
+        //Statement statement = connection.createStatement();
+
+        if (transaction.getTransactionDate() ==null)
+        {
+            transaction.setTransactionDate(new Date());
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String query = "insert into  devmgt_isg9251.transaction_status(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+                " values ('" + transaction.getDeviceId() + "' ,'" +transaction.getUserId()+"','"+transaction.getTransactionStatusId()+"','"+
+                dateFormat.format(transaction.getTransactionDate()) + "','" +dateFormat.format(transaction.getReturnDate())
+                + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+
+        return query;
+
+
+    }
 
     @PUT
     @Path("/updatetransaction/{id}/")

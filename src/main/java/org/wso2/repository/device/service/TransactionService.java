@@ -84,11 +84,30 @@ public class TransactionService
         }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
-                " values ('" + transaction.getDeviceId() + "' ,'" +transaction.getUserId()+"','"+transaction.getTransactionStatusId()+"','"+
-                dateFormat.format(transaction.getTransactionDate()) + "','" +dateFormat.format(transaction.getReturnDate())
-                + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+        String query=null;
 
+        if(transaction.getDueDate() !=null &&  transaction.getReturnDate() !=null) {
+            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                    dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
+                    + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+        }
+        if(transaction.getDueDate() !=null &&  transaction.getReturnDate() ==null) {
+            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_due_date)" +
+                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                    dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+        }
+        if(transaction.getDueDate() ==null &&  transaction.getReturnDate() !=null) {
+            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date)" +
+                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                    dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
+                    + "')";
+        }
+        if(transaction.getDueDate() ==null &&  transaction.getReturnDate() ==null) {
+            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date)" +
+                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                    dateFormat.format(transaction.getTransactionDate()) +  "')";
+        }
         statement.execute(query);
         return Response.ok().status(201).build();
 
@@ -109,12 +128,33 @@ public class TransactionService
             }
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
-                    " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
-                    dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
-                    + "','" + dateFormat.format(transaction.getDueDate()) + "')";
 
-           // return query;
+            String query=null;
+
+            if(transaction.getDueDate() !=null &&  transaction.getReturnDate() !=null) {
+                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
+                        + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+            }
+            if(transaction.getDueDate() !=null &&  transaction.getReturnDate() ==null) {
+                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_due_date)" +
+                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getDueDate()) + "')";
+            }
+            if(transaction.getDueDate() ==null &&  transaction.getReturnDate() !=null) {
+                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date)" +
+                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                        dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
+                        + "')";
+            }
+            if(transaction.getDueDate() ==null &&  transaction.getReturnDate() ==null) {
+                query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date)" +
+                        " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
+                        dateFormat.format(transaction.getTransactionDate()) +  "')";
+            }
+
+            return query;
         }
         catch (Exception e)
         {

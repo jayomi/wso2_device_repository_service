@@ -33,7 +33,6 @@ public class DeviceService
 
         int intId = Integer.parseInt(id);
 
-
         Statement statement = connection.createStatement();
         //int d_id =Integer.parseInt("(select  d_id from devmgt_isg9251.device where d_id =" + id +")");
 
@@ -42,17 +41,17 @@ public class DeviceService
 
         resultSet.next();
 
-        if(resultSet.next()){
+       // if(resultSet.next()){
             String query = "delete from devmgt_isg9251.device where d_id =" +id;
             statement.execute(query);
             return Response.ok().status(200).build();
-        }
+       // }
 
-        else
-        {
-            return Response.ok().status(405).build();
+       // else
+        //{
+          //  return Response.ok().status(405).build();
 
-        }
+       // }
 
 
     }

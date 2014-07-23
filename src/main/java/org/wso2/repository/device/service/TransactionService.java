@@ -45,7 +45,7 @@ public class TransactionService
     }
 
    @GET
-   @Path("/gettransaction/{id}/")
+   @Path("/gettransaction/{id}/") 
    @Produces(MediaType.APPLICATION_JSON)
    public Transaction getTransaction(@PathParam("id") String id) throws SQLException {
 

@@ -29,6 +29,7 @@
             <ref bean="deviceServiceBean"/>
             <ref bean="deviceStatusBean"/>
             <ref bean="transactionStatusBean"/>
+            <ref bean="transactionBean"/>
         </jaxrs:serviceBeans>
 
     </jaxrs:server>
@@ -37,6 +38,7 @@
     <bean id="deviceServiceBean" class="org.wso2.repository.device.service.DeviceService"/>
     <bean id="deviceStatusBean" class="org.wso2.repository.device.service.DeviceStatusService"/>
     <bean id="transactionStatusBean" class="org.wso2.repository.device.service.TransactionStatusService"/>
+    <bean id="transactionBean" class="org.wso2.repository.device.service.TransactionService"/>
 
 
 </beans>

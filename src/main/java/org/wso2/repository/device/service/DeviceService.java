@@ -157,10 +157,12 @@ public class DeviceService
             }
 
         }
+        statement.execute(query);
         return Response.ok().status(200).build();
 
 
     }
+
 
 
     final void init() {

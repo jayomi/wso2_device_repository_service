@@ -102,6 +102,7 @@ public class TransactionService
 
         //Statement statement = connection.createStatement();
 
+        Exception ex=null;
         try {
             if (transaction.getTransactionDate() == null) {
                 transaction.setTransactionDate(new Date());
@@ -113,11 +114,15 @@ public class TransactionService
                     dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
                     + "','" + dateFormat.format(transaction.getDueDate()) + "')";
 
-            return query;
+           // return query;
         }
         catch (Exception e)
         {
-            return e.toString();
+           ex =e;
+
+        }
+        finally {
+            return "final one " + ex.toString();
         }
 
 

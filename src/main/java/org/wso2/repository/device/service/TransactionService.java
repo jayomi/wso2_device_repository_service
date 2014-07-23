@@ -1,7 +1,7 @@
 package org.wso2.repository.device.service;
 
 
-import org.wso2.repository.device.data.TransactionStatus;
+import org.wso2.repository.device.data.Transaction;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -12,9 +12,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
 
 
-@Path("/transactionstatus/")
+@Path("/transaction/")
 public class TransactionService
 {
 
@@ -26,68 +30,64 @@ public class TransactionService
 
 
 
-
-
     @DELETE
-    @Path("/deletetransactionstatus/{id}/")
-    public Response deleteTransactionStatus(@PathParam("id") String id) throws SQLException {
+    @Path("/deletetransaction/{id}/")
+    public Response deleteTransaction(@PathParam("id") String id) throws SQLException {
 
         int intId = Integer.parseInt(id);
 
 
         Statement statement = connection.createStatement();
-        String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
-
-        ResultSet resultSet = statement.executeQuery(strCount);
-
-        resultSet.next();
-
-        if(resultSet.getInt("cnt") == 0)
-        {
-            String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
-            statement.execute(query);
-            return Response.ok().status(200).build();
-
-        }
-        else
-        {
-            return Response.ok().status(405).build();
-
-        }
-
+        String query = "delete from devmgt_isg9251.transaction where t_id =" +id;
+        statement.execute(query);
+        return Response.ok().status(200).build();
 
     }
 
    @GET
-   @Path("/gettransactionstatus/{id}/")
+   @Path("/gettransaction/{id}/")
    @Produces(MediaType.APPLICATION_JSON)
-   public TransactionStatus getTransactionStatus(@PathParam("id") String id) throws SQLException {
+   public Transaction getTransaction(@PathParam("id") String id) throws SQLException {
 
         int intId = Integer.parseInt(id);
 
 
            Statement statement = connection.createStatement();
-           String query = "select * from devmgt_isg9251.transaction_status where ts_id =" +id;
+           String query = "select * from devmgt_isg9251.transaction where t_id =" +id;
            ResultSet resultSet = statement.executeQuery(query);
 
-       TransactionStatus transactionStatus = new TransactionStatus();
+       Transaction transaction = new Transaction();
 
            while (resultSet.next()) {
-               transactionStatus.setTransactionStatusId(resultSet.getString("ts_id"));
-               transactionStatus.setTransactionStatusName(resultSet.getString("ts_name"));
+               transaction.setTransactionId(resultSet.getString("t_id"));
+               transaction.setDeviceId(resultSet.getString("d_id"));
+               transaction.setUserId(resultSet.getString("u_id"));
+               transaction.setTransactionStatusId(resultSet.getString("ts_id"));
+               transaction.setTransactionDate(resultSet.getDate("t_date"));
+               transaction.setReturnDate(resultSet.getDate("t_return_date"));
+               transaction.setDueDate(resultSet.getDate("t_due_date"));
            }
-       return transactionStatus;
+       return transaction;
 
    }
 
     @POST
-    @Path("/addtransactionstatus/")
+    @Path("/addtransaction/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addTransactionStatus(TransactionStatus transactionStatus) throws SQLException {
+    public Response addTransaction(Transaction transaction) throws SQLException {
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.transaction_status(ts_name) values ('" + transactionStatus.getTransactionStatusName() + "')";
+        if (transaction.getTransactionDate() ==null)
+        {
+            transaction.setTransactionDate(new Date());
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String query = "insert into  devmgt_isg9251.transaction_status(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+                " values ('" + transaction.getDeviceId() + "' ,'" +transaction.getUserId()+"','"+transaction.getTransactionStatusId()+"','"+
+                dateFormat.format(transaction.getTransactionDate()) + "','" +dateFormat.format(transaction.getReturnDate())
+                + "','" + dateFormat.format(transaction.getDueDate()) + "')";
 
         statement.execute(query);
         return Response.ok().status(201).build();
@@ -97,20 +97,66 @@ public class TransactionService
 
 
     @PUT
-    @Path("/updatetransactionstatus/{id}/")
+    @Path("/updatetransaction/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateTransactionStatus(TransactionStatus transactionStatus ,@PathParam("id") String id ) throws SQLException {
+    public Response updateTransaction(Transaction transaction ,@PathParam("id") String id ) throws SQLException {
 
         Statement statement = connection.createStatement();
 
         String query =null;
+        LinkedList<String> listColumns= new LinkedList<String>();
+        LinkedList<String> listValues= new LinkedList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        if( transactionStatus.getTransactionStatusName()!=null)
-        {
-            query = "update devmgt_isg9251.transaction_status set ts_name ='"+transactionStatus.getTransactionStatusName() +"' WHERE ts_id =" + id;
-            statement.execute(query);
+        if( transaction.getDeviceId()!=null) {
+            listColumns.add("d_id");
+            listValues.add(transaction.getDeviceId());
+        }
+        if( transaction.getUserId()!=null) {
+            listColumns.add("u_id");
+            listValues.add(transaction.getUserId());
+        }
+        if( transaction.getTransactionStatusId()!=null) {
+            listColumns.add("ts_id");
+            listValues.add(transaction.getTransactionStatusId());
         }
 
+        if( transaction.getTransactionDate()!=null) {
+            listColumns.add("t_date");
+            listValues.add(dateFormat.format(transaction.getTransactionDate()));
+        }
+        if( transaction.getReturnDate()!=null) {
+            listColumns.add("t_return_date");
+            listValues.add(dateFormat.format(transaction.getReturnDate()));
+        }
+        if( transaction.getDueDate()!=null) {
+            listColumns.add("t_due_date");
+            listValues.add(dateFormat.format(transaction.getDueDate()));
+        }
+
+
+        for (int x= 0;x<listColumns.size();x++) {
+
+            if(x==0)
+            {
+                query = "update devmgt_isg9251.transaction set ";
+            }
+
+            if(x!=(listColumns.size()-1))
+            {
+                query = query + listColumns.get(x) + " = '";
+                query = query + listValues.get(x) + "' , ";
+            }
+            else{
+                query = query + listColumns.get(x) + " = '";
+                query = query + listValues.get(x)+ "' WHERE t_id = " + id;
+            }
+
+        }
+
+        if (listColumns.size()!=0) {
+            statement.execute(query);
+        }
         return Response.ok().status(200).build();
 
 
@@ -123,6 +169,7 @@ public class TransactionService
            InitialContext context = new InitialContext();
            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
            connection = dataSource.getConnection();
+
         }
         catch(Exception e)
         {

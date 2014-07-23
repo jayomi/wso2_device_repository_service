@@ -81,6 +81,7 @@ public class DeviceService
 
    }
 
+    /*
     @POST
     @Path("/adddevice/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -94,6 +95,8 @@ public class DeviceService
         return Response.ok().status(201).build();
 
     }
+
+    */
 
 /*
     @PUT

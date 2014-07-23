@@ -89,7 +89,7 @@ public class DeviceService
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values (" + device.getDeviceName() + "," + device.getDeviceDescription() +" , "+device.getStatusId()+" , "+device.getTypeId()+")";
+        String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
 
         statement.execute(query);
         return Response.ok().status(201).build();

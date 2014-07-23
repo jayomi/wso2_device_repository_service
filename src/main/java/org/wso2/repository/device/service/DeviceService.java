@@ -1,11 +1,10 @@
 package org.wso2.repository.device.service;
 
-import org.wso2.repository.device.data.DeviceType;
-
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,14 +27,14 @@ public class DeviceService
 
 
     @DELETE
-    @Path("/deletedevicetype/{id}/")
+    @Path("/deletedevice/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {
 
         int intId = Integer.parseInt(id);
 
 
         Statement statement = connection.createStatement();
-        String strCount = "select  count(*) cnt from devmgt_isg9251.device where t_id in (select  t_id from devmgt_isg9251.device_type where t_id =" + id +")";
+        String strCount = "select  count(*) cnt from devmgt_isg9251.device where d_id in (select  d_id from devmgt_isg9251.device where d_id =" + id +")";
 
         ResultSet resultSet = statement.executeQuery(strCount);
 
@@ -43,7 +42,7 @@ public class DeviceService
 
         if(resultSet.getInt("cnt") == 0)
         {
-            String query = "delete from devmgt_isg9251.device_type where t_id =" +id;
+            String query = "delete from devmgt_isg9251.device_type where d_id =" +id;
             statement.execute(query);
             return Response.ok().status(200).build();
 
@@ -57,6 +56,7 @@ public class DeviceService
 
     }
 
+    /*
    @GET
    @Path("/getdevicetype/{id}/")
    @Produces(MediaType.APPLICATION_JSON)
@@ -128,7 +128,7 @@ public class DeviceService
 
 
     }
-    
+     */
 
     final void init() {
 
@@ -141,8 +141,9 @@ public class DeviceService
         {
             e.printStackTrace();
         }
-        
-        
+
+
     }
+
 
 }

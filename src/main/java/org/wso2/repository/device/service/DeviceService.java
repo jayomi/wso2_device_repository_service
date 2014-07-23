@@ -81,7 +81,7 @@ public class DeviceService
 
    }
 
-    /*
+
     @POST
     @Path("/adddevice/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -96,7 +96,6 @@ public class DeviceService
 
     }
 
-    */
 
 /*
     @PUT

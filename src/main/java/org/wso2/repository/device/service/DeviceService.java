@@ -80,15 +80,15 @@ public class DeviceService
        return device;
 
    }
-/*
+
     @POST
-    @Path("/adddevicetype/")
+    @Path("/adddevice/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addDevice(DeviceType deviceType) throws SQLException {
+    public Response addDevice(Device device) throws SQLException {
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
+        String query = "insert into  devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "' , '" + device.getDeviceDescription() +","+device.getStatusId()+","+device.getTypeId()+")";
 
         statement.execute(query);
         return Response.ok().status(201).build();
@@ -96,7 +96,7 @@ public class DeviceService
 
     }
 
-
+/*
     @PUT
     @Path("/updatedevicetype/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)

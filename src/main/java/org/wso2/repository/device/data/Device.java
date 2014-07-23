@@ -10,6 +10,7 @@ public class Device
     String deviceName;
     String deviceDescription;
     String statusId;
+    String typeId;
 
     public String getDeviceId() {
         return deviceId;
@@ -27,6 +28,7 @@ public class Device
         this.deviceName = deviceName;
     }
 
+
     public String getDeviceDescription() {
         return deviceDescription;
     }
@@ -42,4 +44,13 @@ public class Device
     public void setStatusId(String statusId) {
         this.statusId = statusId;
     }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
 }

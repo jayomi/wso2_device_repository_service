@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 
 @Path("/device/")
@@ -85,9 +87,15 @@ public class DeviceService
     @GET
     @Path("/getall/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Device getAllDevice() throws SQLException {
+    public Map getAllDevice() throws SQLException {
+
 
         Statement statement = connection.createStatement();
+
+       Map<String,String> devices=new HashMap<String,String>();
+
+
+
         String query = "select * from devmgt_isg9251.device";
         ResultSet resultSet = statement.executeQuery(query);
 
@@ -95,14 +103,19 @@ public class DeviceService
 
         while (resultSet.next()) {
 
-            device.setDeviceId(resultSet.getString("d_id"));
-            device.setDeviceName(resultSet.getString("d_name"));
-            device.setDeviceDescription(resultSet.getString("d_description"));
-            device.setStatusId(resultSet.getString("s_id"));
-        }
-        return device;
 
-    }
+            devices.put("d_id",resultSet.getString("d_id"));
+            devices.put("d_name",resultSet.getString("d_name"));
+            devices.put("d_description",resultSet.getString("d_description"));
+            devices.put("s_id",resultSet.getString("s_id"));
+        }
+        return devices;
+     }
+
+
+
+
+
 
 
 

@@ -108,6 +108,8 @@ public class DeviceService
 
         return deviceList;
     }
+
+
     /*
     public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {
 

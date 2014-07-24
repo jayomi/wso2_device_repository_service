@@ -7,10 +7,9 @@ import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 
@@ -82,6 +81,82 @@ public class DeviceService
 
    }
 
+    @GET
+    @Path("/getall/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {
+
+            try {
+
+                //create statement
+                Statement statement = connection.createStatement();
+
+               query= "select * from devmgt_isg9251.device";
+
+                //query
+                ResultSet Result = null;
+                boolean Returning_Rows = statement.execute(query);
+                if (Returning_Rows)
+                     Result = statement.getResultSet();
+                else
+                    return new ArrayList<HashMap<String,Object>>();
+
+                //get metadata
+                ResultSetMetaData Meta =Result.getMetaData();
+
+
+                //get column names
+                int Col_Count = Meta.getColumnCount();
+                ArrayList<String> Cols = new ArrayList<String>();
+                for (int Index=1; Index<=Col_Count; Index++)
+                    Cols.add(Meta.getColumnName(Index));
+
+                //fetch out rows
+                ArrayList<HashMap<String,Object>> Rows =
+                        new ArrayList<HashMap<String,Object>>();
+
+                while (Result.next()) {
+                    HashMap<String,Object> Row = new HashMap<String,Object>();
+                    for (String Col_Name:Cols) {
+                        Object Val = Result.getObject(Col_Name);
+                        Row.put(Col_Name,Val);
+                    }
+                    Rows.add(Row);
+                }
+                //close statement
+                statement.close();
+
+                //pass back rows
+                return Rows;
+            }
+            catch (Exception Ex) {
+                System.out.print(Ex.getMessage());
+                return new ArrayList<HashMap<String,Object>>();
+            }
+     }
+
+
+    @GET
+    @Path("/searchdevice/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<Device> searchDevice() throws SQLException {
+
+        LinkedList deviceList=new LinkedList();
+        Device device=new Device();
+        Statement statement = connection.createStatement();
+        String query ="select * from devmgt_isg9251.device where d_name like '%b%'";
+        ResultSet resultSet = statement.executeQuery(query);
+
+
+        while (resultSet.next()) {
+
+            device.setDeviceId(resultSet.getString("d_id"));
+            device.setDeviceName(resultSet.getString("d_name"));
+            deviceList.add(device);
+        }
+
+        return deviceList;
+    }
 
     @POST
     @Path("/adddevice/")
@@ -157,10 +232,12 @@ public class DeviceService
             }
 
         }
+        statement.execute(query);
         return Response.ok().status(200).build();
 
 
     }
+
 
 
     final void init() {

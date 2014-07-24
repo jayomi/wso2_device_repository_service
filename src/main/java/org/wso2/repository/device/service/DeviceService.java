@@ -86,7 +86,6 @@ public class DeviceService
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {
 
-
             try {
 
                 //create statement
@@ -98,7 +97,7 @@ public class DeviceService
                 ResultSet Result = null;
                 boolean Returning_Rows = statement.execute(query);
                 if (Returning_Rows)
-                    Result = statement.getResultSet();
+                     Result = statement.getResultSet();
                 else
                     return new ArrayList<HashMap<String,Object>>();
 
@@ -124,7 +123,6 @@ public class DeviceService
                     }
                     Rows.add(Row);
                 }
-
                 //close statement
                 statement.close();
 
@@ -135,15 +133,29 @@ public class DeviceService
                 System.out.print(Ex.getMessage());
                 return new ArrayList<HashMap<String,Object>>();
             }
-        
      }
 
 
+    @GET
+    @Path("/serachdevice/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Device searchDevice() throws SQLException {
 
+        Device device=new Device();
+        Statement statement = connection.createStatement();
 
+        String query[] ={"select * from devmgt_isg9251.device where d_name like '%b%'"};
+        for(String q : query){
+            ResultSet rs = statement.executeQuery(q);
+            System.out.println("Names for query "+q+" are");
+            while (rs.next()) {
+               device.setDeviceName(rs.getString("d_name"));
+               //System.out.print(name+"  ");
+            }
 
-
-
+        }
+        return device;
+    }
 
     @POST
     @Path("/adddevice/")

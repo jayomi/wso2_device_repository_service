@@ -30,8 +30,8 @@
             <ref bean="deviceStatusBean"/>
             <ref bean="transactionStatusBean"/>
             <ref bean="transactionBean"/>
-            <ref bean="">
-        </jaxrs:serviceBeans>
+            <ref bean="userServiceBean"/>
+      </jaxrs:serviceBeans>
 
     </jaxrs:server>
 

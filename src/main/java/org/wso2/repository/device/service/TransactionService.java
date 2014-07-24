@@ -78,12 +78,53 @@ public class TransactionService
     @GET
     @Path("/gettransactions/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Transaction> getTransactions() throws SQLException {
+    public LinkedList<Transaction> getTransactions(@Context UriInfo parameters) throws SQLException {
 
         LinkedList<Transaction> transactionList = new LinkedList<Transaction>();
 
-        Statement statement = connection.createStatement();
+        String userId = parameters.getQueryParameters().getFirst("userId");
+        String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+        String statusId = parameters.getQueryParameters().getFirst("statusId");
+        String options = null;
         String query = "select * from devmgt_isg9251.transaction ";
+        boolean firstPara = false;
+
+        if (userId !=null)
+        {
+            options = " u_id = '" + userId +"' ";
+            firstPara =true;
+        }
+
+        if (deviceId !=null)
+        {
+            if (firstPara==false) {
+                options = " d_id = '" + deviceId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND d_id = '" + deviceId + "' ";
+            }
+
+        }
+
+        if (statusId !=null)
+        {
+            if (firstPara==false) {
+                options = " ts_id = '" + statusId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND ts_id = '" + statusId + "' ";
+            }
+
+        }
+        if(firstPara)
+        {
+            query = query + " Where " + options;
+        }
+
+        Statement statement = connection.createStatement();
+
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {
@@ -164,6 +205,7 @@ public class TransactionService
         String deviceId = parameters.getQueryParameters().getFirst("deviceId");
         String statusId = parameters.getQueryParameters().getFirst("statusId");
         String options = null;
+        String query = "select * from devmgt_isg9251.transaction ";
         boolean firstPara = false;
 
         if (userId !=null)
@@ -197,14 +239,14 @@ public class TransactionService
         }
         if(firstPara)
         {
-            options =" Where " + options;
+            query = query + " Where " + options;
         }
 
 
         LinkedList<Transaction> transactionList = new LinkedList<Transaction>();
 
         Statement statement = connection.createStatement();
-        String query = "select * from devmgt_isg9251.transaction " + options;
+
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {

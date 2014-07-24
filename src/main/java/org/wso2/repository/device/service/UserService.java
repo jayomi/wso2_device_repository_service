@@ -56,7 +56,7 @@ public class UserService {
     }
     //get all users
 
-    @Path("/users/")
+    @Path("/getusers/")
     @Produces(MediaType.APPLICATION_JSON)
     public LinkedList<User> getUsers() throws SQLException {
 

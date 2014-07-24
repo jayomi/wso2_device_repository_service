@@ -137,24 +137,25 @@ public class DeviceService
 
 
     @GET
-    @Path("/serachdevice/")
+    @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Device searchDevice() throws SQLException {
+    public ArrayList<Device> searchDevice() throws SQLException {
 
+        ArrayList deviceList=new ArrayList();
         Device device=new Device();
         Statement statement = connection.createStatement();
+        String query ="select * from devmgt_isg9251.device where d_name like '% b %'";
+        ResultSet resultSet = statement.executeQuery(query);
 
-        String query[] ={"select * from devmgt_isg9251.device where d_name like '%b%'"};
-        for(String q : query){
-            ResultSet rs = statement.executeQuery(q);
-            System.out.println("Names for query "+q+" are");
-            while (rs.next()) {
-               device.setDeviceName(rs.getString("d_name"));
-               //System.out.print(name+"  ");
-            }
 
+        while (resultSet.next()) {
+
+            device.setDeviceId(resultSet.getString("d_id"));
+            device.setDeviceName(resultSet.getString("d_name"));
+            deviceList.add(device);
         }
-        return device;
+
+        return deviceList;
     }
 
     @POST

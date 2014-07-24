@@ -139,12 +139,12 @@ public class DeviceService
     @GET
     @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Device> searchDevice() throws SQLException {
+    public LinkedList<Device> searchDevice() throws SQLException {
 
-        ArrayList deviceList=new ArrayList();
+        LinkedList deviceList=new LinkedList();
         Device device=new Device();
         Statement statement = connection.createStatement();
-        String query ="select * from devmgt_isg9251.device where d_name like '% b %'";
+        String query ="select * from devmgt_isg9251.device where d_name like '%b%'";
         ResultSet resultSet = statement.executeQuery(query);
 
 

@@ -229,7 +229,7 @@ public class DeviceService
         ResultSet resultSet = statement.executeQuery(query);
 
 
-        while (resultSet.next()) {
+       while (resultSet.next()) {
 
             Device device=new Device();
             device.setDeviceId(resultSet.getString("d_id"));

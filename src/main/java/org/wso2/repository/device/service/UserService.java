@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-@Path("/devicetype/")
+@Path("/user/")
 public class UserService
 {
 

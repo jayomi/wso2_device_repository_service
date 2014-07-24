@@ -5,8 +5,10 @@ import org.wso2.repository.device.data.Device;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -162,19 +164,79 @@ public class DeviceService
     @GET
     @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> searchDevice() throws SQLException {
+    public LinkedList<Device> searchDevice(@Context UriInfo parameters) throws SQLException {
+
+
+        String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+        String deviceName = parameters.getQueryParameters().getFirst("deviceName");
+        String statusId = parameters.getQueryParameters().getFirst("statusId");
+        String typeId = parameters.getQueryParameters().getFirst("typeId");
+        String options = null;
+
+        String query ="select * from devmgt_isg9251.device";
+
+        boolean firstPara = false;
+
+        if (deviceId !=null)
+        {
+            options = " d_id = '" + deviceId +"' ";
+            firstPara =true;
+        }
+
+        if (deviceName !=null)
+        {
+            if (firstPara==false) {
+                options = " d_name = '" + deviceName+ "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND d_name = '" + deviceName + "' ";
+            }
+
+        }
+
+        if (statusId !=null)
+        {
+            if (firstPara==false) {
+                options = " s_id = '" + statusId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND s_id = '" + statusId + "' ";
+            }
+
+        }
+        if (typeId !=null)
+        {
+            if (firstPara==false) {
+                options = " t_id = '" + typeId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND t_id = '" + typeId + "' ";
+            }
+
+        }
+        if(firstPara)
+        {
+            query = query + " Where " + options;
+        }
+
 
         LinkedList deviceList=new LinkedList();
         //Device device=new Device();
         Statement statement = connection.createStatement();
-        String query ="select * from devmgt_isg9251.device";
         ResultSet resultSet = statement.executeQuery(query);
 
 
         while (resultSet.next()) {
+
             Device device=new Device();
             device.setDeviceId(resultSet.getString("d_id"));
             device.setDeviceName(resultSet.getString("d_name"));
+            device.setDeviceDescription(resultSet.getString("d_description"));
+            device.setStatusId(resultSet.getString("s_id"));
+            device.setTypeId(resultSet.getString("t_id"));
             deviceList.add(device);
         }
         return deviceList;

@@ -90,15 +90,15 @@ public class UserService
     }
 
     @GET
-    @Path("/getUsers/")
+    @Path("/getusers/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<User> getDevices() throws SQLException {
+    public LinkedList<User> getUsers() throws SQLException {
 
         LinkedList<User> userList = new LinkedList<User>();
 
 
         Statement statement = connection.createStatement();
-        String query = "select * from devmgt_isg9251.device_type ";
+        String query = "select * from devmgt_isg9251.user";
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {

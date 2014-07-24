@@ -4,6 +4,7 @@ import org.wso2.repository.device.data.User;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
  * Created by jayomi on 7/24/14.
  */
 @Path("/user/")
+
 public class UserService {
 
     Connection connection;
@@ -26,8 +28,11 @@ public class UserService {
        init();
     }
 
+
+    @GET
     @Path("/getuser/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
+
     public User getUser(@PathParam("id") String id) throws SQLException {
 
         java.sql.Statement statement= connection.createStatement();
@@ -56,6 +61,8 @@ public class UserService {
     }
     //get all users
 
+
+    @GET
     @Path("/getusers/")
     @Produces(MediaType.APPLICATION_JSON)
     public LinkedList<User> getUsers() throws SQLException {
@@ -85,9 +92,6 @@ public class UserService {
     }
 
 
-
-
-
     final void init(){
        try{
 
@@ -99,5 +103,8 @@ public class UserService {
            e.printStackTrace();
        }
     }
+
+
+
 
 }

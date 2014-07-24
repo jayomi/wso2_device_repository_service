@@ -108,9 +108,10 @@ public class UserService
             user.setUserLname(resultSet.getString("last_name"));
             user.setUsername(resultSet.getString("username"));
             user.setPasssword( resultSet.getString("password"));
-            user.setEmail(resultSet.getString("email"));
-            user.setTelNo(resultSet.getString("tel_no"));
+            user.setEmail( resultSet.getString("email"));
+            user.setTelNo( resultSet.getString("tel_no"));
             user.setDescription(resultSet.getString("description"));
+
             userList.add(user);
         }
         return userList;
@@ -119,13 +120,13 @@ public class UserService
 
 /*
     @POST
-    @Path("/adddevicetype/")
+    @Path("/adduser/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addDevice(DeviceType deviceType) throws SQLException {
+    public Response addUSer(User user) throws SQLException {
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
+        String query = "insert into  devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUs + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
         statement.execute(query);
         return Response.ok().status(201).build();

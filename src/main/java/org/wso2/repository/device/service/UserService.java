@@ -59,7 +59,7 @@ public class UserService {
        try{
 
            InitialContext context=new InitialContext();
-           DataSource dataSource = (DataSource) context.lookup("jdbc/");
+           DataSource dataSource = (DataSource) context.lookup("jdbc/deviceRepoDS");
            connection=dataSource.getConnection();
 
        }catch(Exception e){

@@ -124,7 +124,7 @@ public class UserService
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId() + "' , '" +user.getUserFname()+"' , '"+user.getUserLname()+ "' , '"+user.getUsername()+"' , '"+user.getPasssword()+ "' , '"+user.getEmail()+"' , '"+user.getTelNo()+"' , '"+user.getDescription()+"')";
+        String query = "insert into  devmgt_isg9251.user(first_name,last_name,username,password,email,tel_no,description) values ('" +user.getUserFname()+"' , '"+user.getUserLname()+ "' , '"+user.getUsername()+"' , '"+user.getPasssword()+ "' , '"+user.getEmail()+"' , '"+user.getTelNo()+"' , '"+user.getDescription()+"')";
 
         statement.execute(query);
         return Response.ok().status(201).build();

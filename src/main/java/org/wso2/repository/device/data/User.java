@@ -1,6 +1,5 @@
 package org.wso2.repository.device.data;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,7 +19,7 @@ public class User{
     private String description;
 
 
-    @XmlElement(name="userId")
+
     public String getUserId() {
         return userId;
     }
@@ -29,7 +28,7 @@ public class User{
         this.userId = userId;
     }
 
-    @XmlElement(name="userFname")
+
     public String getUserFname() {
         return userFname;
     }
@@ -37,7 +36,7 @@ public class User{
     public void setUserFname(String userFname) {
         this.userFname = userFname;
     }
-    @XmlElement(name="userLname")
+
     public String getUserLname() {
         return userLname;
     }
@@ -45,11 +44,11 @@ public class User{
     public void setUserLname(String userLname) {
         this.userLname = userLname;
     }
-    @XmlElement(name="username")
+
     public String getUsername() {
         return username;
     }
-    @XmlElement(name="passsword")
+
     public String getPasssword() {
         return passsword;
     }
@@ -61,7 +60,7 @@ public class User{
     public void setUsername(String username) {
         this.username = username;
     }
-    @XmlElement(name="email")
+
     public String getEmail() {
         return email;
     }
@@ -69,7 +68,7 @@ public class User{
     public void setEmail(String email) {
         this.email = email;
     }
-    @XmlElement(name="telNo")
+
     public String getTelNo() {
         return telNo;
     }
@@ -77,7 +76,7 @@ public class User{
     public void setTelNo(String telNo) {
         this.telNo = telNo;
     }
-    @XmlElement(name="description")
+
     public String getDescription() {
         return description;
     }

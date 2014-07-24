@@ -42,5 +42,6 @@
     <bean id="transactionBean" class="org.wso2.repository.device.service.TransactionService"/>
     <bean id="userServiceBean" class="org.wso2.repository.device.service.UserService"/>
 
+
 </beans>
 

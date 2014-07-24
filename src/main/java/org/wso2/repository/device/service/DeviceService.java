@@ -26,10 +26,6 @@ public class DeviceService
         init();
     }
 
-
-
-
-
     @DELETE
     @Path("/deletedevice/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {

@@ -13,165 +13,162 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
 
 
-@Path("/user/")
-public class UserService {
+@Path("/devicetype/")
+public class UserService
+{
 
     Connection connection;
 
     public UserService() {
-       init();
+        init();
     }
 
 
+
+/*
+
+    @DELETE
+    @Path("/deletedevicetype/{id}/")
+    public Response deleteDevice(@PathParam("id") String id) throws SQLException {
+
+        int intId = Integer.parseInt(id);
+
+
+        Statement statement = connection.createStatement();
+        String strCount = "select  count(*) cnt from devmgt_isg9251.device where t_id in (select  t_id from devmgt_isg9251.device_type where t_id =" + id +")";
+
+        ResultSet resultSet = statement.executeQuery(strCount);
+
+        resultSet.next();
+
+        if(resultSet.getInt("cnt") == 0)
+        {
+            String query = "delete from devmgt_isg9251.device_type where t_id =" +id;
+            statement.execute(query);
+            return Response.ok().status(200).build();
+
+        }
+        else
+        {
+            return Response.ok().status(405).build();
+
+        }
+
+
+    }
+*/
     @GET
     @Path("/getuser/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("id") String id) throws SQLException {
+    public User getDevice(@PathParam("id") String id) throws SQLException {
 
-        Statement statement= connection.createStatement();
-        String query="select * from devmgt_isg9251.user where u_id= "+id;
-
-        User user=new User();
-
-        ResultSet resultSet;
-        resultSet = statement.executeQuery(query);
+        int intId = Integer.parseInt(id);
 
 
-        while (resultSet.next()) {
-
-            user.setUserId(resultSet.getString("u_id"));
-            user.setUserFname(resultSet.getString("first_name"));
-            user.setUserLname(resultSet.getString("last_name"));
-            user.setUsername(resultSet.getString("username"));
-            user.setPasssword( resultSet.getString("password"));
-            user.setEmail( resultSet.getString("email"));
-            user.setTelNo( resultSet.getString("tel_no"));
-            user.setDescription(resultSet.getString("description"));
-
-        }
-
-        return user;
-    }
-    //get all users
-
-
-    @GET
-    @Path("/getusers/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<User> getUsers() throws SQLException {
-
-        LinkedList userList=new LinkedList();
-        User user=new User();
         Statement statement = connection.createStatement();
-        String query ="select * from devmgt_isg9251.user";
+        String query = "select * from devmgt_isg9251.user where u_id =" +id;
         ResultSet resultSet = statement.executeQuery(query);
 
+        User user = new User();
 
         while (resultSet.next()) {
-
             user.setUserId(resultSet.getString("u_id"));
-            user.setUserFname(resultSet.getString("first_name"));
-            user.setUserLname(resultSet.getString("last_name"));
-            user.setUsername(resultSet.getString("username"));
-            user.setPasssword(resultSet.getString("password"));
-            user.setEmail(resultSet.getString("email"));
-            user.setTelNo(resultSet.getString("tel_no"));
-            user.setDescription(resultSet.getString("description"));
-            userList.add(user);
 
         }
+        return user;
 
-        return userList;
     }
-
+/*
     @GET
-    @Path("/test/{id}/")
+    @Path("/getdevicetypes/")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUsers(@PathParam("id") String id) throws SQLException {
+    public LinkedList<DeviceType> getDevices() throws SQLException {
 
-        int x = 0;
-        Exception ex =null;
-        try
-        {
+        LinkedList<DeviceType> deviceTypeList = new LinkedList<DeviceType>();
 
-        Statement statement= connection.createStatement();
-        x++;
-        String query="select * from devmgt_isg9251.user ";
-        x++;
-        User user=new User();
-            x++;
-        ResultSet resultSet;
-            x++;
-        resultSet = statement.executeQuery(query);
-            x++;
 
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.device_type ";
+        ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {
-            x++;
-            user.setUserId(resultSet.getString("u_id"));
-            x++;
-            user.setUserFname(resultSet.getString("first_name"));
-            x++;
-            user.setUserLname(resultSet.getString("last_name"));
-            x++;
-            user.setUsername(resultSet.getString("username"));
-            x++;
-            user.setPasssword( resultSet.getString("password"));
-            x++;
-            user.setEmail( resultSet.getString("email"));
-            x++;
-            user.setTelNo( resultSet.getString("tel_no"));
-            x++;
-            user.setDescription(resultSet.getString("description"));
-            x++;
+            DeviceType deviceType = new DeviceType();
+            deviceType.setDeviceTypeId(resultSet.getString("t_id"));
+            deviceType.setDeviceTypeName(resultSet.getString("type"));
+            deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
+            deviceTypeList.add(deviceType);
+        }
+        return deviceTypeList;
 
-        }
-        }
-        catch (Exception e)
-        {
-            ex=e;
-        }
-        finally {
-            return x + "   errr  " + ex.toString();
-        }
-
-      //  return user;
     }
 
-   /*
+
     @POST
-    @Path("/addduser/")
+    @Path("/adddevicetype/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addDevice(User user) throws SQLException {
+    public Response addDevice(DeviceType deviceType) throws SQLException {
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId()+"','"+user.getUserFname()+"','" + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
+        String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
         statement.execute(query);
         return Response.ok().status(201).build();
 
+
+    }
+
+
+    @PUT
+    @Path("/updatedevicetype/{id}/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
+
+        Statement statement = connection.createStatement();
+
+        String query =null;
+
+        if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
+        {
+            query = "update devmgt_isg9251.device_type set t_description = '" +
+                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+            statement.execute(query);
+        }
+
+        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
+        {
+            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
+            statement.execute(query);
+        }
+        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
+        {
+            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
+                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+            statement.execute(query);
+        }
+
+        return Response.ok().status(200).build();
+
+
     }
 
 */
+    final void init() {
+
+        try {
+            InitialContext context = new InitialContext();
+            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
+            connection = dataSource.getConnection();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
 
-    final void init(){
-       try{
-
-           InitialContext context=new InitialContext();
-           DataSource dataSource = (DataSource) context.lookup("jdbc/userRepoDS");
-           connection=dataSource.getConnection();
-
-       }catch(Exception e){
-           e.printStackTrace();
-       }
     }
 
-
-
-
 }
+

@@ -141,7 +141,7 @@ public class UserService
 
             String query =null;
 
-            if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
+            if( .getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
             {
                 query = "update devmgt_isg9251.device_type set t_description = '" +
                         deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;

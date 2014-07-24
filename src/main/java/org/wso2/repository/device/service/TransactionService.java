@@ -2,6 +2,7 @@ package org.wso2.repository.device.service;
 
 
 import org.wso2.repository.device.data.Transaction;
+import org.wso2.repository.device.data.TransactionStatus;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -18,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 
 @Path("/transaction/")
@@ -261,6 +261,30 @@ public class TransactionService
             transactionList.add(transaction);
         }
         return transactionList;
+
+    }
+
+    @GET
+    @Path("/gettransactionstatuses/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<TransactionStatus> getTransactionStatuses() throws SQLException {
+
+        LinkedList<TransactionStatus> transactionStatusList = new LinkedList<TransactionStatus>();
+
+
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.transaction_status ";
+        ResultSet resultSet = statement.executeQuery(query);
+
+
+
+        while (resultSet.next()) {
+            TransactionStatus transactionStatus = new TransactionStatus();
+            transactionStatus.setTransactionStatusId(resultSet.getString("ts_id"));
+            transactionStatus.setTransactionStatusName(resultSet.getString("ts_name"));
+            transactionStatusList.add(transactionStatus);
+        }
+        return transactionStatusList;
 
     }
 

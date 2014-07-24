@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 
 @Path("/devicestatus/")
@@ -78,6 +79,32 @@ public class DeviceStatusService
        return deviceStatus;
 
    }
+
+
+    @GET
+    @Path("/getdevicestatuses/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<DeviceStatus> getDeviceStatuses() throws SQLException {
+
+        LinkedList<DeviceStatus> statusList = new LinkedList<DeviceStatus>();
+
+
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.status ";
+        ResultSet resultSet = statement.executeQuery(query);
+
+
+        while (resultSet.next()) {
+            DeviceStatus deviceStatus = new DeviceStatus();
+
+            deviceStatus.setDeviceStatusId(resultSet.getString("s_id"));
+            deviceStatus.setDeviceStatusName(resultSet.getString("status"));
+            statusList.add(deviceStatus);
+        }
+        return statusList;
+
+    }
+
 
     @POST
     @Path("/adddevicestatus/")

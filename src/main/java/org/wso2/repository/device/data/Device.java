@@ -1,5 +1,6 @@
 package org.wso2.repository.device.data;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="Device")
@@ -12,6 +13,7 @@ public class Device
     String statusId;
     String typeId;
 
+    @XmlElement(name="deviceId")
     public String getDeviceId() {
         return deviceId;
     }
@@ -20,6 +22,7 @@ public class Device
         this.deviceId = deviceId;
     }
 
+    @XmlElement(name="DeviceName")
     public String getDeviceName() {
         return deviceName;
     }
@@ -28,7 +31,7 @@ public class Device
         this.deviceName = deviceName;
     }
 
-
+    @XmlElement(name="deviceDescription")
     public String getDeviceDescription() {
         return deviceDescription;
     }
@@ -37,6 +40,7 @@ public class Device
         this.deviceDescription = deviceDescription;
     }
 
+    @XmlElement(name="statusId")
     public String getStatusId() {
         return statusId;
     }
@@ -45,6 +49,7 @@ public class Device
         this.statusId = statusId;
     }
 
+    @XmlElement(name="typeId")
     public String getTypeId() {
         return typeId;
     }

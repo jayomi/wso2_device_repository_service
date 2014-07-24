@@ -1,31 +1,17 @@
 package org.wso2.repository.device.service;
 
-import demo.jaxrs.server.Customer;
-import demo.jaxrs.server.Order;
-import org.json.JSONObject;
 import org.wso2.repository.device.data.DeviceType;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-
-import javax.naming.InitialContext;
-
-import javax.sql.DataSource;
-
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.LinkedList;
 
 
 @Path("/devicetype/")
@@ -94,6 +80,30 @@ public class DeviceTypeService
        return deviceType;
 
    }
+
+    @GET
+    @Path("/getdevicetypes/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<DeviceType> getDevices() throws SQLException {
+
+        LinkedList<DeviceType> deviceTypeList = new LinkedList<DeviceType>();
+
+
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.device_type ";
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            DeviceType deviceType = new DeviceType();
+            deviceType.setDeviceTypeId(resultSet.getString("t_id"));
+            deviceType.setDeviceTypeName(resultSet.getString("type"));
+            deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
+            deviceTypeList.add(deviceType);
+        }
+        return deviceTypeList;
+
+    }
+
 
     @POST
     @Path("/adddevicetype/")

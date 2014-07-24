@@ -145,7 +145,7 @@ public class TransactionService
     @GET
     @Path("/test/")
     @Produces(MediaType.APPLICATION_JSON)
-    public String searchTransactionss(@Context UriInfo parameters) throws SQLException {
+    public String searchTransactionsss(@Context UriInfo parameters) throws SQLException {
 
         String userId = parameters.getQueryParameters().getFirst("userId");
         String deviceId = parameters.getQueryParameters().getFirst("deviceId");

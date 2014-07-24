@@ -6,8 +6,10 @@ import org.wso2.repository.device.data.Transaction;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 
 @Path("/transaction/")
@@ -81,6 +84,127 @@ public class TransactionService
 
         Statement statement = connection.createStatement();
         String query = "select * from devmgt_isg9251.transaction ";
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            Transaction transaction = new Transaction();
+            transaction.setTransactionId(resultSet.getString("t_id"));
+            transaction.setDeviceId(resultSet.getString("d_id"));
+            transaction.setUserId(resultSet.getString("u_id"));
+            transaction.setTransactionStatusId(resultSet.getString("ts_id"));
+            transaction.setTransactionDate(resultSet.getDate("t_date"));
+            transaction.setReturnDate(resultSet.getDate("t_return_date"));
+            transaction.setDueDate(resultSet.getDate("t_due_date"));
+            transactionList.add(transaction);
+        }
+        return transactionList;
+
+    }
+
+    @GET
+    @Path("/test/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String searchTransactionss(@Context UriInfo parameters) throws SQLException {
+
+        String userId = parameters.getQueryParameters().getFirst("userId");
+        String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+        String statusId = parameters.getQueryParameters().getFirst("statusId");
+        String options = null;
+        boolean firstPara = false;
+
+        if (userId !=null)
+        {
+            options = " u_id = '" + userId +"' ";
+            firstPara =true;
+        }
+
+        if (deviceId !=null)
+        {
+            if (firstPara==false) {
+                options = " d_id = '" + deviceId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND d_id = '" + deviceId + "' ";
+            }
+
+        }
+
+        if (statusId !=null)
+        {
+            if (firstPara==false) {
+                options = " ts_id = '" + statusId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND ts_id = '" + statusId + "' ";
+            }
+
+        }
+        if(firstPara)
+        {
+            options =" Where " + options;
+        }
+
+
+        LinkedList<Transaction> transactionList = new LinkedList<Transaction>();
+
+
+        return  "select * from devmgt_isg9251.transaction " + options;
+
+
+    }
+
+    @GET
+    @Path("/searchtransactions/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<Transaction> searchTransactions(@Context UriInfo parameters) throws SQLException {
+
+        String userId = parameters.getQueryParameters().getFirst("userId");
+        String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+        String statusId = parameters.getQueryParameters().getFirst("statusId");
+        String options = null;
+        boolean firstPara = false;
+
+        if (userId !=null)
+        {
+            options = " u_id = '" + userId +"' ";
+            firstPara =true;
+        }
+
+        if (deviceId !=null)
+        {
+            if (firstPara==false) {
+                options = " d_id = '" + deviceId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND d_id = '" + deviceId + "' ";
+            }
+
+        }
+
+        if (statusId !=null)
+        {
+            if (firstPara==false) {
+                options = " ts_id = '" + statusId + "' ";
+                firstPara = true;
+            }else
+            {
+                options = options +  " AND ts_id = '" + statusId + "' ";
+            }
+
+        }
+        if(firstPara)
+        {
+            options =" Where " + options;
+        }
+
+
+        LinkedList<Transaction> transactionList = new LinkedList<Transaction>();
+
+        Statement statement = connection.createStatement();
+        String query = "select * from devmgt_isg9251.transaction " + options;
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {

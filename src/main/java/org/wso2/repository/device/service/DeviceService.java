@@ -167,7 +167,7 @@ public class DeviceService
         LinkedList deviceList=new LinkedList();
         //Device device=new Device();
         Statement statement = connection.createStatement();
-        String query ="select * from devmgt_isg9251.device where d_name like '%b%'";
+        String query ="select * from devmgt_isg9251.device";
         ResultSet resultSet = statement.executeQuery(query);
 
 

@@ -32,10 +32,9 @@ public class UserService {
     @GET
     @Path("/getuser/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
-
     public User getUser(@PathParam("id") String id) throws SQLException {
 
-        java.sql.Statement statement= connection.createStatement();
+        Statement statement= connection.createStatement();
         String query="select * from devmgt_isg9251.user where u_id= "+id;
 
         User user=new User();
@@ -90,6 +89,65 @@ public class UserService {
 
         return userList;
     }
+
+    @GET
+    @Path("/test/{id}/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getUsers(@PathParam("id") String id) throws SQLException {
+
+        Exception ex =null;
+        try
+        {
+
+        Statement statement= connection.createStatement();
+        String query="select * from devmgt_isg9251.user where u_id= "+id;
+
+        User user=new User();
+
+        ResultSet resultSet;
+        resultSet = statement.executeQuery(query);
+
+
+        while (resultSet.next()) {
+
+            user.setUserId(resultSet.getString("u_id"));
+            user.setUserFname(resultSet.getString("first_name"));
+            user.setUserLname(resultSet.getString("last_name"));
+            user.setUsername(resultSet.getString("username"));
+            user.setPasssword( resultSet.getString("password"));
+            user.setEmail( resultSet.getString("email"));
+            user.setTelNo( resultSet.getString("tel_no"));
+            user.setDescription(resultSet.getString("description"));
+
+        }
+        }
+        catch (Exception e)
+        {
+            ex=e;
+        }
+        finally {
+            return ex.toString();
+        }
+
+      //  return user;
+    }
+
+   /*
+    @POST
+    @Path("/addduser/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addDevice(User user) throws SQLException {
+
+        Statement statement = connection.createStatement();
+
+        String query = "insert into devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId()+"','"+user.getUserFname()+"','" + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
+
+        statement.execute(query);
+        return Response.ok().status(201).build();
+
+    }
+
+*/
 
 
     final void init(){

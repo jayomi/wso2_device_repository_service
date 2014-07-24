@@ -15,11 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-/**
- * Created by jayomi on 7/24/14.
- */
-@Path("/user/")
 
+@Path("/user/")
 public class UserService {
 
     Connection connection;

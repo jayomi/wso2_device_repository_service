@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 
 @Path("/user/")
@@ -87,13 +88,13 @@ public class UserService
         return user;
 
     }
-/*
-    @GET
-    @Path("/getdevicetypes/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<DeviceType> getDevices() throws SQLException {
 
-        LinkedList<DeviceType> deviceTypeList = new LinkedList<DeviceType>();
+    @GET
+    @Path("/getUsers/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<User> getDevices() throws SQLException {
+
+        LinkedList<User> userList = new LinkedList<User>();
 
 
         Statement statement = connection.createStatement();
@@ -101,17 +102,22 @@ public class UserService
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {
-            DeviceType deviceType = new DeviceType();
-            deviceType.setDeviceTypeId(resultSet.getString("t_id"));
-            deviceType.setDeviceTypeName(resultSet.getString("type"));
-            deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
-            deviceTypeList.add(deviceType);
+           User user = new User();
+            user.setUserId(resultSet.getString("u_id"));
+            user.setUserFname(resultSet.getString("first_name"));
+            user.setUserLname(resultSet.getString("last_name"));
+            user.setUsername(resultSet.getString("username"));
+            user.setPasssword( resultSet.getString("password"));
+            user.setEmail(resultSet.getString("email"));
+            user.setTelNo(resultSet.getString("tel_no"));
+            user.setDescription(resultSet.getString("description"));
+            userList.add(user);
         }
-        return deviceTypeList;
+        return userList;
 
     }
 
-
+/*
     @POST
     @Path("/adddevicetype/")
     @Consumes(MediaType.APPLICATION_JSON)

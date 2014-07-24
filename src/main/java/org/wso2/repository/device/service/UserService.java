@@ -17,11 +17,12 @@ import java.util.LinkedList;
 /**
  * Created by jayomi on 7/24/14.
  */
+@Path("/user/")
 public class UserService {
 
     Connection connection;
 
-    public UserService(Connection connection) {
+    public UserService() {
        init();
     }
 

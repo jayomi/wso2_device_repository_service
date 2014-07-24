@@ -95,29 +95,41 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsers(@PathParam("id") String id) throws SQLException {
 
+        int x = 0;
         Exception ex =null;
         try
         {
 
         Statement statement= connection.createStatement();
-        String query="select * from devmgt_isg9251.user where u_id= "+id;
-
+        x++;
+        String query="select * from devmgt_isg9251.user ";
+        x++;
         User user=new User();
-
+            x++;
         ResultSet resultSet;
+            x++;
         resultSet = statement.executeQuery(query);
+            x++;
 
 
         while (resultSet.next()) {
-
+            x++;
             user.setUserId(resultSet.getString("u_id"));
+            x++;
             user.setUserFname(resultSet.getString("first_name"));
+            x++;
             user.setUserLname(resultSet.getString("last_name"));
+            x++;
             user.setUsername(resultSet.getString("username"));
+            x++;
             user.setPasssword( resultSet.getString("password"));
+            x++;
             user.setEmail( resultSet.getString("email"));
+            x++;
             user.setTelNo( resultSet.getString("tel_no"));
+            x++;
             user.setDescription(resultSet.getString("description"));
+            x++;
 
         }
         }
@@ -126,7 +138,7 @@ public class UserService {
             ex=e;
         }
         finally {
-            return ex.toString();
+            return x + "   errr  " + ex.toString();
         }
 
       //  return user;

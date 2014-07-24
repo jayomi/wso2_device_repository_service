@@ -4,11 +4,9 @@ import org.wso2.repository.device.data.User;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,7 +116,7 @@ public class UserService
 
     }
 
-/*
+
     @POST
     @Path("/adduser/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -126,7 +124,7 @@ public class UserService
 
         Statement statement = connection.createStatement();
 
-        String query = "insert into  devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUs + "' , '" + deviceType.getDeviceTypeDescription() + "')";
+        String query = "insert into  devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId() + "' , '" +user.getUserFname()+"' , '"+user.getUserLname()+ "' , '"+user.getUsername()+"' , '"+user.getPasssword()+ "' , '"+user.getEmail()+"' , '"+user.getTelNo()+"' , '"+user.getDescription()+"')";
 
         statement.execute(query);
         return Response.ok().status(201).build();
@@ -134,41 +132,41 @@ public class UserService
 
     }
 
+    /*
+        @PUT
+        @Path("/updatedevicetype/{id}/")
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
 
-    @PUT
-    @Path("/updatedevicetype/{id}/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
+            Statement statement = connection.createStatement();
 
-        Statement statement = connection.createStatement();
+            String query =null;
 
-        String query =null;
+            if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
+            {
+                query = "update devmgt_isg9251.device_type set t_description = '" +
+                        deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+                statement.execute(query);
+            }
 
-        if( deviceType.getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
-        {
-            query = "update devmgt_isg9251.device_type set t_description = '" +
-                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
-            statement.execute(query);
+            if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
+            {
+                query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
+                statement.execute(query);
+            }
+            if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
+            {
+                query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
+                        deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+                statement.execute(query);
+            }
+
+            return Response.ok().status(200).build();
+
+
         }
 
-        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
-        {
-            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
-            statement.execute(query);
-        }
-        if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
-        {
-            query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
-                    deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
-            statement.execute(query);
-        }
-
-        return Response.ok().status(200).build();
-
-
-    }
-
-*/
+    */
     final void init() {
 
         try {

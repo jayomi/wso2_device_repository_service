@@ -129,12 +129,11 @@ public class UserService
         statement.execute(query);
         return Response.ok().status(201).build();
 
-
     }
 
     /*
         @PUT
-        @Path("/updatedevicetype/{id}/")
+        @Path("/updateUser/{id}/")
         @Consumes(MediaType.APPLICATION_JSON)
         public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
 

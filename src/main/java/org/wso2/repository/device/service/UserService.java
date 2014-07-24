@@ -75,6 +75,13 @@ public class UserService
 
         while (resultSet.next()) {
             user.setUserId(resultSet.getString("u_id"));
+            user.setUserFname(resultSet.getString("first_name"));
+            user.setUserLname(resultSet.getString("last_name"));
+            user.setUsername(resultSet.getString("username"));
+            user.setPasssword( resultSet.getString("password"));
+            user.setEmail( resultSet.getString("email"));
+            user.setTelNo( resultSet.getString("tel_no"));
+            user.setDescription(resultSet.getString("description"));
 
         }
         return user;

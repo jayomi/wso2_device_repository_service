@@ -14,6 +14,7 @@ public class User{
     private String userFname;
     private String userLname;
     private String username;
+    private String passsword;
     private String email;
     private String telNo;
     private String description;
@@ -47,6 +48,14 @@ public class User{
     @XmlElement(name="username")
     public String getUsername() {
         return username;
+    }
+    @XmlElement(name="passsword")
+    public String getPasssword() {
+        return passsword;
+    }
+
+    public void setPasssword(String passsword) {
+        this.passsword = passsword;
     }
 
     public void setUsername(String username) {

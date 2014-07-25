@@ -8,7 +8,7 @@ public class DB {
 
     public static Connection getConnection() throws Exception{
         InitialContext context = new InitialContext();
-        DataSource dataSource = (DataSource) context.lookup("jdbc/DeviceMgt");
+        DataSource dataSource = (DataSource) context.lookup("jdbc/deviceRepoDS");
         return dataSource.getConnection();
 
 

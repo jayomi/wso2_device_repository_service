@@ -10,7 +10,7 @@ import java.util.LinkedList;
  */
 public interface DeviceDao {
 
-    void init();
+
     public Response deleteDevice(String id);
     public Device getDevice();
     public LinkedList<Device> getAllDevice();

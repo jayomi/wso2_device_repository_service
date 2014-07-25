@@ -45,7 +45,7 @@ public class DeviceService
        try {
            Connection con = DB.getConnection();
 
-       Statement statement = con.createStatement();
+            Statement statement = con.createStatement();
            String query = "select * from devmgt_isg9251.device where d_id =" +id;
            ResultSet resultSet = statement.executeQuery(query);
 

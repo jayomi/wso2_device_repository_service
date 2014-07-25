@@ -3,8 +3,6 @@ package org.wso2.repository.device.dao;
 import org.wso2.repository.device.data.Device;
 import org.wso2.repository.device.util.DB;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,25 +19,21 @@ public class DeviceDaoImpl implements DeviceDao{
    Device device;
    Connection connection;
 
-    public DeviceDaoImpl() {
-      init();
-    }
 
 
 
-
-
-    public void init() {
-        try {
-            InitialContext context = new InitialContext();
-            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-            connection = dataSource.getConnection();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+//
+//    public void init() {
+//        try {
+//            InitialContext context = new InitialContext();
+//            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
+//            connection = dataSource.getConnection();
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
     public Response deleteDevice(String id) {
 

@@ -70,7 +70,34 @@ public class DeviceDaoImpl implements DeviceDao{
     }
 
     public LinkedList<Device> getAllDevice() {
-        return null;
+
+        LinkedList<Device> deviceList = new LinkedList<Device>();
+        String strResponse=null;
+
+        Connection con = null;
+        try {
+            con = DB.getConnection();
+            Statement statement = con.createStatement();
+            String query = "select * from devmgt_isg9251.device ";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                Device device=new Device();
+                device.setDeviceId(resultSet.getString("d_id"));
+                device.setDeviceName(resultSet.getString("d_name"));
+                device.setDeviceDescription(resultSet.getString("d_description"));
+                device.setStatusId(resultSet.getString("s_id"));
+
+                deviceList.add(device);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+
+        }
+        return deviceList;
+
     }
 
     public LinkedList<Device> searchDevice() {
@@ -87,16 +114,18 @@ public class DeviceDaoImpl implements DeviceDao{
             System.out.println(device.getTypeId());
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "INSERT INTO devmgt_isg9251.device(d_name,d_description,s_id,t_id) VALUES('" + device.getDeviceName()
-                    + "','" + device.getDeviceDescription() + "','"
-                    + device.getStatusId() + "','" + device.getTypeId() + "')";
+//            String query = "INSERT INTO devmgt_isg9251.device(d_name,d_description,s_id,t_id) VALUES('" + device.getDeviceName()
+//                    + "','" + device.getDeviceDescription() + "','"
+//                    + device.getStatusId() + "','" + device.getTypeId() + "')";
+
+            String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
             System.out.println("OK");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ee) {
+            ee.printStackTrace();
             strResponse="Data Not Added";
         }finally{
             return strResponse;

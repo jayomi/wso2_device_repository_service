@@ -22,7 +22,7 @@ public class DeviceService
 {
 
     DeviceDao deviceDao;
-    Device device=new Device();
+    Device device;
 
     @DELETE
     @Path("/deletedevice/{id}/")
@@ -49,8 +49,9 @@ public class DeviceService
            String query = "select * from devmgt_isg9251.device where d_id =" +id;
            ResultSet resultSet = statement.executeQuery(query);
 
-           Device device = new Device();
+//           Device device = new Device();
 
+           device=new Device();
            while (resultSet.next()) {
 
                device.setDeviceId(resultSet.getString("d_id"));

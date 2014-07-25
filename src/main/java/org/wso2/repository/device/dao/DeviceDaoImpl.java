@@ -62,7 +62,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
 
 //get all devices
-    public String getDevices() {
+    public LinkedList<Device> getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
         String strResponse="";
@@ -86,11 +86,15 @@ public class DeviceDaoImpl implements DeviceDao{
                 deviceList.add(device);
             }
 
+            System.out.println("ok,Data Add");
+            return deviceList;
+
         } catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Added,Try Again.";
+            System.out.println("Data Not Added,Try Again.");
+
         }finally {
-            return strResponse;
+            return deviceList;
         }
 
 
@@ -98,7 +102,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
 //search method
 
-    public String searchDevice(UriInfo parameters) {
+    public LinkedList<Device> searchDevice(UriInfo parameters) {
 
         String strResponse="";
         LinkedList deviceList=new LinkedList();
@@ -174,13 +178,18 @@ public class DeviceDaoImpl implements DeviceDao{
             }
 
             strResponse="Ok,ExecuteQuery";
-            return strResponse;
+            System.out.println( strResponse);
+            return deviceList;
 
         }catch (Exception e) {
             e.printStackTrace();
             strResponse="Data Not Executed";
+            System.out.println( strResponse);
+
+        }finally{
+            return deviceList;
         }
-        return strResponse;
+
     }
 
     //add a device

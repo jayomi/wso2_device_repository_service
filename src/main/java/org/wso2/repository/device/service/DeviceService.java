@@ -8,6 +8,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -70,10 +71,10 @@ public class DeviceService
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDevices() throws SQLException {
 
-        String strResponse="";
+        
         deviceDao=new DeviceDaoImpl();
-        strResponse=deviceDao.getDevices();
-        return Response.ok(strResponse).build();
+        deviceDao.getDevices();
+        return Response.ok().status(200).build();
 
     }
 
@@ -82,11 +83,10 @@ public class DeviceService
     @GET
     @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchDevice(UriInfo parameters) throws SQLException {
-
+    public Response searchDevice(@Context UriInfo parameters) throws SQLException {
         deviceDao=new DeviceDaoImpl();
-        String strResponse=deviceDao.searchDevice(parameters);
-        return Response.ok(strResponse).build();
+        deviceDao.searchDevice(parameters);
+        return Response.ok().status(200).build();
 
     }
 
@@ -109,9 +109,10 @@ public class DeviceService
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDevice(Device device ,@PathParam("id") String id ) throws SQLException {
 
-        Connection con= null;
-
-        return Response.ok().status(200).build();
+        String strResponse="";
+        deviceDao=new DeviceDaoImpl();
+        strResponse=deviceDao.updateDevice(device,id);
+        return Response.ok(strResponse).build();
 
 
     }

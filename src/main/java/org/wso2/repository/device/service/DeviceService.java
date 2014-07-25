@@ -78,6 +78,7 @@ public class DeviceService
     }
 
 
+
     @GET
     @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)

@@ -24,22 +24,21 @@ public class DeviceDaoImpl implements DeviceDao{
         String strResponse="";
 
         try{
-
-            Statement statement = connection.createStatement();
+            Connection con = DB.getConnection();
+            Statement stmt = con.createStatement();
+            String schema= con.getSchema();
             String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
 
-            ResultSet resultSet = statement.executeQuery(strCount);
-
+            ResultSet resultSet = stmt.executeQuery(strCount);
             resultSet.next();
 
 
             if(resultSet.getInt("cnt") == 0)
             {
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
-                statement.execute(query);
-                strResponse="Data Add";
+                stmt.execute(query);
+                strResponse="Data Add"+schema;
                 System.out.println("ok");
-
             }
 
 
@@ -67,7 +66,6 @@ public class DeviceDaoImpl implements DeviceDao{
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
         String strResponse="";
-
         Connection con = null;
         try {
 

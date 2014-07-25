@@ -71,16 +71,19 @@ public class DeviceDaoImpl implements DeviceDao{
         return null;
     }
 
-    public LinkedList<Device> getAllDevice() {
+    public String getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
-        String strResponse=null;
+        String strResponse="";
 
         Connection con = null;
         try {
+
             con = DB.getConnection();
             Statement statement = con.createStatement();
             String query = "select * from devmgt_isg9251.device ";
+            strResponse="Data Added";
+            System.out.println("OK");
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -95,16 +98,114 @@ public class DeviceDaoImpl implements DeviceDao{
 
         } catch (Exception e) {
             e.printStackTrace();
+            strResponse="Data Not Added";
         }finally {
-
+            return strResponse;
         }
-        return deviceList;
+
 
     }
 
-    public LinkedList<Device> searchDevice() {
+
+
+
+//search method
+
+
+    public String searchDevice(String parameter) {
         return null;
     }
+
+  /*
+
+    public String searchDevice(String paramerter) {
+
+        String strResponse="";
+        LinkedList deviceList=new LinkedList();
+
+        try {
+            String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+            String deviceName = parameters.getQueryParameters().getFirst("deviceName");
+            String statusId = parameters.getQueryParameters().getFirst("statusId");
+            String typeId = parameters.getQueryParameters().getFirst("typeId");
+            String options = null;
+
+            Connection con=DB.getConnection();
+            Statement statement=con.createStatement();
+            String query ="select * from devmgt_isg9251.device";
+
+            boolean firstPara = false;
+
+            if (deviceId !=null)
+            {
+                options = " d_id = '" + deviceId +"' ";
+                firstPara =true;
+            }
+
+            if (deviceName !=null)
+            {
+                if (firstPara==false) {
+                    options = " d_name = '" + deviceName+ "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND d_name = '" + deviceName + "' ";
+                }
+
+            }
+
+            if (statusId !=null)
+            {
+                if (firstPara==false) {
+                    options = " s_id = '" + statusId + "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND s_id = '" + statusId + "' ";
+                }
+
+            }
+            if (typeId !=null)
+            {
+                if (firstPara==false) {
+                    options = " t_id = '" + typeId + "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND t_id = '" + typeId + "' ";
+                }
+
+            }
+            if(firstPara)
+            {
+                query = query + " Where " + options;
+            }
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+
+                Device device=new Device();
+                device.setDeviceId(resultSet.getString("d_id"));
+                device.setDeviceName(resultSet.getString("d_name"));
+                device.setDeviceDescription(resultSet.getString("d_description"));
+                device.setStatusId(resultSet.getString("s_id"));
+                device.setTypeId(resultSet.getString("t_id"));
+                deviceList.add(device);
+            }
+
+            strResponse="Ok,ExecuteQuery";
+            return strResponse;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            strResponse="Data Not Execute";
+        }
+        return strResponse;
+    }
+
+    */
+
+    //add a device
 
     public String addDevice(Device device) {
 

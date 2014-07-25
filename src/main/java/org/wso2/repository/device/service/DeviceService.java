@@ -36,7 +36,7 @@ public class DeviceService
 
 
     }
-
+/*
 
    @GET
    @Path("/getdevice/{id}/")
@@ -69,93 +69,19 @@ public class DeviceService
        return device;
 
    }
-
+*/
     @GET
     @Path("/getdevices/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> getDevices() throws SQLException {
+    public Response getDevices() throws SQLException {
 
-        LinkedList<Device> deviceList = new LinkedList<Device>();
-
-
-        Connection con = null;
-        try {
-            con = DB.getConnection();
-
-
-        Statement statement = con.createStatement();
-        String query = "select * from devmgt_isg9251.device ";
-        ResultSet resultSet = statement.executeQuery(query);
-
-        while (resultSet.next()) {
-            Device device=new Device();
-            device.setDeviceId(resultSet.getString("d_id"));
-            device.setDeviceName(resultSet.getString("d_name"));
-            device.setDeviceDescription(resultSet.getString("d_description"));
-            device.setStatusId(resultSet.getString("s_id"));
-
-            deviceList.add(device);
-        }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return deviceList;
+        String strResponse="";
+        deviceDao=new DeviceDaoImpl();
+        strResponse=deviceDao.getDevices();
+        return Response.ok(strResponse).build();
 
     }
 
-    /*
-    public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {
-
-            try {
-
-                //create statement
-                Statement statement = connection.createStatement();
-
-               query= "select * from devmgt_isg9251.device";
-
-                //query
-                ResultSet Result = null;
-                boolean Returning_Rows = statement.execute(query);
-                if (Returning_Rows)
-                     Result = statement.getResultSet();
-                else
-                    return new ArrayList<HashMap<String,Object>>();
-
-                //get metadata
-                ResultSetMetaData Meta =Result.getMetaData();
-
-
-                //get column names
-                int Col_Count = Meta.getColumnCount();
-                ArrayList<String> Cols = new ArrayList<String>();
-                for (int Index=1; Index<=Col_Count; Index++)
-                    Cols.add(Meta.getColumnName(Index));
-
-                //fetch out rows
-                ArrayList<HashMap<String,Object>> Rows =
-                        new ArrayList<HashMap<String,Object>>();
-
-                while (Result.next()) {
-                    HashMap<String,Object> Row = new HashMap<String,Object>();
-                    for (String Col_Name:Cols) {
-                        Object Val = Result.getObject(Col_Name);
-                        Row.put(Col_Name,Val);
-                    }
-                    Rows.add(Row);
-                }
-                //close statement
-                statement.close();
-
-                //pass back rows
-                return Rows;
-            }
-            catch (Exception Ex) {
-                System.out.print(Ex.getMessage());
-                return new ArrayList<HashMap<String,Object>>();
-            }
-     }
-*/
 
     @GET
     @Path("/searchdevice/")

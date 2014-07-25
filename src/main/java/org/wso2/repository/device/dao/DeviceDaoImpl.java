@@ -16,6 +16,7 @@ public class DeviceDaoImpl implements DeviceDao{
    Device device;
    Connection connection;
 
+
 //delete a device
 
     public String deleteDevice(String id) {
@@ -25,7 +26,7 @@ public class DeviceDaoImpl implements DeviceDao{
         try{
 
             Statement statement = connection.createStatement();
-            String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
+            String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
 
@@ -45,12 +46,21 @@ public class DeviceDaoImpl implements DeviceDao{
         }catch (SQLException e) {
             e.printStackTrace();
 
+
         }finally {
-            strResponse="Data Not Added";
+            strResponse="Not Executed the Query.";
             return strResponse;
+
         }
 
     }
+
+    public Device getDevice() {
+        return null;
+    }
+
+    //get a device
+
 
 //get all devices
     public String getDevices() {

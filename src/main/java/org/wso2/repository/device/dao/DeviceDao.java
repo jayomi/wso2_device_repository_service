@@ -11,7 +11,7 @@ public interface DeviceDao {
 
 
     public String deleteDevice(String id);
-    //public Device getDevice();
+    public Device getDevice();
     public String getDevices();
     public String searchDevice(UriInfo parameters);
     public String addDevice(Device device);

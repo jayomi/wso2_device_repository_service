@@ -31,7 +31,7 @@ public class DeviceService
       String strResponse;
       deviceDao=new DeviceDaoImpl();
 
-        strResponse=deviceDao.deleteDevice(id);
+       strResponse=deviceDao.deleteDevice(id);
        return Response.ok(strResponse).build();
 
 

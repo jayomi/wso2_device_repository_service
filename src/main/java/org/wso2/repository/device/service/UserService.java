@@ -135,28 +135,28 @@ public class UserService
         @PUT
         @Path("/updateUser/{id}/")
         @Consumes(MediaType.APPLICATION_JSON)
-        public Response updateDevice(DeviceType deviceType ,@PathParam("id") String id ) throws SQLException {
+        public Response updateDevice(User user ,@PathParam("id") String id ) throws SQLException {
 
             Statement statement = connection.createStatement();
 
             String query =null;
 
-            if( .getDeviceTypeName()==null &&  deviceType.getDeviceTypeDescription()!= null)
+            if( .getUserName()==null &&  user.getUserDescription()!= null)
             {
                 query = "update devmgt_isg9251.device_type set t_description = '" +
-                        deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
-                statement.execute(query);
+                        user.getUserDescription() + "' WHERE t_id =" + id;
+                statement.execul,te(query);
             }
 
-            if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()== null)
+            if( user.getUserName()!=null &&  user.getUserDescription()== null)
             {
-                query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"'  WHERE t_id =" + id;
+                query = "update devmgt_isg9251.device_type set type ='"+user.getUserName() +"'  WHERE t_id =" + id;
                 statement.execute(query);
             }
-            if( deviceType.getDeviceTypeName()!=null &&  deviceType.getDeviceTypeDescription()!= null)
+            if( user.getUserName()!=null &&  user.getUserDescription()!= null)
             {
-                query = "update devmgt_isg9251.device_type set type ='"+deviceType.getDeviceTypeName() +"' , t_description = '" +
-                        deviceType.getDeviceTypeDescription() + "' WHERE t_id =" + id;
+                query = "update devmgt_isg9251.device_type set type ='"+user.getUserName() +"' , t_description = '" +
+                        user.getUserDescription() + "' WHERE t_id =" + id;
                 statement.execute(query);
             }
 

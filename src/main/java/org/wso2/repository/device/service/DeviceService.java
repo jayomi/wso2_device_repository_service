@@ -81,30 +81,28 @@ public class DeviceService
    }
 
     @GET
-    @Path("/getall/")
+    @Path("/getdevices/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> getAllDevice() throws SQLException {
+    public LinkedList<Device> getDevices() throws SQLException {
 
-        LinkedList deviceList=new LinkedList();
-        Device device=new Device();
+        LinkedList<Device> deviceList = new LinkedList<Device>();
+
+
         Statement statement = connection.createStatement();
-        String query ="select * from devmgt_isg9251.device";
+        String query = "select * from devmgt_isg9251.device ";
         ResultSet resultSet = statement.executeQuery(query);
 
-
         while (resultSet.next()) {
-
+            Device device=new Device();
             device.setDeviceId(resultSet.getString("d_id"));
             device.setDeviceName(resultSet.getString("d_name"));
             device.setDeviceDescription(resultSet.getString("d_description"));
-            device.setTypeId(resultSet.getString("t_id"));
+            device.setStatusId(resultSet.getString("s_id"));
             deviceList.add(device);
-
         }
-
         return deviceList;
-    }
 
+    }
 
     /*
     public ArrayList<HashMap<String,Object>> getAll(String query) throws SQLException {

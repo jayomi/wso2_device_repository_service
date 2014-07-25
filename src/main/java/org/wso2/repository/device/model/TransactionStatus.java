@@ -1,4 +1,4 @@
-package org.wso2.repository.device.data;
+package org.wso2.repository.device.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

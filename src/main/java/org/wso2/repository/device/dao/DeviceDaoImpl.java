@@ -1,6 +1,6 @@
 package org.wso2.repository.device.dao;
 
-import org.wso2.repository.device.data.Device;
+import org.wso2.repository.device.model.Device;
 import org.wso2.repository.device.util.DB;
 
 import javax.ws.rs.core.Response;
@@ -20,8 +20,6 @@ public class DeviceDaoImpl implements DeviceDao{
    Connection connection;
 
 
-
-
 //
 //    public void init() {
 //        try {
@@ -35,7 +33,9 @@ public class DeviceDaoImpl implements DeviceDao{
 //        }
 //    }
 
-    public Response deleteDevice(String id) {
+    public String deleteDevice(String id) {
+
+        String strResponse="";
 
         try{
 
@@ -46,23 +46,25 @@ public class DeviceDaoImpl implements DeviceDao{
 
             resultSet.next();
 
+
             if(resultSet.getInt("cnt") == 0)
             {
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 statement.execute(query);
-                return Response.ok().status(200).build();
+                strResponse="Data Add";
+                System.out.println("ok");
 
             }
-            else
-            {
-                return Response.ok().status(405).build();
 
-            }
 
         }catch (SQLException e) {
             e.printStackTrace();
+
+        }finally {
+            strResponse="Data Not Added";
+            return strResponse;
         }
-        return null;
+
     }
 
     public Device getDevice() {
@@ -130,6 +132,7 @@ public class DeviceDaoImpl implements DeviceDao{
         }finally{
             return strResponse;
         }
+
     }
 
     public Response updateDevice(Device device) {

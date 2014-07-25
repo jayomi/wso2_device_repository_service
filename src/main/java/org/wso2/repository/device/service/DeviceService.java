@@ -2,7 +2,7 @@ package org.wso2.repository.device.service;
 
 import org.wso2.repository.device.dao.DeviceDao;
 import org.wso2.repository.device.dao.DeviceDaoImpl;
-import org.wso2.repository.device.data.Device;
+import org.wso2.repository.device.model.Device;
 import org.wso2.repository.device.util.DB;
 
 import javax.ws.rs.*;
@@ -28,9 +28,12 @@ public class DeviceService
     @Path("/deletedevice/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {
 
+      String strResponse;
       deviceDao=new DeviceDaoImpl();
 
-        return null;
+        strResponse=deviceDao.deleteDevice(id);
+       return Response.ok(strResponse).build();
+
 
     }
 

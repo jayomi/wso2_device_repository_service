@@ -1,6 +1,6 @@
 package org.wso2.repository.device.service;
 
-import org.wso2.repository.device.data.DeviceType;
+import org.wso2.repository.device.model.DeviceType;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;

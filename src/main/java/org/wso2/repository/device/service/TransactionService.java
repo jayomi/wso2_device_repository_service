@@ -1,8 +1,8 @@
 package org.wso2.repository.device.service;
 
 
-import org.wso2.repository.device.data.Transaction;
-import org.wso2.repository.device.data.TransactionStatus;
+import org.wso2.repository.device.model.Transaction;
+import org.wso2.repository.device.model.TransactionStatus;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;

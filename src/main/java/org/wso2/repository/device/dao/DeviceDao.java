@@ -1,6 +1,6 @@
 package org.wso2.repository.device.dao;
 
-import org.wso2.repository.device.data.Device;
+import org.wso2.repository.device.model.Device;
 
 import javax.ws.rs.core.Response;
 import java.util.LinkedList;
@@ -11,8 +11,8 @@ import java.util.LinkedList;
 public interface DeviceDao {
 
 
-    public Response deleteDevice(String id);
-    public Device getDevice();
+    public String deleteDevice(String id);
+    //public Device getDevice();
     public LinkedList<Device> getAllDevice();
     public LinkedList<Device> searchDevice();
     public String addDevice(Device device);

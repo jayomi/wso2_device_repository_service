@@ -1,6 +1,7 @@
 package org.wso2.repository.device.dao;
 
 import org.wso2.repository.device.data.Device;
+import org.wso2.repository.device.util.DB;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -82,8 +83,30 @@ public class DeviceDaoImpl implements DeviceDao{
         return null;
     }
 
-    public Response addDevice(Device device) {
-        return null;
+    public String addDevice(Device device) {
+
+        String strResponse = null;
+        try {
+
+
+            System.out.println(device.getStatusId());
+            System.out.println(device.getTypeId());
+            Connection con = DB.getConnection();
+            Statement stmt = con.createStatement();
+            String query = "INSERT INTO devmgt_isg9251.device(d_name,d_description,s_id,t_id) VALUES('" + device.getDeviceName()
+                    + "','" + device.getDeviceDescription() + "','"
+                    + device.getStatusId() + "','" + device.getTypeId() + "')";
+
+            stmt.executeUpdate(query);
+            strResponse="Data Added";
+            System.out.println("OK");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            strResponse="Data Not Added";
+        }finally{
+            return strResponse;
+        }
     }
 
     public Response updateDevice(Device device) {

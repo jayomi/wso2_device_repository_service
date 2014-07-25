@@ -15,6 +15,6 @@ public interface DeviceDao {
     public Device getDevice();
     public LinkedList<Device> getAllDevice();
     public LinkedList<Device> searchDevice();
-    public Response addDevice(Device device);
+    public String addDevice(Device device);
     public Response updateDevice(Device device);
 }

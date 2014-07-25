@@ -1,9 +1,10 @@
 package org.wso2.repository.device.service;
 
+import org.wso2.repository.device.dao.DeviceDao;
+import org.wso2.repository.device.dao.DeviceDaoImpl;
 import org.wso2.repository.device.data.Device;
+import org.wso2.repository.device.util.DB;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,38 +21,17 @@ import java.util.LinkedList;
 public class DeviceService
 {
 
-    Connection connection;
-
-    public DeviceService() {
-        init();
-    }
+    DeviceDao deviceDao;
+    Device device=new Device();
 
     @DELETE
     @Path("/deletedevice/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws SQLException {
 
-        int intId = Integer.parseInt(id);
+      deviceDao=new DeviceDaoImpl();
 
+        return null;
 
-        Statement statement = connection.createStatement();
-        String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
-
-        ResultSet resultSet = statement.executeQuery(strCount);
-
-        resultSet.next();
-
-        if(resultSet.getInt("cnt") == 0)
-        {
-            String query = "delete from devmgt_isg9251.device where d_id =" +id;
-            statement.execute(query);
-            return Response.ok().status(200).build();
-
-        }
-        else
-        {
-            return Response.ok().status(405).build();
-
-        }
     }
 
 
@@ -62,8 +42,10 @@ public class DeviceService
 
         int intId = Integer.parseInt(id);
 
+       try {
+           Connection con = DB.getConnection();
 
-           Statement statement = connection.createStatement();
+       Statement statement = con.createStatement();
            String query = "select * from devmgt_isg9251.device where d_id =" +id;
            ResultSet resultSet = statement.executeQuery(query);
 
@@ -75,7 +57,11 @@ public class DeviceService
                device.setDeviceName(resultSet.getString("d_name"));
                device.setDeviceDescription(resultSet.getString("d_description"));
                device.setStatusId(resultSet.getString("s_id"));
+               device.setStatusId(resultSet.getString("t_id"));
            }
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
        return device;
 
    }
@@ -88,7 +74,12 @@ public class DeviceService
         LinkedList<Device> deviceList = new LinkedList<Device>();
 
 
-        Statement statement = connection.createStatement();
+        Connection con = null;
+        try {
+            con = DB.getConnection();
+
+
+        Statement statement = con.createStatement();
         String query = "select * from devmgt_isg9251.device ";
         ResultSet resultSet = statement.executeQuery(query);
 
@@ -98,7 +89,12 @@ public class DeviceService
             device.setDeviceName(resultSet.getString("d_name"));
             device.setDeviceDescription(resultSet.getString("d_description"));
             device.setStatusId(resultSet.getString("s_id"));
+
             deviceList.add(device);
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return deviceList;
 
@@ -221,7 +217,12 @@ public class DeviceService
 
         LinkedList deviceList=new LinkedList();
         //Device device=new Device();
-        Statement statement = connection.createStatement();
+        Connection con = null;
+        try {
+            con = DB.getConnection();
+
+
+        Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
 
@@ -235,6 +236,9 @@ public class DeviceService
             device.setTypeId(resultSet.getString("t_id"));
             deviceList.add(device);
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return deviceList;
     }
 
@@ -243,12 +247,11 @@ public class DeviceService
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addDevice(Device device) throws SQLException {
 
-        Statement statement = connection.createStatement();
+        String strResponse="";
+        deviceDao=new DeviceDaoImpl();
+        strResponse=deviceDao.addDevice(device);
 
-        String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
-
-        statement.execute(query);
-        return Response.ok().status(201).build();
+        return Response.ok(strResponse).build();
 
     }
 
@@ -259,7 +262,11 @@ public class DeviceService
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDevice(Device device ,@PathParam("id") String id ) throws SQLException {
 
-        Statement statement = connection.createStatement();
+        Connection con= null;
+        try {
+            con = DB.getConnection();
+
+        Statement statement = con.createStatement();
 
         String query =null;
 
@@ -313,6 +320,10 @@ public class DeviceService
 
         }
         statement.execute(query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return Response.ok().status(200).build();
 
 
@@ -323,9 +334,9 @@ public class DeviceService
     final void init() {
 
         try {
-           InitialContext context = new InitialContext();
-           DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-           connection = dataSource.getConnection();
+//           InitialContext context = new InitialContext();
+//           DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
+//           connection = dataSource.getConnection();
         }
         catch(Exception e)
         {

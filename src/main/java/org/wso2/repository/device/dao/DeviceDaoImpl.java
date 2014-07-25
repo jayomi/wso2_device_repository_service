@@ -3,7 +3,7 @@ package org.wso2.repository.device.dao;
 import org.wso2.repository.device.model.Device;
 import org.wso2.repository.device.util.DB;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,27 +11,12 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 
-/**
- * Created by jayomi on 7/25/14.
- */
 public class DeviceDaoImpl implements DeviceDao{
 
    Device device;
    Connection connection;
 
-
-//
-//    public void init() {
-//        try {
-//            InitialContext context = new InitialContext();
-//            DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-//            connection = dataSource.getConnection();
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
+//delete a device
 
     public String deleteDevice(String id) {
 
@@ -67,10 +52,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
     }
 
-    public Device getDevice() {
-        return null;
-    }
-
+//get all devices
     public String getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
@@ -98,7 +80,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
         } catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Added";
+            strResponse="Data Not Added,Try Again.";
         }finally {
             return strResponse;
         }
@@ -106,19 +88,9 @@ public class DeviceDaoImpl implements DeviceDao{
 
     }
 
-
-
-
 //search method
 
-
-    public String searchDevice(String parameter) {
-        return null;
-    }
-
-  /*
-
-    public String searchDevice(String paramerter) {
+    public String searchDevice(UriInfo parameters) {
 
         String strResponse="";
         LinkedList deviceList=new LinkedList();
@@ -198,15 +170,12 @@ public class DeviceDaoImpl implements DeviceDao{
 
         }catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Execute";
+            strResponse="Data Not Executed";
         }
         return strResponse;
     }
 
-    */
-
     //add a device
-
     public String addDevice(Device device) {
 
         String strResponse = null;
@@ -217,10 +186,6 @@ public class DeviceDaoImpl implements DeviceDao{
             System.out.println(device.getTypeId());
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-//            String query = "INSERT INTO devmgt_isg9251.device(d_name,d_description,s_id,t_id) VALUES('" + device.getDeviceName()
-//                    + "','" + device.getDeviceDescription() + "','"
-//                    + device.getStatusId() + "','" + device.getTypeId() + "')";
-
             String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
 
             stmt.executeUpdate(query);
@@ -236,7 +201,71 @@ public class DeviceDaoImpl implements DeviceDao{
 
     }
 
-    public Response updateDevice(Device device) {
-        return null;
+    //update a device
+    public String updateDevice(Device device,String id) {
+
+        LinkedList<String> listColumns= new LinkedList<String>();
+        LinkedList<String> listValues= new LinkedList<String>();
+        String strResponse=null;
+
+        try {
+            Connection con = DB.getConnection();
+            Statement statement = con.createStatement();
+
+            String query =null;
+
+            if( device.getDeviceId()!=null) {
+                listColumns.add("d_id");
+                listValues.add(device.getDeviceId());
+            }
+            if( device.getDeviceName()!=null) {
+                listColumns.add("d_name");
+                listValues.add(device.getDeviceName());
+            }
+
+            if( device.getDeviceDescription()!=null) {
+                listColumns.add("d_description");
+                listValues.add(device.getDeviceDescription());
+            }
+
+            if( device.getStatusId()!=null) {
+                listColumns.add("s_id");
+                listValues.add(device.getStatusId());
+            }
+            if( device.getTypeId()!=null) {
+                listColumns.add("t_id");
+                listValues.add(device.getTypeId());
+            }
+
+
+            for (int x= 0;x<listColumns.size();x++) {
+
+                if(x==0)
+                {
+                    query = "update devmgt_isg9251.device set ";
+                }
+
+                if(x!=(listColumns.size()-1))
+                {
+                    query = query + listColumns.get(x) + " = '";
+                    query = query + listValues.get(x) + "' , ";
+                }
+                else{
+                    query = query + listColumns.get(x) + " = '";
+                    query = query + listValues.get(x)+ "' WHERE d_id = " + id;
+                }
+
+            }
+            statement.execute(query);
+            strResponse="Ok,Execute Query";
+            return strResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            strResponse="Data Not Executed";
+            return strResponse;
+        }finally {
+            return strResponse;
+        }
     }
 }

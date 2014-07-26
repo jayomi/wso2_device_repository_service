@@ -116,14 +116,13 @@ public class UserDaoImple implements UserDao {
     }
 
     public String addUser(User user) {
+
         String strResponse = null;
         try {
 
-
-
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId()+ "','" + user.getUserFname() +"' , '"+user.getUserLname()+"' , '"+user.getUsername()+"','"+user.getPasssword()+"','"+user.getEmail()+"','"+user.getTelNo()+"','"+user.getDescription()+"')";
+            String query = "insert into devmgt_isg9251.user (u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId()+ "','" + user.getUserFname() +"' , '"+user.getUserLname()+"' , '"+user.getUsername()+"','"+user.getPasssword()+"','"+user.getEmail()+"','"+user.getTelNo()+"','"+user.getDescription()+"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
@@ -139,6 +138,81 @@ public class UserDaoImple implements UserDao {
     }
 
     public String updateUser(User user, String id) {
-        return null;
+        LinkedList<String> listColumns= new LinkedList<String>();
+        LinkedList<String> listValues= new LinkedList<String>();
+        String strResponse=null;
+
+        try {
+            Connection con = DB.getConnection();
+            Statement statement = con.createStatement();
+
+            String query =null;
+
+            if( user.getUserId()!=null) {
+                listColumns.add("u_id");
+                listValues.add(user.getUserId());
+            }
+            if( user.getUserFname()!=null) {
+                listColumns.add("first_name");
+                listValues.add(user.getUserFname());
+            }
+
+            if( user.getUserLname()!=null) {
+                listColumns.add("last_name");
+                listValues.add(user.getUserLname());
+            }
+
+            if( user.getUsername()!=null) {
+                listColumns.add("username");
+                listValues.add(user.getUsername());
+            }
+            if( user.getPasssword()!=null) {
+                listColumns.add("password");
+                listValues.add(user.getPasssword());
+            }
+            if( user.getEmail()!=null) {
+                listColumns.add("email");
+                listValues.add(user.getEmail());
+            }
+            if( user.getTelNo()!=null) {
+                listColumns.add("tel_no");
+                listValues.add(user.getTelNo());
+            }
+            if( user.getDescription()!=null) {
+                listColumns.add("description");
+                listValues.add(user.getDescription());
+            }
+
+
+            for (int x= 0;x<listColumns.size();x++) {
+
+                if(x==0)
+                {
+                    query = "update devmgt_isg9251.user set ";
+                }
+
+                if(x!=(listColumns.size()-1))
+                {
+                    query = query + listColumns.get(x) + " = '";
+                    query = query + listValues.get(x) + "' , ";
+                }
+                else{
+                    query = query + listColumns.get(x) + " = '";
+                    query = query + listValues.get(x)+ "' WHERE u_id = " + id;
+                }
+
+            }
+            statement.execute(query);
+            strResponse="Ok,Executed the Query";
+            return strResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            strResponse="Data Not Executed";
+            return strResponse;
+        }finally {
+            return strResponse;
+        }
+       }
     }
-}
+

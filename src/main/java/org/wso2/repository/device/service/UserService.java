@@ -1,21 +1,15 @@
-package org.wso2.repository.user.service;
+package org.wso2.repository.device.service;
 
 import org.wso2.repository.device.dao.UserDao;
 import org.wso2.repository.device.dao.UserDaoImple;
 import org.wso2.repository.device.model.User;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedList;
 
 
@@ -51,7 +45,7 @@ public class UserService
         return userList;
 
     }
-/*
+
     @POST
     @Path("/adduser/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,13 +53,13 @@ public class UserService
 
         String strResponse="";
         userDao=new UserDaoImple();
-        strResponse=userDao.adduser(user);
+        strResponse=userDao.addUser(user);
 
         return Response.ok(strResponse).build();
 
     }
 
-
+/*
     @PUT
     @Path("/updateuser/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)

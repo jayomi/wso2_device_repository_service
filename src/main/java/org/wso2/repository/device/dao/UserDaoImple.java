@@ -14,6 +14,7 @@ import java.util.LinkedList;
  */
 public class UserDaoImple implements UserDao {
 
+    User user;
 
     public LinkedList<User> getUsers(UriInfo parameters) {
 
@@ -115,7 +116,26 @@ public class UserDaoImple implements UserDao {
     }
 
     public String addUser(User user) {
-        return null;
+        String strResponse = null;
+        try {
+
+
+
+            Connection con = DB.getConnection();
+            Statement stmt = con.createStatement();
+            String query = "insert into devmgt_isg9251.user(u_id,first_name,last_name,username,password,email,tel_no,description) values ('" + user.getUserId()+ "','" + user.getUserFname() +"' , '"+user.getUserLname()+"' , '"+user.getUsername()+"','"+user.getPasssword()+"','"+user.getEmail()+"','"+user.getTelNo()+"','"+user.getDescription()+"')";
+
+            stmt.executeUpdate(query);
+            strResponse="Data Added";
+
+
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            strResponse="Data Not Added";
+        }finally{
+            return strResponse;
+        }
+
     }
 
     public String updateUser(User user, String id) {

@@ -18,7 +18,7 @@ public class User{
 
 
     @XmlElement(name="userId")
-    public String getUserId(String u_id) {return userId;
+    public String getUserId() {return userId;
     }
 
     public void setUserId(String userId) {
@@ -26,7 +26,7 @@ public class User{
     }
 
     @XmlElement(name="userFname")
-    public String getUserFname(String userFname) {
+    public String getUserFname() {
         return userFname;
     }
 

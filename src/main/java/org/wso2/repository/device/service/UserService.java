@@ -7,7 +7,10 @@ import org.wso2.repository.device.model.User;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 
@@ -59,6 +62,17 @@ public class UserService
         LinkedList userList=new LinkedList();
         userDao=new UserDaoImple();
         userList=userDao.getUsers();
+        return userList;
+
+    }
+
+    @GET
+    @Path("/searchuser/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<User> searchuser(@Context UriInfo parameters) throws SQLException {
+        LinkedList userList=new LinkedList();
+        userDao=new UserDaoImple();
+        userList=userDao.searchUser(parameters);
         return userList;
 
     }

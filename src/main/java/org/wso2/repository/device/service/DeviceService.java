@@ -70,12 +70,12 @@ public class DeviceService
     @GET
     @Path("/getdevices/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDevices() throws SQLException {
+    public LinkedList<Device> getDevices() throws SQLException {
 
-
+        LinkedList deviceList=new LinkedList();
         deviceDao=new DeviceDaoImpl();
-        deviceDao.getDevices();
-        return Response.ok().status(200).build();
+        deviceList=deviceDao.getDevices();
+        return deviceList;
 
     }
 

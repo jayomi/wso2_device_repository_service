@@ -80,19 +80,22 @@ public class DeviceDaoImpl implements DeviceDao{
                 device.setDeviceId(resultSet.getString("d_id"));
                 device.setDeviceName(resultSet.getString("d_name"));
                 device.setDeviceDescription(resultSet.getString("d_description"));
+                device.setTypeId(resultSet.getString("t_id"));
                 device.setStatusId(resultSet.getString("s_id"));
 
                 deviceList.add(device);
             }
 
-            System.out.println("ok,Data Add");
+            System.out.println("ok,Data Added");
             return deviceList;
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Data Not Added,Try Again.");
-            return null;
+            return deviceList;
 
+        }finally{
+            return deviceList;
         }
 
     }
@@ -174,7 +177,7 @@ public class DeviceDaoImpl implements DeviceDao{
                 deviceList.add(device);
             }
 
-            strResponse="Ok,ExecuteQuery";
+            strResponse="Ok,Executed the Query";
             System.out.println( strResponse);
             return deviceList;
 
@@ -272,7 +275,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
             }
             statement.execute(query);
-            strResponse="Ok,Execute Query";
+            strResponse="Ok,Executed the Query";
             return strResponse;
 
         } catch (Exception e) {

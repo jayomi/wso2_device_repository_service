@@ -37,17 +37,18 @@ public class DeviceDaoImpl implements DeviceDao{
             {
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
-                strResponse="Data Add"+schema;
+                strResponse="Successfully Deleted"+schema;
                 System.out.println("ok");
             }
 
 
         }catch (SQLException e) {
             e.printStackTrace();
-
+            strResponse="Not Executed the Query.";
+            return strResponse;
 
         }finally {
-            strResponse="Not Executed the Query.";
+
             return strResponse;
 
         }

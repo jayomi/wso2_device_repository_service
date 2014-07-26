@@ -29,7 +29,7 @@ public class DeviceService
 
     @DELETE
     @Path("/deletedevice/{id}/")
-    public Response deleteDevice(@PathParam("id") String id) throws SQLException {
+    public Response deleteDevice(@PathParam("id") String id) throws Exception {
 
       String strResponse;
       deviceDao=new DeviceDaoImpl();

@@ -7,11 +7,8 @@ import java.util.LinkedList;
 
 public interface UserDao {
 
-
-    public User getUser();
-    public LinkedList<User> getUsers();
-    public LinkedList<User> searchUser(UriInfo parameters);
-    public String removeUser(String id);
+    public LinkedList<User> getUsers(UriInfo parameters);
+    public String deleteUser(String id);
     public String addUser(User user);
     public String updateUser(User user,String id);
 

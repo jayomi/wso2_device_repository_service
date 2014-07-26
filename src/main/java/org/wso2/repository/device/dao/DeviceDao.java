@@ -7,10 +7,9 @@ import java.util.LinkedList;
 
 public interface DeviceDao {
 
-    public String deleteDevice(String id);
-    public Device getDevice();
-    public LinkedList<Device> getDevices();
-    public LinkedList<Device> searchDevice(UriInfo parameters);
+    public String deleteDevice(String id) throws Exception;
+    //public LinkedList<Device> getDevices();
+    public LinkedList<Device> getDevices(UriInfo parameters);
     public String addDevice(Device device);
     public String updateDevice(Device device,String id);
 

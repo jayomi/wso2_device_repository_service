@@ -15,54 +15,7 @@ import java.util.LinkedList;
 public class UserDaoImple implements UserDao {
 
 
-    public User getUser() {
-        return null;
-    }
-
-    //get all users
-
-    public LinkedList<User> getUsers() {
-
-        LinkedList<User> userList = new LinkedList<User>();
-        Connection con = null;
-        try {
-
-            con = DB.getConnection();
-            Statement statement = con.createStatement();
-            String query = "select * from devmgt_isg9251.user ";
-
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                User user=new User();
-
-                user.setUserId(resultSet.getString("u_id"));
-                user.setUserFname(resultSet.getString("first_name"));
-                user.setUserLname(resultSet.getString("last_name"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPasssword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setTelNo(resultSet.getString("tel_no"));
-                user.setDescription(resultSet.getString("description"));
-                userList.add(user);
-            }
-
-            System.out.println("ok,Data Added");
-            return userList;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Data Not Added,Try Again.");
-            return userList;
-
-        }finally{
-            return userList;
-        }
-
-
-    }
-
-    public LinkedList<User> searchUser(UriInfo parameters) {
+    public LinkedList<User> getUsers(UriInfo parameters) {
 
         String strResponse="";
         LinkedList userList=new LinkedList();
@@ -155,7 +108,9 @@ public class UserDaoImple implements UserDao {
 
     }
 
-    public String removeUser(String id) {
+     
+
+    public String deleteUser(String id) {
         return null;
     }
 

@@ -66,7 +66,7 @@ public class DeviceService
 
     }
 
-
+/*
     @GET
     @Path("/getdevices/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ public class DeviceService
 
     }
 
-
+*/
 
     @GET
     @Path("/searchdevice/")
@@ -87,7 +87,7 @@ public class DeviceService
     public LinkedList<Device> searchDevice(@Context UriInfo parameters) throws SQLException {
         LinkedList deviceList=new LinkedList();
         deviceDao=new DeviceDaoImpl();
-        deviceList=deviceDao.searchDevice(parameters);
+        deviceList=deviceDao.getDevices(parameters);
         return deviceList;
 
     }
@@ -100,7 +100,6 @@ public class DeviceService
         String strResponse="";
         deviceDao=new DeviceDaoImpl();
         strResponse=deviceDao.addDevice(device);
-
         return Response.ok(strResponse).build();
 
     }

@@ -19,14 +19,15 @@ public class DeviceDaoImpl implements DeviceDao{
 
 //delete a device
 
-    public String deleteDevice(String id) {
+    public String deleteDevice(String id) throws Exception {
 
         String strResponse="";
+        Connection con = DB.getConnection();
+        Statement stmt = con.createStatement();
+        String schema= con.getSchema();
 
         try{
-            Connection con = DB.getConnection();
-            Statement stmt = con.createStatement();
-           // String schema= con.getSchema();
+
             String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
 
             ResultSet resultSet = stmt.executeQuery(strCount);
@@ -38,19 +39,18 @@ public class DeviceDaoImpl implements DeviceDao{
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
                 strResponse="Successfully Deleted";
-                System.out.println("ok");
+
             }
 
 
         }catch (SQLException e) {
             e.printStackTrace();
-            strResponse="Not Executed the Query.";
+            strResponse="Query Executed";
             return strResponse;
 
         }finally {
 
-            return strResponse;
-
+            return strResponse+schema;
         }
 
     }
@@ -59,10 +59,11 @@ public class DeviceDaoImpl implements DeviceDao{
         return null;
     }
 
-    //get a device
 
+/*
 
 //get all devices
+
     public LinkedList<Device> getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
@@ -99,10 +100,10 @@ public class DeviceDaoImpl implements DeviceDao{
         }
 
     }
-
+*/
 //search method
 
-    public LinkedList<Device> searchDevice(UriInfo parameters) {
+    public LinkedList<Device> getDevices(UriInfo parameters) {
 
         String strResponse="";
         LinkedList deviceList=new LinkedList();

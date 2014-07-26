@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name="User")
+@XmlRootElement(name="user")
 public class User{
 
     private String userId;
@@ -26,7 +26,7 @@ public class User{
     }
 
     @XmlElement(name="userFname")
-    public String getUserFname(String first_name) {
+    public String getUserFname(String userFname) {
         return userFname;
     }
 

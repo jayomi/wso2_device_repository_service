@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 
 @Path("/device/")
@@ -71,7 +72,7 @@ public class DeviceService
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDevices() throws SQLException {
 
-        
+
         deviceDao=new DeviceDaoImpl();
         deviceDao.getDevices();
         return Response.ok().status(200).build();
@@ -83,10 +84,11 @@ public class DeviceService
     @GET
     @Path("/searchdevice/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchDevice(@Context UriInfo parameters) throws SQLException {
+    public LinkedList<Device> searchDevice(@Context UriInfo parameters) throws SQLException {
+        LinkedList deviceList=new LinkedList();
         deviceDao=new DeviceDaoImpl();
-        deviceDao.searchDevice(parameters);
-        return Response.ok().status(200).build();
+        deviceList=deviceDao.searchDevice(parameters);
+        return deviceList;
 
     }
 

@@ -65,15 +65,14 @@ public class DeviceDaoImpl implements DeviceDao{
     public LinkedList<Device> getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
-        String strResponse="";
+
         Connection con = null;
         try {
 
             con = DB.getConnection();
             Statement statement = con.createStatement();
             String query = "select * from devmgt_isg9251.device ";
-            strResponse="Data Added";
-            System.out.println("OK");
+
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -92,11 +91,9 @@ public class DeviceDaoImpl implements DeviceDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Data Not Added,Try Again.");
+            return null;
 
-        }finally {
-            return deviceList;
         }
-
 
     }
 
@@ -185,6 +182,7 @@ public class DeviceDaoImpl implements DeviceDao{
             e.printStackTrace();
             strResponse="Data Not Executed";
             System.out.println( strResponse);
+            return deviceList;
 
         }finally{
             return deviceList;

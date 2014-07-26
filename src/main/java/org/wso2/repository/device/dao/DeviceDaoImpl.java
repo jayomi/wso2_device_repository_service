@@ -24,7 +24,7 @@ public class DeviceDaoImpl implements DeviceDao{
         String strResponse="";
         Connection con = DB.getConnection();
         Statement stmt = con.createStatement();
-        String schema= con.getSchema();
+       // String schema= con.getSchema();
 
         try{
 

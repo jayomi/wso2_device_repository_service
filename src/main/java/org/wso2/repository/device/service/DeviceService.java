@@ -4,18 +4,12 @@ import org.wso2.repository.device.dao.DeviceDao;
 import org.wso2.repository.device.dao.DeviceDaoImpl;
 import org.wso2.repository.device.model.Device;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedList;
 
 
@@ -37,7 +31,7 @@ public class DeviceService
       return Response.ok(strResponse).build();
 
     }
-
+/*
     @GET
     @Path("/getdevice/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,7 +59,7 @@ public class DeviceService
         return device;
 
     }
-
+*/
 /*
     @GET
     @Path("/getdevices/")

@@ -26,7 +26,7 @@ public class DeviceDaoImpl implements DeviceDao{
         try{
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String schema= con.getSchema();
+           // String schema= con.getSchema();
             String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
 
             ResultSet resultSet = stmt.executeQuery(strCount);
@@ -37,7 +37,7 @@ public class DeviceDaoImpl implements DeviceDao{
             {
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
-                strResponse="Successfully Deleted"+schema;
+                strResponse="Successfully Deleted";
                 System.out.println("ok");
             }
 

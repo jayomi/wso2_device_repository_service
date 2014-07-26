@@ -44,7 +44,7 @@ public class UserService
     @GET
     @Path("/getusers/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<User> searchuser(@Context UriInfo parameters) throws SQLException {
+    public LinkedList<User> getUsers(@Context UriInfo parameters) throws SQLException {
         LinkedList userList=new LinkedList();
         userDao=new UserDaoImple();
         userList=userDao.getUsers(parameters);

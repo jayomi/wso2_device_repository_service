@@ -66,7 +66,6 @@ public class DeviceDaoImpl implements DeviceDao{
     public LinkedList<Device> getDevices() {
 
         LinkedList<Device> deviceList = new LinkedList<Device>();
-
         Connection con = null;
         try {
 

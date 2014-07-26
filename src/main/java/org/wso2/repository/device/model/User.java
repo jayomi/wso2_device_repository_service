@@ -1,10 +1,8 @@
 package org.wso2.repository.device.model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Created by jayomi on 7/24/14.
- */
 
 @XmlRootElement(name="User")
 public class User{
@@ -19,17 +17,16 @@ public class User{
     private String description;
 
 
-
-    public String getUserId() {
-        return userId;
+    @XmlElement(name="userId")
+    public String getUserId(String u_id) {return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-
-    public String getUserFname() {
+    @XmlElement(name="userFname")
+    public String getUserFname(String first_name) {
         return userFname;
     }
 
@@ -37,6 +34,7 @@ public class User{
         this.userFname = userFname;
     }
 
+    @XmlElement(name="userLname")
     public String getUserLname() {
         return userLname;
     }
@@ -45,10 +43,16 @@ public class User{
         this.userLname = userLname;
     }
 
+    @XmlElement(name="username")
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @XmlElement(name="password")
     public String getPasssword() {
         return passsword;
     }
@@ -57,10 +61,7 @@ public class User{
         this.passsword = passsword;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    @XmlElement(name="email")
     public String getEmail() {
         return email;
     }
@@ -69,6 +70,7 @@ public class User{
         this.email = email;
     }
 
+    @XmlElement(name="telNo")
     public String getTelNo() {
         return telNo;
     }
@@ -77,6 +79,7 @@ public class User{
         this.telNo = telNo;
     }
 
+    @XmlElement(name="description")
     public String getDescription() {
         return description;
     }

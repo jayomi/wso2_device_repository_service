@@ -50,14 +50,11 @@ public class DeviceDaoImpl implements DeviceDao{
 
         }finally {
 
-            return strResponse+schema;
+            return strResponse;
         }
 
     }
 
-    public Device getDevice() {
-        return null;
-    }
 
 
 /*

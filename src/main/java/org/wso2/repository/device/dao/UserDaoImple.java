@@ -10,14 +10,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-/**
- * Created by jayomi on 7/26/14.
- */
 public class UserDaoImple implements UserDao {
 
     User user;
 
-    //get users
+    //get user
 
     public LinkedList<User> getUsers(UriInfo parameters) {
 
@@ -96,7 +93,7 @@ public class UserDaoImple implements UserDao {
 
             }
 
-            strResponse="Ok,Executed the Query";
+            strResponse="Ok,Query Executed";
             System.out.println( strResponse);
             return userList;
 
@@ -113,6 +110,7 @@ public class UserDaoImple implements UserDao {
     }
 
 
+    //delete user
 
     public String deleteUser(String id) {
 
@@ -140,6 +138,7 @@ public class UserDaoImple implements UserDao {
 
     }
 
+    //add a user
     public String addUser(User user) {
 
         String strResponse = null;
@@ -161,6 +160,8 @@ public class UserDaoImple implements UserDao {
         }
 
     }
+
+    //update a user
 
     public String updateUser(User user, String id) {
         LinkedList<String> listColumns= new LinkedList<String>();

@@ -6,6 +6,7 @@ import org.wso2.repository.device.util.DB;
 import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
@@ -15,6 +16,8 @@ import java.util.LinkedList;
 public class UserDaoImple implements UserDao {
 
     User user;
+
+    //get users
 
     public LinkedList<User> getUsers(UriInfo parameters) {
 
@@ -112,7 +115,29 @@ public class UserDaoImple implements UserDao {
 
 
     public String deleteUser(String id) {
-        return null;
+
+        String strResponse="";
+
+        try{
+            Connection connection = DB.getConnection();
+            Statement statement = connection.createStatement();
+            String query = "delete from devmgt_isg9251.user where u_id =" +id;
+            statement.execute(query);
+            strResponse="Successfully Deleted";
+
+
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+            strResponse="Query Not Executed";
+            return strResponse;
+
+        }finally {
+
+            return strResponse;
+
+        }
+
     }
 
     public String addUser(User user) {

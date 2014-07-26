@@ -20,19 +20,19 @@ public class UserService
     UserDao userDao;
     User user;
 
-/*
+
     @DELETE
     @Path("/deleteuser/{id}/")
     public Response deleteuser(@PathParam("id") String id) throws SQLException {
 
         String strResponse;
-        UserDao=new UserDaoImple();
+        userDao=new UserDaoImple();
         strResponse=userDao.deleteUser(id);
         return Response.ok(strResponse).build();
 
     }
 
-   */
+
 
 
     @GET
@@ -59,21 +59,21 @@ public class UserService
 
     }
 
-/*
+
     @PUT
     @Path("/updateuser/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateuser(User user ,@PathParam("id") String id ) throws SQLException {
+    public Response updateUser(User user ,@PathParam("id") String id ) throws SQLException {
 
         String strResponse="";
         userDao=new UserDaoImple();
-        strResponse=userDao.updateuser(user, id);
+        strResponse=userDao.updateUser(user, id);
         return Response.ok(strResponse).build();
 
 
     }
 
-*/
+
 
 
 }

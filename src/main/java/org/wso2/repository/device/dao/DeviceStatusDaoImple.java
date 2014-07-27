@@ -122,15 +122,15 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
     }
 
     //add device
-    public String addDevice(DeviceStatus deviceStatus) {
+    public String addDevice(DeviceStatus status) {
 
         String strResponse = null;
-        DeviceStatus status=new DeviceStatus();
+
         try {
 
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into devmgt_isg9251.status (s_id,status) values ('" + status.getDeviceStatusId()+ "','" + status.getDeviceStatusName() +"')";
+            String query = "insert into devmgt_isg9251.status (status) values ('" +status.getDeviceStatusName() +"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
@@ -146,7 +146,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
     }
 
     //update device
-    public String updateDevice(DeviceStatus device, String id) {
+    public String updateDevice(DeviceStatus status, String id) {
 
         String strResponse="";
 

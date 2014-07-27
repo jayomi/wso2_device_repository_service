@@ -35,18 +35,22 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 //
 //            }
 
+            String idCount = "select  count(*) c from devmgt_isg9251.transaction_status where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
+            ResultSet rs = statement.executeQuery(idCount);
+            rs.next();
+
             String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
             resultSet.next();
 
-            if(resultSet.getInt("cnt") == 0)
+            if(resultSet.getInt("cnt") == 0 && rs.getInt("c")>0)
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
                 strResponse="Successfully Deleted ";
                 response= Response.ok().status(200).build();
-                return response;
+               // return response;
             }
 
             statement.close();
@@ -57,7 +61,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             strResponse="Failed.try Again.";
            // return strResponse;
             response= Response.ok().status(405).build();
-            return response;
+            //return response;
 
         }finally {
 

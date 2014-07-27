@@ -4,10 +4,7 @@ import org.wso2.repository.device.model.TransactionStatus;
 import org.wso2.repository.device.util.DB;
 
 import javax.ws.rs.core.UriInfo;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.LinkedList;
 
 public class TransactionStatusDaoImpl implements TransactionStatusDao {
@@ -15,15 +12,23 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
     public String deleteTransactionStatus(String id) throws Exception {
 
         String strResponse="";
+        String tableSchema="";
 
-        Connection con = DB.getConnection();
-        Statement statement = con.createStatement();
-        String schema= con.getSchema();
-        
+
         try{
 
+            Connection con = DB.getConnection();
+            Statement statement = con.createStatement();
+            //String schema= con.getSchema();
 
+            DatabaseMetaData meta = con.getMetaData();
+            ResultSet schemas = meta.getSchemas();
 
+            while (schemas.next()) {
+                tableSchema = schemas.getString(1);    // "TABLE_SCHEM"
+               // String tableCatalog = schemas.getString(2); //"TABLE_CATALOG"
+               // System.out.println("tableSchema"+tableSchema);
+            }
 
             String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
 
@@ -34,14 +39,16 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
-                strResponse="Successfully Deleted "+schema;
+                strResponse="Successfully Deleted "+ tableSchema;
 
             }
 
+            statement.close();
+            con.close();
 
         }catch (SQLException e) {
             e.printStackTrace();
-            strResponse="Failed.try Again."+schema;
+            strResponse="Failed.try Again."+ tableSchema;
             return strResponse;
 
         }finally {

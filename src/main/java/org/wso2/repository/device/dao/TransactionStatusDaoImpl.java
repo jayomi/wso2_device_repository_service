@@ -3,16 +3,21 @@ package org.wso2.repository.device.dao;
 import org.wso2.repository.device.model.TransactionStatus;
 import org.wso2.repository.device.util.DB;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 
 public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
-    public String deleteTransactionStatus(String id) throws Exception {
+    public Response deleteTransactionStatus(String id) throws Exception {
 
         String strResponse="";
         String tableSchema="";
+        Response response=null;
 
 
         try{
@@ -20,15 +25,15 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
             //String schema= con.getSchema();
-
-            DatabaseMetaData meta = con.getMetaData();
-            ResultSet schemas = meta.getSchemas();
-
-            while (schemas.next()) {
-                tableSchema = schemas.getString(1);    // "TABLE_SCHEM"
-               // String tableCatalog = schemas.getString(2); //"TABLE_CATALOG"
-               // System.out.println("tableSchema"+tableSchema);
-            }
+//
+//            DatabaseMetaData meta = con.getMetaData();
+//            ResultSet schemas = meta.getSchemas();
+//
+//            while (schemas.next()) {
+//                tableSchema = schemas.getString(1);    // "TABLE_SCHEM"
+//               // String tableCatalog = schemas.getString(2); //"TABLE_CATALOG"
+//
+//            }
 
             String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
 
@@ -39,8 +44,9 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
-                strResponse="Successfully Deleted "+ tableSchema;
-
+                strResponse="Successfully Deleted ";
+                response= Response.ok().status(200).build();
+                return response;
             }
 
             statement.close();
@@ -48,12 +54,15 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
         }catch (SQLException e) {
             e.printStackTrace();
-            strResponse="Failed.try Again."+ tableSchema;
-            return strResponse;
+            strResponse="Failed.try Again.";
+           // return strResponse;
+            response= Response.ok().status(405).build();
+            return response;
 
         }finally {
 
-            return strResponse;
+            //return strResponse;
+            return  response;
         }
 
     }
@@ -109,7 +118,6 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             }
 
             strResponse="Ok,Executed the Query";
-            System.out.println( strResponse);
             return stList;
 
         }catch (Exception e) {

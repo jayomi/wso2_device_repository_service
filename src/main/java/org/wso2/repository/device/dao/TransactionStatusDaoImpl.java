@@ -24,49 +24,35 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
-            //String schema= con.getSchema();
-//
-//            DatabaseMetaData meta = con.getMetaData();
-//            ResultSet schemas = meta.getSchemas();
-//
-//            while (schemas.next()) {
-//                tableSchema = schemas.getString(1);    // "TABLE_SCHEM"
-//               // String tableCatalog = schemas.getString(2); //"TABLE_CATALOG"
-//
-//            }
-
-            String idCount = "select  count(*) c from devmgt_isg9251.transaction_status where ts_id =" + id +")";
-            ResultSet rs = statement.executeQuery(idCount);
-            rs.next();
 
             String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
+
             resultSet.next();
 
-            if(resultSet.getInt("cnt") == 0 && rs.getInt("c")> 0)
+            if(resultSet.getInt("cnt") == 0)
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
-                strResponse="Successfully Deleted ";
+                    strResponse="Successfully Deleted ";
+                    return strResponse;
+                }
+
+                statement.close();
+                con.close();
+
+            }catch (SQLException e) {
+                e.printStackTrace();
+                strResponse="Failed.try Again.";
+
+                return  strResponse;
+
+            }finally {
 
                 return strResponse;
+
             }
-
-            statement.close();
-            con.close();
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-            strResponse="Failed.try Again.";
-
-            return  strResponse;
-
-        }finally {
-
-            return strResponse;
-
-        }
 
     }
 

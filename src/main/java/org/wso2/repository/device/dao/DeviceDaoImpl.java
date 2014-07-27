@@ -44,7 +44,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
         }catch (SQLException e) {
             e.printStackTrace();
-            strResponse="Query Executed";
+            strResponse="Failed.Try Again.";
             return strResponse;
 
         }finally {

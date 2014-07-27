@@ -116,12 +116,12 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             }
 
-            strResponse="Ok,Executed the Query";
+            strResponse="Ok,Query Executed.";
             return deviceTypeList;
 
         }catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Executed";
+            strResponse="Failed.Try Again.";
             System.out.println( strResponse);
             return deviceTypeList;
         }
@@ -143,12 +143,12 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
             String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
             stmt.executeUpdate(query);
-            strResponse="Data Added";
+            strResponse="Sucessfully Added.";
             System.out.println("OK");
 
         } catch (Exception ee) {
             ee.printStackTrace();
-            strResponse="Data Not Added";
+            strResponse="Failed.Try Again.";
         }finally{
             return strResponse;
         }
@@ -202,12 +202,12 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             }
             statement.execute(query);
-            strResponse="Ok,Executed the Query";
+            strResponse="Ok,Successfully Updated";
             return strResponse;
 
         } catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Executed";
+            strResponse="Failed.Try Again";
             return strResponse;
         }finally {
             return strResponse;

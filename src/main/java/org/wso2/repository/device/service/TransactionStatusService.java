@@ -34,7 +34,7 @@ public class TransactionStatusService
     }
 
    @GET
-   @Path("/gettransactionstatus/{id}/")
+   @Path("/gettransactionstatus/")
    @Produces(MediaType.APPLICATION_JSON)
    public LinkedList<TransactionStatus> getTransactionStatus(@Context UriInfo parameters) throws SQLException {
 

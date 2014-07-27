@@ -16,13 +16,14 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
         String strResponse="";
 
-
+        Connection con = DB.getConnection();
+        Statement statement = con.createStatement();
+        String schema= con.getSchema();
+        
         try{
 
 
-            Connection con = DB.getConnection();
-            Statement statement = con.createStatement();
-            // String schema= con.getSchema();
+
 
             String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
 
@@ -33,14 +34,14 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
-                strResponse="Successfully Deleted";
+                strResponse="Successfully Deleted "+schema;
 
             }
 
 
         }catch (SQLException e) {
             e.printStackTrace();
-            strResponse="Failed.try Again.";
+            strResponse="Failed.try Again."+schema;
             return strResponse;
 
         }finally {

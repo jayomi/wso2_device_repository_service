@@ -29,9 +29,9 @@ public class TransactionStatusService
         String strResponse;
         tsDao=new TransactionStatusDaoImpl();
        // strResponse=tsDao.deleteTransactionStatus(id);
-       Response r=tsDao.deleteTransactionStatus(id);
-        //return Response.ok(strResponse).build();
-        return r;
+        strResponse=tsDao.deleteTransactionStatus(id);
+        return Response.ok(strResponse).build();
+
     }
 
    @GET

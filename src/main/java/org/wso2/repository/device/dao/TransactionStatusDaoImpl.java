@@ -13,12 +13,12 @@ import java.util.LinkedList;
 
 public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
-    public Response deleteTransactionStatus(String id) throws Exception {
+    public String deleteTransactionStatus(String id) throws Exception {
 
         String strResponse="";
         String tableSchema="";
         Response response=null;
-
+        String str="";
 
         try{
 
@@ -44,13 +44,13 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             ResultSet resultSet = statement.executeQuery(strCount);
             resultSet.next();
 
-            if(resultSet.getInt("cnt") == 0 && rs.getInt("c")>0)
+            if(resultSet.getInt("cnt") == 0 && rs.getInt("c")== 0)
             {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
                 strResponse="Successfully Deleted ";
-                response= Response.ok().status(200).build();
-               // return response;
+                str= Response.ok().status(200).build().toString();
+                return str;
             }
 
             statement.close();
@@ -61,12 +61,13 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
             strResponse="Failed.try Again.";
            // return strResponse;
             response= Response.ok().status(405).build();
-            //return response;
+            str=Response.ok().status(405).build().toString();
+            return str;
 
         }finally {
 
             //return strResponse;
-            return  response;
+            return  str;
         }
 
     }

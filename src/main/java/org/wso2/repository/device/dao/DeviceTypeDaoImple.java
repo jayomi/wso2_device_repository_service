@@ -111,10 +111,11 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
                 DeviceType deviceType=new DeviceType();
                 deviceType.setDeviceTypeId(resultSet.getString("t_id"));
                 deviceType.setDeviceTypeName(resultSet.getString("type"));
-                deviceType.setDeviceTypeDescription(resultSet.getString("d_description"));
+                deviceType.setDeviceTypeDescription(resultSet.getString("t_description"));
                 deviceTypeList.add(deviceType);
 
             }
+
             strResponse="Ok,Executed the Query";
             return deviceTypeList;
 
@@ -184,7 +185,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
                 if(x==0)
                 {
-                    query = "update devmgt_isg9251.status set";
+                    query = "update devmgt_isg9251.device_type set";
                 }
 
                 if(x!=(listColumns.size()-1))

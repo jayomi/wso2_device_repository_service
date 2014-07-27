@@ -3,6 +3,7 @@ package org.wso2.repository.device.dao;
 import org.wso2.repository.device.model.Device;
 import org.wso2.repository.device.util.DB;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,9 +13,6 @@ import java.util.LinkedList;
 
 
 public class DeviceDaoImpl implements DeviceDao{
-
-   Device device;
-   Connection connection;
 
 
 //delete a device
@@ -38,6 +36,7 @@ public class DeviceDaoImpl implements DeviceDao{
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
                 strResponse="Successfully Deleted";
+                throw new RuntimeException("Ok,Executed the Query"+ Response.ok().status(200).build());
 
             }
 
@@ -45,11 +44,14 @@ public class DeviceDaoImpl implements DeviceDao{
         }catch (SQLException e) {
             e.printStackTrace();
             strResponse="Failed.Try Again.";
-            return strResponse;
+            //return strResponse;
+            throw new RuntimeException("Query not Executed."+ Response.ok().status(405).build());
 
         }finally {
 
-            return strResponse;
+           // return strResponse;
+            throw new Exception();
+
         }
 
     }
@@ -133,13 +135,13 @@ public class DeviceDaoImpl implements DeviceDao{
             }
 
             strResponse="Ok,Executed the Query";
-            System.out.println( strResponse);
+
+
             return deviceList;
 
         }catch (Exception e) {
             e.printStackTrace();
             strResponse="Data Not Executed";
-            System.out.println( strResponse);
             return deviceList;
 
         }finally{

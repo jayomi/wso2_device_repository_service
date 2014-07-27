@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
-    public String deleteTransactionStatus(String id) throws Exception {
+    public String deleteTransactionStatus(String id) {
 
         String strResponse="";
         String tableSchema="";

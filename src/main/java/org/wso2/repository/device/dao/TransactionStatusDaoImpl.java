@@ -49,8 +49,8 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
                 String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
                 statement.execute(query);
                 strResponse="Successfully Deleted ";
-                str= Response.ok().status(200).build().toString();
-                return str;
+
+                return strResponse;
             }
 
             statement.close();
@@ -59,15 +59,13 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
         }catch (SQLException e) {
             e.printStackTrace();
             strResponse="Failed.try Again.";
-           // return strResponse;
-            response= Response.ok().status(405).build();
-            str=Response.ok().status(405).build().toString();
-            return str;
+
+            return  strResponse;
 
         }finally {
 
-            //return strResponse;
-            return  str;
+            return strResponse;
+
         }
 
     }

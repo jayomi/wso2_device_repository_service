@@ -159,14 +159,14 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
     public String updateDevice(DeviceType deviceType, String id) {
         LinkedList<String> listColumns= new LinkedList<String>();
         LinkedList<String> listValues= new LinkedList<String>();
-
-        String strResponse="";
+        String strResponse=null;
 
         try {
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
 
             String query =null;
+
             if( deviceType.getDeviceTypeId()!=null) {
                 listColumns.add("t_id");
                 listValues.add(deviceType.getDeviceTypeId());
@@ -181,11 +181,13 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
                 listValues.add(deviceType.getDeviceTypeDescription());
             }
 
+
+
             for (int x= 0;x<listColumns.size();x++) {
 
                 if(x==0)
                 {
-                    query = "update devmgt_isg9251.device_type set";
+                    query = "update devmgt_isg9251.device_type set ";
                 }
 
                 if(x!=(listColumns.size()-1))
@@ -200,17 +202,15 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             }
             statement.execute(query);
-            strResponse="Ok,Successfully Updated";
+            strResponse="Ok,Executed the Query";
             return strResponse;
-
 
         } catch (Exception e) {
             e.printStackTrace();
-            strResponse="Not Updated";
+            strResponse="Data Not Executed";
             return strResponse;
         }finally {
             return strResponse;
         }
-
     }
 }

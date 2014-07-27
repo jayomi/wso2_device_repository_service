@@ -18,7 +18,6 @@ public class DeviceService
 {
 
     DeviceDao deviceDao;
-    Device device;
 
 
     @DELETE
@@ -31,54 +30,11 @@ public class DeviceService
       return Response.ok(strResponse).build();
 
     }
-/*
-    @GET
-    @Path("/getdevice/{id}/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Device getDevice(@PathParam("id") String id) throws SQLException, NamingException {
 
-        int intId = Integer.parseInt(id);
-
-        Connection connection=null;
-        InitialContext context = new InitialContext();
-        DataSource dataSource = (DataSource) context.lookup("jdbc/deviceRepoDS");
-        connection=dataSource.getConnection();
-        Statement statement = connection.createStatement();
-        String query = "select * from devmgt_isg9251.device where d_id =" +id;
-        ResultSet resultSet = statement.executeQuery(query);
-
-        Device device = new Device();
-
-        while (resultSet.next()) {
-
-            device.setDeviceId(resultSet.getString("d_id"));
-            device.setDeviceName(resultSet.getString("d_name"));
-            device.setDeviceDescription(resultSet.getString("d_description"));
-            device.setStatusId(resultSet.getString("s_id"));
-        }
-        return device;
-
-    }
-*/
-/*
     @GET
     @Path("/getdevices/")
     @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> getDevices() throws SQLException {
-
-        LinkedList deviceList=new LinkedList();
-        deviceDao=new DeviceDaoImpl();
-        deviceList=deviceDao.getDevices();
-        return deviceList;
-
-    }
-
-*/
-
-    @GET
-    @Path("/searchdevice/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> searchDevice(@Context UriInfo parameters) throws SQLException {
+    public LinkedList<Device> getDevices(@Context UriInfo parameters) throws SQLException {
         LinkedList deviceList=new LinkedList();
         deviceDao=new DeviceDaoImpl();
         deviceList=deviceDao.getDevices(parameters);

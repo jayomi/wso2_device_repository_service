@@ -29,7 +29,6 @@ public class DeviceDaoImpl implements DeviceDao{
         try{
 
             String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
-
             ResultSet resultSet = stmt.executeQuery(strCount);
             resultSet.next();
 
@@ -56,49 +55,7 @@ public class DeviceDaoImpl implements DeviceDao{
     }
 
 
-
-/*
-
-//get all devices
-
-    public LinkedList<Device> getDevices() {
-
-        LinkedList<Device> deviceList = new LinkedList<Device>();
-        Connection con = null;
-        try {
-
-            con = DB.getConnection();
-            Statement statement = con.createStatement();
-            String query = "select * from devmgt_isg9251.device ";
-
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                Device device=new Device();
-                device.setDeviceId(resultSet.getString("d_id"));
-                device.setDeviceName(resultSet.getString("d_name"));
-                device.setDeviceDescription(resultSet.getString("d_description"));
-                device.setTypeId(resultSet.getString("t_id"));
-                device.setStatusId(resultSet.getString("s_id"));
-
-                deviceList.add(device);
-            }
-
-            System.out.println("ok,Data Added");
-            return deviceList;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Data Not Added,Try Again.");
-            return deviceList;
-
-        }finally{
-            return deviceList;
-        }
-
-    }
-*/
-//search method
+    //search method
 
     public LinkedList<Device> getDevices(UriInfo parameters) {
 

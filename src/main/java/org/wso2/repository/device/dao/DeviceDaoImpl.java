@@ -3,7 +3,6 @@ package org.wso2.repository.device.dao;
 import org.wso2.repository.device.model.Device;
 import org.wso2.repository.device.util.DB;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,6 +13,9 @@ import java.util.LinkedList;
 
 public class DeviceDaoImpl implements DeviceDao{
 
+    Device device;
+    Connection connection;
+
 
 //delete a device
 
@@ -22,7 +24,7 @@ public class DeviceDaoImpl implements DeviceDao{
         String strResponse="";
         Connection con = DB.getConnection();
         Statement stmt = con.createStatement();
-       // String schema= con.getSchema();
+        // String schema= con.getSchema();
 
         try{
 
@@ -36,7 +38,6 @@ public class DeviceDaoImpl implements DeviceDao{
                 String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
                 strResponse="Successfully Deleted";
-                throw new RuntimeException("Ok,Executed the Query"+ Response.ok().status(200).build());
 
             }
 
@@ -44,14 +45,11 @@ public class DeviceDaoImpl implements DeviceDao{
         }catch (SQLException e) {
             e.printStackTrace();
             strResponse="Failed.Try Again.";
-            //return strResponse;
-            throw new RuntimeException("Query not Executed."+ Response.ok().status(405).build());
+            return strResponse;
 
         }finally {
 
-           // return strResponse;
-            throw new Exception();
-
+            return strResponse;
         }
 
     }
@@ -135,13 +133,13 @@ public class DeviceDaoImpl implements DeviceDao{
             }
 
             strResponse="Ok,Executed the Query";
-
-
+            System.out.println( strResponse);
             return deviceList;
 
         }catch (Exception e) {
             e.printStackTrace();
             strResponse="Data Not Executed";
+            System.out.println( strResponse);
             return deviceList;
 
         }finally{
@@ -149,6 +147,104 @@ public class DeviceDaoImpl implements DeviceDao{
         }
 
     }
+
+
+    ///Detailed
+    public LinkedList<Device> getDevicesDetail(UriInfo parameters) {
+
+        String strResponse="";
+        LinkedList deviceList=new LinkedList();
+
+        try {
+            String deviceId = parameters.getQueryParameters().getFirst("deviceId");
+            String deviceName = parameters.getQueryParameters().getFirst("deviceName");
+            String statusId = parameters.getQueryParameters().getFirst("statusId");
+            String typeId = parameters.getQueryParameters().getFirst("typeId");
+            String options = null;
+
+            Connection con=DB.getConnection();
+            Statement statement=con.createStatement();
+            String query ="Select d_id , d_name, d_description,  status as s_id , type as t_id " +
+                    " from devmgt_isg9251.device d " +
+                    " left join devmgt_isg9251.status s on s.s_id = d.s_id " +
+                    " left join devmgt_isg9251.device_type dt on dt.t_id = d.t_id";
+
+            boolean firstPara = false;
+
+            if (deviceId !=null)
+            {
+                options = " d_id = '" + deviceId +"' ";
+                firstPara =true;
+            }
+
+            if (deviceName !=null)
+            {
+                if (firstPara==false) {
+                    options = " d_name = '" + deviceName+ "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND d_name = '" + deviceName + "' ";
+                }
+
+            }
+
+            if (statusId !=null)
+            {
+                if (firstPara==false) {
+                    options = " s_id = '" + statusId + "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND s_id = '" + statusId + "' ";
+                }
+
+            }
+            if (typeId !=null)
+            {
+                if (firstPara==false) {
+                    options = " t_id = '" + typeId + "' ";
+                    firstPara = true;
+                }else
+                {
+                    options = options +  " AND t_id = '" + typeId + "' ";
+                }
+
+            }
+            if(firstPara)
+            {
+                query = query + " Where " + options;
+            }
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+
+                Device device=new Device();
+                device.setDeviceId(resultSet.getString("d_id"));
+                device.setDeviceName(resultSet.getString("d_name"));
+                device.setDeviceDescription(resultSet.getString("d_description"));
+                device.setStatusId(resultSet.getString("s_id"));
+                device.setTypeId(resultSet.getString("t_id"));
+                deviceList.add(device);
+            }
+
+            strResponse="Ok,Executed the Query";
+            System.out.println( strResponse);
+            return deviceList;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            strResponse="Data Not Executed";
+            System.out.println( strResponse);
+            return deviceList;
+
+        }finally{
+            return deviceList;
+        }
+
+    }
+
+
 
     //add a device
     public String addDevice(Device device) {

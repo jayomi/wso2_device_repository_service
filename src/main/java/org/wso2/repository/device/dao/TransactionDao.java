@@ -12,6 +12,7 @@ public interface TransactionDao {
     public String deleteTransaction(String id);
     public Transaction getTransaction(String id) throws Exception;
     public LinkedList<Transaction> getTransactions(UriInfo parameters);
+    public LinkedList<Transaction> getTransactionsDetail(UriInfo parameters);
     public String addTransaction(Transaction transaction);
     public String updateTransaction(Transaction transaction, String id);
 }

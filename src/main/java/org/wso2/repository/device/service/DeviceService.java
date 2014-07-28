@@ -24,10 +24,10 @@ public class DeviceService
     @Path("/deletedevice/{id}/")
     public Response deleteDevice(@PathParam("id") String id) throws Exception {
 
-      String strResponse;
-      deviceDao=new DeviceDaoImpl();
-      strResponse=deviceDao.deleteDevice(id);
-      return Response.ok(strResponse).build();
+        String strResponse;
+        deviceDao=new DeviceDaoImpl();
+        strResponse=deviceDao.deleteDevice(id);
+        return Response.ok(strResponse).build();
 
     }
 
@@ -38,6 +38,17 @@ public class DeviceService
         LinkedList deviceList=new LinkedList();
         deviceDao=new DeviceDaoImpl();
         deviceList=deviceDao.getDevices(parameters);
+        return deviceList;
+
+    }
+
+    @GET
+    @Path("/getdevicesdetail/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<Device> getDevicesDetail(@Context UriInfo parameters) throws SQLException {
+        LinkedList deviceList=new LinkedList();
+        deviceDao=new DeviceDaoImpl();
+        deviceList=deviceDao.getDevicesDetail(parameters);
         return deviceList;
 
     }

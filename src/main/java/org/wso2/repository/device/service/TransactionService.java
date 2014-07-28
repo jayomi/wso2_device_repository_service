@@ -1,26 +1,17 @@
 package org.wso2.repository.device.service;
 
 
-import org.wso2.repository.device.dao.DeviceDaoImpl;
 import org.wso2.repository.device.dao.TransactionDao;
 import org.wso2.repository.device.dao.TransactionDaoImpl;
 import org.wso2.repository.device.model.Transaction;
-import org.wso2.repository.device.model.TransactionStatus;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.LinkedList;
 
 
@@ -78,6 +69,17 @@ public class TransactionService
 
     }
 
+    @GET
+    @Path("/gettransactionsdetail/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LinkedList<Transaction> getTransactionsDetail(@Context UriInfo parameters) throws SQLException {
+
+        LinkedList<Transaction> transactionsList = new LinkedList<Transaction>();
+        transactionDao=new TransactionDaoImpl();
+        transactionsList=transactionDao.getTransactionsDetail(parameters);
+        return transactionsList;
+    }
+
     @POST
     @Path("/addtransaction/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -108,9 +110,6 @@ public class TransactionService
     final void init() {
 
         try {
-/*           InitialContext context = new InitialContext();
-           DataSource dataSource = (DataSource)context.lookup("jdbc/deviceRepoDS");
-           connection = dataSource.getConnection();*/
 
         }
         catch(Exception e)

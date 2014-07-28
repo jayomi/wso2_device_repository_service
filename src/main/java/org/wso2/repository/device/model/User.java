@@ -15,75 +15,95 @@ public class User{
     private String email;
     private String telNo;
     private String description;
+    private String role;
 
 
-    @XmlElement(name="userId")
+
+
+    public String getRole() {
+        return role;
+    }
+
+    @XmlElement(name="role")
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
     public String getUserId() {return userId;
     }
 
+    @XmlElement(name="userId")
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    @XmlElement(name="userFname")
+
     public String getUserFname() {
         return userFname;
     }
 
+    @XmlElement(name="userFname")
     public void setUserFname(String userFname) {
         this.userFname = userFname;
     }
 
-    @XmlElement(name="userLname")
+
     public String getUserLname() {
         return userLname;
     }
 
+    @XmlElement(name="userLname")
     public void setUserLname(String userLname) {
         this.userLname = userLname;
     }
 
-    @XmlElement(name="username")
+
     public String getUsername() {
         return username;
     }
 
+    @XmlElement(name="username")
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @XmlElement(name="password")
+
     public String getPasssword() {
         return passsword;
     }
 
+    @XmlElement(name="password")
     public void setPasssword(String passsword) {
         this.passsword = passsword;
     }
 
-    @XmlElement(name="email")
+
     public String getEmail() {
         return email;
     }
 
+    @XmlElement(name="email")
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @XmlElement(name="telNo")
+
     public String getTelNo() {
         return telNo;
     }
 
+    @XmlElement(name="telNo")
     public void setTelNo(String telNo) {
         this.telNo = telNo;
     }
 
-    @XmlElement(name="description")
+
     public String getDescription() {
         return description;
     }
 
+    @XmlElement(name="description")
     public void setDescription(String description) {
         this.description = description;
     }

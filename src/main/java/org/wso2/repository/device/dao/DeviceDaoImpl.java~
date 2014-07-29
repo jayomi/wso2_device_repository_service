@@ -203,11 +203,11 @@ public class DeviceDaoImpl implements DeviceDao{
             if (typeId !=null)
             {
                 if (firstPara==false) {
-                    options = " dt.type = '" + typeId + "' ";
+                    options = " dt.t_id = '" + typeId + "' ";
                     firstPara = true;
                 }else
                 {
-                    options = options +  " AND dt.type = '" + typeId + "' ";
+                    options = options +  " AND dt.t_id = '" + typeId + "' ";
                 }
 
             }

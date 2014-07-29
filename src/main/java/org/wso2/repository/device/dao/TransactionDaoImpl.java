@@ -307,18 +307,18 @@ public class TransactionDaoImpl implements TransactionDao{
 
         if (userId !=null)
         {
-            options = " u_id = '" + userId +"' ";
+            options = " u.u_id = '" + userId +"' ";
             firstPara =true;
         }
 
         if (deviceId !=null)
         {
             if (firstPara==false) {
-                options = " d_id = '" + deviceId + "' ";
+                options = " d.d_id = '" + deviceId + "' ";
                 firstPara = true;
             }else
             {
-                options = options +  " AND d_id = '" + deviceId + "' ";
+                options = options +  " AND d.d_id = '" + deviceId + "' ";
             }
 
         }
@@ -326,11 +326,11 @@ public class TransactionDaoImpl implements TransactionDao{
         if (statusId !=null)
         {
             if (firstPara==false) {
-                options = " ts_id = '" + statusId + "' ";
+                options = " ts.ts_id = '" + statusId + "' ";
                 firstPara = true;
             }else
             {
-                options = options +  " AND ts_id = '" + statusId + "' ";
+                options = options +  " AND ts.ts_id = '" + statusId + "' ";
             }
 
         }

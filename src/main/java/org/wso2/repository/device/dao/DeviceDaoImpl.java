@@ -173,18 +173,18 @@ public class DeviceDaoImpl implements DeviceDao{
 
             if (deviceId !=null)
             {
-                options = " d_id = '" + deviceId +"' ";
+                options = " d.d_id = '" + deviceId +"' ";
                 firstPara =true;
             }
 
             if (deviceName !=null)
             {
                 if (firstPara==false) {
-                    options = " d_name = '" + deviceName+ "' ";
+                    options = " d.d_name = '" + deviceName+ "' ";
                     firstPara = true;
                 }else
                 {
-                    options = options +  " AND d_name = '" + deviceName + "' ";
+                    options = options +  " AND d.d_name = '" + deviceName + "' ";
                 }
 
             }
@@ -192,22 +192,22 @@ public class DeviceDaoImpl implements DeviceDao{
             if (statusId !=null)
             {
                 if (firstPara==false) {
-                    options = " s_id = '" + statusId + "' ";
+                    options = " s.s_id = '" + statusId + "' ";
                     firstPara = true;
                 }else
                 {
-                    options = options +  " AND s_id = '" + statusId + "' ";
+                    options = options +  " AND s.s_id = '" + statusId + "' ";
                 }
 
             }
             if (typeId !=null)
             {
                 if (firstPara==false) {
-                    options = " t_id = '" + typeId + "' ";
+                    options = " dt.t_id = '" + typeId + "' ";
                     firstPara = true;
                 }else
                 {
-                    options = options +  " AND t_id = '" + typeId + "' ";
+                    options = options +  " AND dt.t_id = '" + typeId + "' ";
                 }
 
             }

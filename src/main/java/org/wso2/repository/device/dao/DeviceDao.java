@@ -9,7 +9,6 @@ public interface DeviceDao {
 
     public String deleteDevice(String id) throws Exception;
     public LinkedList<Device> getDevices(UriInfo parameters);
-    public LinkedList<Device> getDevicesDetail(UriInfo parameters);
     public String addDevice(Device device);
     public String updateDevice(Device device,String id);
 

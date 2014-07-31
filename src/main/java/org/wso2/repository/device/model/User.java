@@ -16,20 +16,20 @@ public class User{
     private String telNo;
     private String description;
     private String role;
-
-
+    
+    
 
 
     public String getRole() {
-        return role;
-    }
+		return role;
+	}
 
     @XmlElement(name="role")
-    public void setRole(String role) {
-        this.role = role;
-    }
+	public void setRole(String role) {
+		this.role = role;
+	}
 
-
+	
     public String getUserId() {return userId;
     }
 
@@ -38,7 +38,7 @@ public class User{
         this.userId = userId;
     }
 
-
+   
     public String getUserFname() {
         return userFname;
     }
@@ -48,7 +48,7 @@ public class User{
         this.userFname = userFname;
     }
 
-
+    
     public String getUserLname() {
         return userLname;
     }
@@ -58,7 +58,7 @@ public class User{
         this.userLname = userLname;
     }
 
-
+    
     public String getUsername() {
         return username;
     }
@@ -68,7 +68,7 @@ public class User{
         this.username = username;
     }
 
-
+    
     public String getPasssword() {
         return passsword;
     }
@@ -78,7 +78,7 @@ public class User{
         this.passsword = passsword;
     }
 
-
+    
     public String getEmail() {
         return email;
     }
@@ -88,7 +88,7 @@ public class User{
         this.email = email;
     }
 
-
+    
     public String getTelNo() {
         return telNo;
     }
@@ -98,7 +98,7 @@ public class User{
         this.telNo = telNo;
     }
 
-
+   
     public String getDescription() {
         return description;
     }

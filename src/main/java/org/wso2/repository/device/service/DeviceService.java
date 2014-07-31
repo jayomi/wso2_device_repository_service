@@ -22,12 +22,12 @@ public class DeviceService
 
     @DELETE
     @Path("/deletedevice/{id}/")
-    public Response deleteDevice(@PathParam("id") String id) throws Exception {
+    public String deleteDevice(@PathParam("id") String id) throws Exception {
 
-        String strResponse;
-        deviceDao=new DeviceDaoImpl();
-        strResponse=deviceDao.deleteDevice(id);
-        return Response.ok(strResponse).build();
+      String strResponse;
+      deviceDao=new DeviceDaoImpl();
+      strResponse=deviceDao.deleteDevice(id);
+      return strResponse;
 
     }
 
@@ -42,26 +42,15 @@ public class DeviceService
 
     }
 
-    @GET
-    @Path("/getdevicesdetail/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public LinkedList<Device> getDevicesDetail(@Context UriInfo parameters) throws SQLException {
-        LinkedList deviceList=new LinkedList();
-        deviceDao=new DeviceDaoImpl();
-        deviceList=deviceDao.getDevicesDetail(parameters);
-        return deviceList;
-
-    }
-
     @POST
     @Path("/adddevice/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addDevice(Device device) throws SQLException {
+    public String addDevice(Device device) throws SQLException {
 
         String strResponse="";
         deviceDao=new DeviceDaoImpl();
         strResponse=deviceDao.addDevice(device);
-        return Response.ok(strResponse).build();
+        return strResponse;
 
     }
 
@@ -69,12 +58,12 @@ public class DeviceService
     @PUT
     @Path("/updatedevice/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDevice(Device device ,@PathParam("id") String id ) throws SQLException {
+    public String updateDevice(Device device ,@PathParam("id") String id ) throws SQLException {
 
         String strResponse="";
         deviceDao=new DeviceDaoImpl();
         strResponse=deviceDao.updateDevice(device,id);
-        return Response.ok(strResponse).build();
+        return strResponse;
 
 
     }

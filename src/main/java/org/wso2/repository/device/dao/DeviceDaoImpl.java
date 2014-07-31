@@ -13,8 +13,8 @@ import java.util.LinkedList;
 
 public class DeviceDaoImpl implements DeviceDao{
 
-    Device device;
-    Connection connection;
+   Device device;
+   Connection connection;
 
 
 //delete a device
@@ -24,18 +24,18 @@ public class DeviceDaoImpl implements DeviceDao{
         String strResponse="";
         Connection con = DB.getConnection();
         Statement stmt = con.createStatement();
-        // String schema= con.getSchema();
+       // String schema= con.getSchema();
 
         try{
 
-            String strCount = "select count(*) cnt from transaction where d_id in (select d_id from device where d_id =" + id +")";
+            String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
             ResultSet resultSet = stmt.executeQuery(strCount);
             resultSet.next();
 
 
             if(resultSet.getInt("cnt") == 0)
             {
-                String query = "delete from device where d_id =" +id;
+                String query = "delete from devmgt_isg9251.device where d_id =" +id;
                 stmt.execute(query);
                 strResponse="Successfully Deleted";
 
@@ -71,7 +71,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
             Connection con=DB.getConnection();
             Statement statement=con.createStatement();
-            String query ="select * from device";
+            String query ="select * from devmgt_isg9251.device";
 
             boolean firstPara = false;
 
@@ -148,104 +148,6 @@ public class DeviceDaoImpl implements DeviceDao{
 
     }
 
-
-    ///Detailed
-    public LinkedList<Device> getDevicesDetail(UriInfo parameters) {
-
-        String strResponse="";
-        LinkedList deviceList=new LinkedList();
-
-        try {
-            String deviceId = parameters.getQueryParameters().getFirst("deviceId");
-            String deviceName = parameters.getQueryParameters().getFirst("deviceName");
-            String statusId = parameters.getQueryParameters().getFirst("statusId");
-            String typeId = parameters.getQueryParameters().getFirst("typeId");
-            String options = null;
-
-            Connection con=DB.getConnection();
-            Statement statement=con.createStatement();
-            String query ="Select d_id , d_name, d_description,  status as s_id , type as t_id " +
-                    " from device d " +
-                    " left join status s on s.s_id = d.s_id " +
-                    " left join device_type dt on dt.t_id = d.t_id";
-
-            boolean firstPara = false;
-
-            if (deviceId !=null)
-            {
-                options = " d.d_id = '" + deviceId +"' ";
-                firstPara =true;
-            }
-
-            if (deviceName !=null)
-            {
-                if (firstPara==false) {
-                    options = " d.d_name = '" + deviceName+ "' ";
-                    firstPara = true;
-                }else
-                {
-                    options = options +  " AND d.d_name = '" + deviceName + "' ";
-                }
-
-            }
-
-            if (statusId !=null)
-            {
-                if (firstPara==false) {
-                    options = " s.status = '" + statusId + "' ";
-                    firstPara = true;
-                }else
-                {
-                    options = options +  " AND s.status = '" + statusId + "' ";
-                }
-
-            }
-            if (typeId !=null)
-            {
-                if (firstPara==false) {
-                    options = " dt.type = '" + typeId + "' ";
-                    firstPara = true;
-                }else
-                {
-                    options = options +  " AND dt.type = '" + typeId + "' ";
-                }
-
-            }
-            if(firstPara)
-            {
-                query = query + " Where " + options;
-            }
-
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-
-                Device device=new Device();
-                device.setDeviceId(resultSet.getString("d_id"));
-                device.setDeviceName(resultSet.getString("d_name"));
-                device.setDeviceDescription(resultSet.getString("d_description"));
-                device.setStatusId(resultSet.getString("s_id"));
-                device.setTypeId(resultSet.getString("t_id"));
-                deviceList.add(device);
-            }
-
-            strResponse="Ok,Executed the Query";
-            System.out.println( strResponse);
-            return deviceList;
-
-        }catch (Exception e) {
-            e.printStackTrace();
-            strResponse="Data Not Executed";
-            System.out.println( strResponse);
-            return deviceList;
-
-        }finally{
-            return deviceList;
-        }
-
-    }
-
-
-
     //add a device
     public String addDevice(Device device) {
 
@@ -257,7 +159,7 @@ public class DeviceDaoImpl implements DeviceDao{
             System.out.println(device.getTypeId());
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
+            String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
@@ -313,7 +215,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
                 if(x==0)
                 {
-                    query = "update device set ";
+                    query = "update devmgt_isg9251.device set ";
                 }
 
                 if(x!=(listColumns.size()-1))
@@ -328,12 +230,12 @@ public class DeviceDaoImpl implements DeviceDao{
 
             }
             statement.execute(query);
-            strResponse="Ok,Executed the Query";
+            strResponse="Device Detail Updated";
             return strResponse;
 
         } catch (Exception e) {
             e.printStackTrace();
-            strResponse="Data Not Executed";
+            strResponse="Device Detail Not Updated";
             return strResponse;
         }finally {
             return strResponse;

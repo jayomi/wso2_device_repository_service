@@ -28,7 +28,6 @@ public class TransactionStatusService
 
         String strResponse;
         tsDao=new TransactionStatusDaoImpl();
-       // strResponse=tsDao.deleteTransactionStatus(id);
         strResponse=tsDao.deleteTransactionStatus(id);
         return Response.ok(strResponse).build();
 
@@ -39,7 +38,7 @@ public class TransactionStatusService
    @Produces(MediaType.APPLICATION_JSON)
    public LinkedList<TransactionStatus> getTransactionStatus(@Context UriInfo parameters) throws SQLException {
 
-       LinkedList stList=new LinkedList();
+       LinkedList<TransactionStatus> stList=new LinkedList<TransactionStatus>();
        tsDao= new TransactionStatusDaoImpl();
        stList=tsDao.getTransactionStatus(parameters);
        return stList;

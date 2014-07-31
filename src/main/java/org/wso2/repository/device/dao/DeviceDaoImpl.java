@@ -28,14 +28,14 @@ public class DeviceDaoImpl implements DeviceDao{
 
         try{
 
-            String strCount = "select count(*) cnt from devmgt_isg9251.transaction where d_id in (select d_id from devmgt_isg9251.device where d_id =" + id +")";
+            String strCount = "select count(*) cnt from transaction where d_id in (select d_id from device where d_id =" + id +")";
             ResultSet resultSet = stmt.executeQuery(strCount);
             resultSet.next();
 
 
             if(resultSet.getInt("cnt") == 0)
             {
-                String query = "delete from devmgt_isg9251.device where d_id =" +id;
+                String query = "delete from device where d_id =" +id;
                 stmt.execute(query);
                 strResponse="Successfully Deleted";
 
@@ -71,7 +71,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
             Connection con=DB.getConnection();
             Statement statement=con.createStatement();
-            String query ="select * from devmgt_isg9251.device";
+            String query ="select * from device";
 
             boolean firstPara = false;
 
@@ -165,9 +165,9 @@ public class DeviceDaoImpl implements DeviceDao{
             Connection con=DB.getConnection();
             Statement statement=con.createStatement();
             String query ="Select d_id , d_name, d_description,  status as s_id , type as t_id " +
-                    " from devmgt_isg9251.device d " +
-                    " left join devmgt_isg9251.status s on s.s_id = d.s_id " +
-                    " left join devmgt_isg9251.device_type dt on dt.t_id = d.t_id";
+                    " from device d " +
+                    " left join status s on s.s_id = d.s_id " +
+                    " left join device_type dt on dt.t_id = d.t_id";
 
             boolean firstPara = false;
 
@@ -257,7 +257,7 @@ public class DeviceDaoImpl implements DeviceDao{
             System.out.println(device.getTypeId());
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into devmgt_isg9251.device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
+            String query = "insert into device(d_name,d_description,s_id,t_id) values ('" + device.getDeviceName() + "','" + device.getDeviceDescription() +"' , '"+device.getStatusId()+"' , '"+device.getTypeId()+"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
@@ -313,7 +313,7 @@ public class DeviceDaoImpl implements DeviceDao{
 
                 if(x==0)
                 {
-                    query = "update devmgt_isg9251.device set ";
+                    query = "update device set ";
                 }
 
                 if(x!=(listColumns.size()-1))

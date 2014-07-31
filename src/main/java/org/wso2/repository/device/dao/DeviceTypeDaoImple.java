@@ -25,7 +25,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
             Statement statement = con.createStatement();
             // String schema= con.getSchema();
 
-            String strCount = "select  count(*) cnt from devmgt_isg9251.device where t_id in (select  t_id from devmgt_isg9251.device_type where t_id =" + id +")";
+            String strCount = "select  count(*) cnt from device where t_id in (select  t_id from device_type where t_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
 
@@ -33,7 +33,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             if(resultSet.getInt("cnt") == 0)
             {
-                String query = "delete from devmgt_isg9251.device_type where t_id =" +id;
+                String query = "delete from device_type where t_id =" +id;
                 statement.execute(query);
                 strResponse="Successfully Deleted";
 
@@ -68,7 +68,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
-            String query = "select * from devmgt_isg9251.device_type ";
+            String query = "select * from device_type ";
 
 
             if (t_id !=null)
@@ -140,7 +140,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into  devmgt_isg9251.device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
+            String query = "insert into  device_type(type,t_description) values ('" + deviceType.getDeviceTypeName() + "' , '" + deviceType.getDeviceTypeDescription() + "')";
 
             stmt.executeUpdate(query);
             strResponse="Sucessfully Added.";
@@ -187,7 +187,7 @@ public class DeviceTypeDaoImple implements DeviceTypeDao {
 
                 if(x==0)
                 {
-                    query = "update devmgt_isg9251.device_type set ";
+                    query = "update device_type set ";
                 }
 
                 if(x!=(listColumns.size()-1))

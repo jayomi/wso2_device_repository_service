@@ -16,16 +16,13 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
     public String deleteTransactionStatus(String id) {
 
         String strResponse="";
-        String tableSchema="";
-        Response response=null;
-        String str="";
 
         try{
 
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
 
-            String strCount = "select  count(*) cnt from devmgt_isg9251.transaction where ts_id in (select  ts_id from devmgt_isg9251.transaction_status where ts_id =" + id +")";
+            String strCount = "select  count(*) cnt from transaction where ts_id in (select  ts_id from transaction_status where ts_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
 
@@ -33,7 +30,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
             if(resultSet.getInt("cnt") == 0)
             {
-                String query = "delete from devmgt_isg9251.transaction_status where ts_id =" +id;
+                String query = "delete from transaction_status where ts_id =" +id;
                 statement.execute(query);
                     strResponse="Successfully Deleted ";
                     return strResponse;
@@ -60,7 +57,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
 
         String strResponse="";
-        LinkedList stList=new LinkedList();
+        LinkedList<TransactionStatus> stList=new LinkedList<TransactionStatus>();
 
         try {
             String tsId = parameters.getQueryParameters().getFirst("tsId");
@@ -70,7 +67,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
             Connection con= DB.getConnection();
             Statement statement=con.createStatement();
-            String query ="select * from devmgt_isg9251.transaction_status";
+            String query ="select * from transaction_status";
 
             boolean firstPara = false;
 
@@ -130,7 +127,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
             Connection connection = DB.getConnection();
             Statement statement = connection.createStatement();
-            String query = "insert into  devmgt_isg9251.transaction_status(ts_name) values ('" + transactionStatus.getTransactionStatusName() + "')";
+            String query = "insert into  transaction_status(ts_name) values ('" + transactionStatus.getTransactionStatusName() + "')";
 
             statement.executeUpdate(query);
             strResponse="Data Added";
@@ -161,7 +158,7 @@ public class TransactionStatusDaoImpl implements TransactionStatusDao {
 
             if( tstatus.getTransactionStatusName()!=null)
             {
-                query = "update devmgt_isg9251.transaction_status set ts_name ='"+tstatus.getTransactionStatusName() +"' WHERE ts_id =" + id;
+                query = "update transaction_status set ts_name ='"+tstatus.getTransactionStatusName() +"' WHERE ts_id =" + id;
                 statement.execute(query);
             }
 

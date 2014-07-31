@@ -26,7 +26,7 @@ public class TransactionDaoImpl implements TransactionDao{
         try{
             Connection connection = DB.getConnection();
             Statement statement = connection.createStatement();
-            String query = "delete from devmgt_isg9251.transaction where t_id =" +id;
+            String query = "delete from transaction where t_id =" +id;
 
             statement.execute(query);
             strResponse="Successfully Deleted";
@@ -55,7 +55,7 @@ public class TransactionDaoImpl implements TransactionDao{
             connection = DB.getConnection();
 
         Statement statement = connection.createStatement();
-        String query = "select * from devmgt_isg9251.transaction where t_id =" +id;
+        String query = "select * from transaction where t_id =" +id;
         ResultSet resultSet = statement.executeQuery(query);
 
 
@@ -84,7 +84,7 @@ public class TransactionDaoImpl implements TransactionDao{
         String deviceId = parameters.getQueryParameters().getFirst("deviceId");
         String statusId = parameters.getQueryParameters().getFirst("statusId");
         String options = null;
-        String query = "select * from devmgt_isg9251.transaction ";
+        String query = "select * from transaction ";
         boolean firstPara = false;
 
         if (userId !=null)
@@ -165,24 +165,24 @@ public class TransactionDaoImpl implements TransactionDao{
         String query=null;
 
         if(transaction.getDueDate() !=null &&  transaction.getReturnDate() !=null) {
-            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
+            query = "insert into  transaction(d_id,u_id,ts_id,t_date,t_return_date,t_due_date)" +
                     " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
                     dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
                     + "','" + dateFormat.format(transaction.getDueDate()) + "')";
         }
         if(transaction.getDueDate() !=null &&  transaction.getReturnDate() ==null) {
-            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_due_date)" +
+            query = "insert into  transaction(d_id,u_id,ts_id,t_date,t_due_date)" +
                     " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
                     dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getDueDate()) + "')";
         }
         if(transaction.getDueDate() ==null &&  transaction.getReturnDate() !=null) {
-            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date,t_return_date)" +
+            query = "insert into  transaction(d_id,u_id,ts_id,t_date,t_return_date)" +
                     " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
                     dateFormat.format(transaction.getTransactionDate()) + "','" + dateFormat.format(transaction.getReturnDate())
                     + "')";
         }
         if(transaction.getDueDate() ==null &&  transaction.getReturnDate() ==null) {
-            query = "insert into  devmgt_isg9251.transaction(d_id,u_id,ts_id,t_date)" +
+            query = "insert into  transaction(d_id,u_id,ts_id,t_date)" +
                     " values ('" + transaction.getDeviceId() + "' ,'" + transaction.getUserId() + "','" + transaction.getTransactionStatusId() + "','" +
                     dateFormat.format(transaction.getTransactionDate()) +  "')";
         }
@@ -248,7 +248,7 @@ public class TransactionDaoImpl implements TransactionDao{
 
             if(x==0)
             {
-                query = "update devmgt_isg9251.transaction set ";
+                query = "update transaction set ";
             }
 
             if(x!=(listColumns.size()-1))
@@ -299,10 +299,10 @@ public class TransactionDaoImpl implements TransactionDao{
         String options = null;
         String query = "Select t.t_id , d.d_name as d_id , concat(concat(u.first_name , \" \"), u.last_name) as u_id , " +
                 " t_date, ts_name as ts_id , t_return_date , t_due_date" +
-                " from devmgt_isg9251.transaction t" +
-                " left join devmgt_isg9251.device d on d.d_id = t.d_id" +
-                " left join devmgt_isg9251.user u on u.u_id = t.u_id" +
-                " left join devmgt_isg9251.transaction_status ts on ts.ts_id = t.ts_id";
+                " from transaction t" +
+                " left join device d on d.d_id = t.d_id" +
+                " left join user u on u.u_id = t.u_id" +
+                " left join transaction_status ts on ts.ts_id = t.ts_id";
         boolean firstPara = false;
 
         if (deviceId !=null)

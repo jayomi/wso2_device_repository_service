@@ -26,7 +26,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
             Connection connection = DB.getConnection();
             Statement statement = connection.createStatement();
 
-            String strCount = "select  count(*) cnt from devmgt_isg9251.device where s_id in (select  s_id from devmgt_isg9251.status where s_id =" + id +")";
+            String strCount = "select  count(*) cnt from device where s_id in (select  s_id from status where s_id =" + id +")";
 
             ResultSet resultSet = statement.executeQuery(strCount);
 
@@ -34,7 +34,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
 
             if(resultSet.getInt("cnt") == 0)
             {
-                String query = "delete from devmgt_isg9251.status where s_id =" +id;
+                String query = "delete from status where s_id =" +id;
                 statement.execute(query);
                 strResponse="Successfully Deleted";
             }
@@ -69,7 +69,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
 
             Connection con= DB.getConnection();
             Statement statement=con.createStatement();
-            String query ="select * from devmgt_isg9251.status";
+            String query ="select * from status";
 
             boolean firstPara = false;
 
@@ -130,7 +130,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
 
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into devmgt_isg9251.status (status) values ('" +status.getDeviceStatusName() +"')";
+            String query = "insert into status (status) values ('" +status.getDeviceStatusName() +"')";
 
             stmt.executeUpdate(query);
             strResponse="Data Added";
@@ -158,7 +158,7 @@ public class DeviceStatusDaoImple implements DeviceStatusDao {
 
 
             if( status.getDeviceStatusName()!=null) {
-                query = "update devmgt_isg9251.status set status ='"+status.getDeviceStatusName() +"' WHERE s_id =" + id;
+                query = "update status set status ='"+status.getDeviceStatusName() +"' WHERE s_id =" + id;
                 statement.execute(query);
             }
 

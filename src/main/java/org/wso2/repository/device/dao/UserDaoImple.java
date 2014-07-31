@@ -31,7 +31,7 @@ public class UserDaoImple implements UserDao {
 
             Connection con = DB.getConnection();
             Statement statement = con.createStatement();
-            String query = "select * from devmgt_isg9251.user";
+            String query = "select * from user";
 
             boolean firstPara = false;
 
@@ -115,7 +115,7 @@ public class UserDaoImple implements UserDao {
         try {
             Connection connection = DB.getConnection();
             Statement statement = connection.createStatement();
-            String query = "delete from devmgt_isg9251.user where u_id ='" + id+"'";
+            String query = "delete from user where u_id ='" + id+"'";
             statement.execute(query);
             strResponse = "Successfully Deleted";
 
@@ -141,7 +141,7 @@ public class UserDaoImple implements UserDao {
             String strRole="user";
             Connection con = DB.getConnection();
             Statement stmt = con.createStatement();
-            String query = "insert into devmgt_isg9251.user (first_name,last_name,username,password,email,tel_no,description,role) values ('"
+            String query = "insert into user (first_name,last_name,username,password,email,tel_no,description,role) values ('"
                     + user.getUserFname()
                     + "' , '"
                     + user.getUserLname()
@@ -217,7 +217,7 @@ public class UserDaoImple implements UserDao {
             for (int x = 0; x < listColumns.size(); x++) {
 
                 if (x == 0) {
-                    query = "update devmgt_isg9251.user set ";
+                    query = "update user set ";
                 }
 
                 if (x != (listColumns.size() - 1)) {
